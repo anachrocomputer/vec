@@ -9,14 +9,16 @@ TITLE=-t "Bristol Hackspace"
 BOLDPEN=-p 1
 FINEPEN=-p 1
 
-all: flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
+HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      coords.hpgl hilb.hpgl hexagon.hpgl pappus.hpgl spiro.hpgl hyp.hpgl \
      lobe.hpgl ellipse.hpgl arches.hpgl dala2.hpgl piscis.hpgl rtree.hpgl \
      superellipse.hpgl lissajous.hpgl dala3.hpgl pin_and_cotton.hpgl \
-     sqinsq.hpgl twist.hpgl pconic.hpgl zigzag.hpgl plottext \
+     sqinsq.hpgl twist.hpgl pconic.hpgl zigzag.hpgl \
      spiralsq.hpgl dala2c.hpgl fraserspiral.hpgl \
      curve_stitching.hpgl cs_rosette.hpgl allover13.hpgl allover12.hpgl \
      qrplot.hpgl lotus.hpgl
+
+all: $(HPGL) plottext
 
 # Tarim's C++ code
 
@@ -45,6 +47,8 @@ lobe: lobe.o
 
 lobe.o: lobe.c
 	$(CC) $(CFLAGS) -o lobe.o lobe.c
+
+# HPGL library programs
 
 piscis.hpgl: piscis Makefile
 	./piscis $(TITLE) $(BOLDPEN) -o $@
