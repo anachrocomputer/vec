@@ -1,5 +1,5 @@
 /* hyp --- draw hyperbolic geometry                         2001-04-24 */
-/* Copyright (c) 2001 BJ, Froods Software Development                  */
+/* Copyright (c) 2001 John Honniball, Froods Software Development      */
 
 #include <stdio.h>
 #include <math.h>

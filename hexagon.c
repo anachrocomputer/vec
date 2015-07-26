@@ -1,5 +1,5 @@
 /* hexagon --- plot a hexagon as a basis for a snowflake    2009-11-12 */
-/* Copyright (c) 2009 BJ, Froods Software Development                  */
+/* Copyright (c) 2009 John Honniball, Froods Software Development      */
 
 #include <stdio.h>
 #include "turtle.h"

@@ -1,5 +1,5 @@
-/* turtle --- header file for turtle graphics library       15/12/1996 */
-/* Copyright (c) 1996 BJ, Froods Software Development                  */
+/* turtle --- header file for turtle graphics library       1996-12-15 */
+/* Copyright (c) 1996 John Honniball, Froods Software Development      */
 
 #define DEV_NONE  (0)
 #define DEV_HPGL  (1)

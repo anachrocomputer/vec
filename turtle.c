@@ -1,5 +1,5 @@
-/* turtle --- turtle graphics library for plotters          15/12/1996 */
-/* Copyright (c) 1996 BJ, Froods Software Development                  */
+/* turtle --- turtle graphics library for plotters          1996-12-15 */
+/* Copyright (c) 1996 John Honniball, Froods Software Development      */
 
 /* Modification:
  * 1996-12-15 JRH Initial coding

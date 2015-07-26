@@ -1,5 +1,5 @@
-/* hconic --- HPGL conic section generator                  13/11/2009 */
-/* Copyright (c) 2009 BJ, Froods Software Development                  */
+/* hconic --- HPGL conic section generator                  2009-11-13 */
+/* Copyright (c) 2009 John Honniball, Froods Software Development      */
 
 /* See "Computational Geometry for Design and Manufacture", by
    I.D.Faux and M.J.Pratt, p34. They refer to "Practical

@@ -1,5 +1,5 @@
 /* hpgllib --- HPGL graphics primitives library             2013-03-23 */
-/* Copyright (c) 2013 John Honniball */
+/* Copyright (c) 2013 John Honniball                                   */
 
 #include <stdio.h>
 #include <stdlib.h>

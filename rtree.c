@@ -1,5 +1,5 @@
 /* rtree --- plot randomised recursive tree                 1996-12-16 */
-/* Copyright (c) 1996 BJ, Froods Software Development                  */
+/* Copyright (c) 1996 John Honniball, Froods Software Development      */
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,5 +1,5 @@
 /* hpgllib --- header file for HPGL library                 2013-03-23 */
-/* Copyright (c) 2013 John Honniball */
+/* Copyright (c) 2013 John Honniball                                   */
 
 int plotopt (int ch, const char *arg);
 int plotbegin (int border);

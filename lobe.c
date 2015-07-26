@@ -1,5 +1,5 @@
-/* lobe --- plot circular lobes on the plotter              27/04/1997 */
-/* Copyright (c) 1997 BJ, Froods Software Development                  */
+/* lobe --- plot circular lobes on the plotter              1997-04-27 */
+/* Copyright (c) 1997 John Honniball, Froods Software Development      */
 
 #include <stdio.h>
 #include <math.h>
