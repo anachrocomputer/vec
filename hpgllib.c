@@ -25,7 +25,7 @@ static double Scale;
 static FILE *Plt = NULL;
 static int NoInit = 0;
 static char PenNum[16] = "1";
-static char OutputFile[FILENAME_MAX] = "/dev/usblp0";
+static char OutputFile[FILENAME_MAX] = "/dev/usb/lp0";
 static char PaperSize[16] = "A3";
 static char PlotterName[32] = "A3";
 static char Title[128] = "";
