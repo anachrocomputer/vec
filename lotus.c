@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include "hpgllib.h"
 
@@ -14,19 +15,27 @@ double zigzagring (double x0, double y0, double r1, double r2, int npts, int inc
 int main (int argc, char * const argv[])
 {
 /* Mosaic and Tessellated Patterns, by John Willson, 1983.
-   Plate 23. */
+   ISBN: 0-486-24379-6. Plate 23. */
+   int i;
    int opt;
    double xc, yc;
    double scale = 40.0;
    double maxx, maxy;
    double height;
    double radius;
+   double incrad;
    
    while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 's':
          if (strchr (optarg, '1'))
             scale = 80.0;
+         else if (strchr (optarg, '2'))
+            scale = 56.57;
+         else if (strchr (optarg, '4'))
+            scale = 28.28;
+         else if (strchr (optarg, '5'))
+            scale = 20.0;
             
       case 'n':
       case 'o':
@@ -55,18 +64,11 @@ int main (int argc, char * const argv[])
    /* Draw square border */
    rectangle (xc - (height / 2.0), 0.0, xc + (height / 2.0), maxy);
    
-   radius = maxy / 2.0;
-   
-   radius = 15.0 * scale;
+   radius = 15.0 * scale;  /* Inital radius 15mm */
+   incrad = 15.0 * scale;  /* Each zig-zag 15mm bigger than the previous one */
 
-   radius = zigzagring (xc, yc, radius, radius + (15.0 * scale), 18, 1, 0);
-   radius = zigzagring (xc, yc, radius, radius + (15.0 * scale), 18, 1, 1);
-   radius = zigzagring (xc, yc, radius, radius + (15.0 * scale), 18, 1, 0);
-   radius = zigzagring (xc, yc, radius, radius + (15.0 * scale), 18, 1, 1);
-   radius = zigzagring (xc, yc, radius, radius + (15.0 * scale), 18, 1, 0);
-   radius = zigzagring (xc, yc, radius, radius + (15.0 * scale), 18, 1, 1);
-   radius = zigzagring (xc, yc, radius, radius + (15.0 * scale), 18, 1, 0);
-   radius = zigzagring (xc, yc, radius, radius + (15.0 * scale), 18, 1, 1);
+   for (i = 0; i < 8; i++)
+      radius = zigzagring (xc, yc, radius, radius + incrad, 18, 1, i & 1);
    
    plotend ();
    
