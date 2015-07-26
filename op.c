@@ -1,5 +1,5 @@
-/* op --- Op-art generator                                 1999-08-04 */
-/* Copyright (c) 1999 BJ, Froods Software Development                  */
+/* op --- Op-art generator                                  1999-08-04 */ 
+/* Copyright (c) 1999 John Honniball, Froods Software Development      */
 
 /* Inspired by an article in Personal Computer World magazine,
  * volume 5 number 4 April 1982, page 134. An article called
