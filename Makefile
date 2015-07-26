@@ -16,7 +16,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      sqinsq.hpgl twist.hpgl pconic.hpgl zigzag.hpgl \
      spiralsq.hpgl dala2c.hpgl fraserspiral.hpgl \
      curve_stitching.hpgl cs_rosette.hpgl allover13.hpgl allover12.hpgl \
-     qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.c
+     qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl
 
 all: $(HPGL) plottext
 
