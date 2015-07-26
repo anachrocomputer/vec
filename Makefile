@@ -26,7 +26,7 @@ spiro.hpgl: spiro
 	./spiro >spiro.hpgl
 
 spiro: spiro.cpp spiro.h
-	g++ -o spiro spiro.cpp
+	g++ -o $@ spiro.cpp
 
 # Direct HPGL programs
 
@@ -34,19 +34,19 @@ op.hpgl: op
 	./op >op.hpgl
 
 op: op.o
-	$(LD) -o op op.o -lm
+	$(LD) -o $@ op.o -lm
 
 op.o: op.c
-	$(CC) $(CFLAGS) -o op.o op.c
+	$(CC) $(CFLAGS) -o $@ op.c
 
 lobe.hpgl: lobe
 	./lobe >lobe.hpgl
 
 lobe: lobe.o
-	$(LD) -o lobe lobe.o -lm
+	$(LD) -o $@ lobe.o -lm
 
 lobe.o: lobe.c
-	$(CC) $(CFLAGS) -o lobe.o lobe.c
+	$(CC) $(CFLAGS) -o $@ lobe.c
 
 # HPGL library programs
 
@@ -54,235 +54,235 @@ piscis.hpgl: piscis Makefile
 	./piscis $(TITLE) $(BOLDPEN) -o $@
 
 piscis: piscis.o hpgllib.o
-	$(LD) -o piscis piscis.o hpgllib.o -lm
+	$(LD) -o $@ piscis.o hpgllib.o -lm
 
 piscis.o: piscis.c hpgllib.h
-	$(CC) $(CFLAGS) -o piscis.o piscis.c
+	$(CC) $(CFLAGS) -o $@ piscis.c
 
 ellipse.hpgl: ellipse Makefile
 	./ellipse $(TITLE) $(BOLDPEN) -o $@
 
 ellipse: ellipse.o hpgllib.o
-	$(LD) -o ellipse ellipse.o hpgllib.o -lm
+	$(LD) -o $@ ellipse.o hpgllib.o -lm
 
 ellipse.o: ellipse.c hpgllib.h
-	$(CC) $(CFLAGS) -o ellipse.o ellipse.c
+	$(CC) $(CFLAGS) -o $@ ellipse.c
 
 superellipse.hpgl: superellipse Makefile
 	./superellipse $(TITLE) $(BOLDPEN) -o $@
 
 superellipse: superellipse.o hpgllib.o
-	$(LD) -o superellipse superellipse.o hpgllib.o -lm
+	$(LD) -o $@ superellipse.o hpgllib.o -lm
 
 superellipse.o: superellipse.c hpgllib.h
-	$(CC) $(CFLAGS) -o superellipse.o superellipse.c
+	$(CC) $(CFLAGS) -o $@ superellipse.c
 
 lissajous.hpgl: lissajous Makefile
 	./lissajous $(TITLE) $(BOLDPEN) -o $@
 
 lissajous: lissajous.o hpgllib.o
-	$(LD) -o lissajous lissajous.o hpgllib.o -lm
+	$(LD) -o $@ lissajous.o hpgllib.o -lm
 
 lissajous.o: lissajous.c hpgllib.h
-	$(CC) $(CFLAGS) -o lissajous.o lissajous.c
+	$(CC) $(CFLAGS) -o $@ lissajous.c
 
 arches.hpgl: arches Makefile
 	./arches $(TITLE) $(BOLDPEN) -o $@
 
 arches: arches.o hpgllib.o
-	$(LD) -o arches arches.o hpgllib.o -lm
+	$(LD) -o $@ arches.o hpgllib.o -lm
 
 arches.o: arches.c hpgllib.h
-	$(CC) $(CFLAGS) -o arches.o arches.c
+	$(CC) $(CFLAGS) -o $@ arches.c
 
 hyp.hpgl: hyp
 	./hyp >hyp.hpgl
 
 hyp: hyp.o
-	$(LD) -o hyp hyp.o -lm
+	$(LD) -o $@ hyp.o -lm
 
 hyp.o: hyp.c
-	$(CC) $(CFLAGS) -o hyp.o hyp.c
+	$(CC) $(CFLAGS) -o $@ hyp.c
 
 pappus.hpgl: pappus Makefile
 	./pappus $(TITLE) $(BOLDPEN) -o $@
 
 pappus: pappus.o hpgllib.o
-	$(LD) -o pappus pappus.o hpgllib.o -lm
+	$(LD) -o $@ pappus.o hpgllib.o -lm
 
 pappus.o: pappus.c
-	$(CC) $(CFLAGS) -o pappus.o pappus.c
+	$(CC) $(CFLAGS) -o $@ pappus.c
 
 dala1.hpgl: dala1 Makefile
 	./dala1 $(TITLE) $(BOLDPEN) -o $@
 
 dala1: dala1.o hpgllib.o
-	$(LD) -o dala1 dala1.o hpgllib.o -lm
+	$(LD) -o $@ dala1.o hpgllib.o -lm
 
 dala1.o: dala1.c hpgllib.h
-	$(CC) $(CFLAGS) -o dala1.o dala1.c
+	$(CC) $(CFLAGS) -o $@ dala1.c
 
 dala2.hpgl: dala2
 	./dala2 $(TITLE) $(BOLDPEN) -o $@
 
 dala2: dala2.o hpgllib.o
-	$(LD) -o dala2 dala2.o hpgllib.o -lm
+	$(LD) -o $@ dala2.o hpgllib.o -lm
 
 dala2.o: dala2.c hpgllib.h
-	$(CC) $(CFLAGS) -o dala2.o dala2.c
+	$(CC) $(CFLAGS) -o $@ dala2.c
 
 dala2c.hpgl: dala2c
 	./dala2c $(TITLE) $(BOLDPEN) -o $@
 
 dala2c: dala2c.o hpgllib.o
-	$(LD) -o dala2c dala2c.o hpgllib.o -lm
+	$(LD) -o $@ dala2c.o hpgllib.o -lm
 
 dala2c.o: dala2c.c hpgllib.h
-	$(CC) $(CFLAGS) -o dala2c.o dala2c.c
+	$(CC) $(CFLAGS) -o $@ dala2c.c
 
 dala3.hpgl: dala3 Makefile
 	./dala3 $(TITLE) $(BOLDPEN) -o $@
 
 dala3: dala3.o hpgllib.o
-	$(LD) -o dala3 dala3.o hpgllib.o -lm
+	$(LD) -o $@ dala3.o hpgllib.o -lm
 
 dala3.o: dala3.c hpgllib.h
-	$(CC) $(CFLAGS) -o dala3.o dala3.c
+	$(CC) $(CFLAGS) -o $@ dala3.c
 
 twist.hpgl: twist Makefile
 	./twist $(TITLE) $(BOLDPEN) -o $@
 
 twist: twist.o hpgllib.o
-	$(LD) -o twist twist.o hpgllib.o -lm
+	$(LD) -o $@ twist.o hpgllib.o -lm
 
 twist.o: twist.c hpgllib.h
-	$(CC) $(CFLAGS) -o twist.o twist.c
+	$(CC) $(CFLAGS) -o $@ twist.c
 
 lotus.hpgl: lotus Makefile
 	./lotus $(TITLE) $(BOLDPEN) -o $@
 
 lotus: lotus.o hpgllib.o
-	$(LD) -o lotus lotus.o hpgllib.o -lm
+	$(LD) -o $@ lotus.o hpgllib.o -lm
 
 lotus.o: lotus.c hpgllib.h
-	$(CC) $(CFLAGS) -o lotus.o lotus.c
+	$(CC) $(CFLAGS) -o $@ lotus.c
 
 qrplot.hpgl: qrplot Makefile
 	./qrplot $(TITLE) $(BOLDPEN) -o $@
 
 qrplot: qrplot.o hpgllib.o
-	$(LD) -o qrplot qrplot.o hpgllib.o -lm
+	$(LD) -o $@ qrplot.o hpgllib.o -lm
 
 qrplot.o: qrplot.c hpgllib.h
-	$(CC) $(CFLAGS) -o qrplot.o qrplot.c
+	$(CC) $(CFLAGS) -o $@ qrplot.c
 
 pconic.hpgl: pconic Makefile
 	./pconic $(TITLE) $(BOLDPEN) -o $@
 
 pconic: pconic.o hpgllib.o
-	$(LD) -o pconic pconic.o hpgllib.o -lm
+	$(LD) -o $@ pconic.o hpgllib.o -lm
 
 pconic.o: pconic.c hpgllib.h
-	$(CC) $(CFLAGS) -o pconic.o pconic.c
+	$(CC) $(CFLAGS) -o $@ pconic.c
 
 sqinsq.hpgl: sqinsq Makefile
 	./sqinsq $(TITLE) $(BOLDPEN) -o $@
 
 sqinsq: sqinsq.o hpgllib.o
-	$(LD) -o sqinsq sqinsq.o hpgllib.o -lm
+	$(LD) -o $@ sqinsq.o hpgllib.o -lm
 
 sqinsq.o: sqinsq.c hpgllib.h
-	$(CC) $(CFLAGS) -o sqinsq.o sqinsq.c
+	$(CC) $(CFLAGS) -o $@ sqinsq.c
 
 spiralsq.hpgl: spiralsq Makefile
 	./spiralsq $(TITLE) $(BOLDPEN) -o $@
 
 spiralsq: spiralsq.o hpgllib.o
-	$(LD) -o spiralsq spiralsq.o hpgllib.o -lm
+	$(LD) -o $@ spiralsq.o hpgllib.o -lm
 
 spiralsq.o: spiralsq.c hpgllib.h
-	$(CC) $(CFLAGS) -o spiralsq.o spiralsq.c
+	$(CC) $(CFLAGS) -o $@ spiralsq.c
 
 fraserspiral.hpgl: fraserspiral Makefile
 	./fraserspiral $(TITLE) $(BOLDPEN) -o $@
 
 fraserspiral: fraserspiral.o hpgllib.o
-	$(LD) -o fraserspiral fraserspiral.o hpgllib.o -lm
+	$(LD) -o $@ fraserspiral.o hpgllib.o -lm
 
 fraserspiral.o: fraserspiral.c hpgllib.h
-	$(CC) $(CFLAGS) -o fraserspiral.o fraserspiral.c
+	$(CC) $(CFLAGS) -o $@ fraserspiral.c
 
 curve_stitching.hpgl: curve_stitching Makefile
 	./curve_stitching $(TITLE) $(BOLDPEN) -o $@
 
 curve_stitching: curve_stitching.o hpgllib.o
-	$(LD) -o curve_stitching curve_stitching.o hpgllib.o -lm
+	$(LD) -o $@ curve_stitching.o hpgllib.o -lm
 
 curve_stitching.o: curve_stitching.c hpgllib.h
-	$(CC) $(CFLAGS) -o curve_stitching.o curve_stitching.c
+	$(CC) $(CFLAGS) -o $@ curve_stitching.c
 
 cs_rosette.hpgl: cs_rosette Makefile
 	./cs_rosette $(TITLE) $(BOLDPEN) -o $@
 
 cs_rosette: cs_rosette.o hpgllib.o
-	$(LD) -o cs_rosette cs_rosette.o hpgllib.o -lm
+	$(LD) -o $@ cs_rosette.o hpgllib.o -lm
 
 cs_rosette.o: cs_rosette.c hpgllib.h
-	$(CC) $(CFLAGS) -o cs_rosette.o cs_rosette.c
+	$(CC) $(CFLAGS) -o $@ cs_rosette.c
 
 allover12.hpgl: allover12 Makefile
 	./allover12 $(TITLE) $(BOLDPEN) -o $@
 
 allover12: allover12.o hpgllib.o
-	$(LD) -o allover12 allover12.o hpgllib.o -lm
+	$(LD) -o $@ allover12.o hpgllib.o -lm
 
 allover12.o: allover12.c hpgllib.h
-	$(CC) $(CFLAGS) -o allover12.o allover12.c
+	$(CC) $(CFLAGS) -o $@ allover12.c
 
 allover13.hpgl: allover13 Makefile
 	./allover13 $(TITLE) $(BOLDPEN) -o $@
 
 allover13: allover13.o hpgllib.o
-	$(LD) -o allover13 allover13.o hpgllib.o -lm
+	$(LD) -o $@ allover13.o hpgllib.o -lm
 
 allover13.o: allover13.c hpgllib.h
-	$(CC) $(CFLAGS) -o allover13.o allover13.c
+	$(CC) $(CFLAGS) -o $@ allover13.c
 
 zigzag.hpgl: zigzag Makefile
 	./zigzag $(TITLE) $(BOLDPEN) -o $@
 
 zigzag: zigzag.o hpgllib.o
-	$(LD) -o zigzag zigzag.o hpgllib.o -lm
+	$(LD) -o $@ zigzag.o hpgllib.o -lm
 
 zigzag.o: zigzag.c hpgllib.h
-	$(CC) $(CFLAGS) -o zigzag.o zigzag.c
+	$(CC) $(CFLAGS) -o $@ zigzag.c
 
 pin_and_cotton.hpgl: pin_and_cotton Makefile
 	./pin_and_cotton $(TITLE) $(BOLDPEN) -o $@
 
 pin_and_cotton: pin_and_cotton.o hpgllib.o
-	$(LD) -o pin_and_cotton pin_and_cotton.o hpgllib.o -lm
+	$(LD) -o $@ pin_and_cotton.o hpgllib.o -lm
 
 pin_and_cotton.o: pin_and_cotton.c hpgllib.h
-	$(CC) $(CFLAGS) -o pin_and_cotton.o pin_and_cotton.c
+	$(CC) $(CFLAGS) -o $@ pin_and_cotton.c
 
 hconic2.hpgl: hconic2
 	./hconic2 >hconic2.hpgl
 
 hconic2: hconic2.o
-	$(LD) -o hconic2 hconic2.o -lm
+	$(LD) -o $@ hconic2.o -lm
 
 hconic2.o: hconic2.c
-	$(CC) $(CFLAGS) -o hconic2.o hconic2.c
+	$(CC) $(CFLAGS) -o $@ hconic2.c
 
 coords.hpgl: coords Makefile
 	./coords $(BOLDPEN) -o $@
 
 coords: coords.o hpgllib.o
-	$(LD) -o coords coords.o hpgllib.o -lm
+	$(LD) -o $@ coords.o hpgllib.o -lm
 
 coords.o: coords.c hpgllib.h
-	$(CC) $(CFLAGS) -o coords.o coords.c
+	$(CC) $(CFLAGS) -o $@ coords.c
 
 # Turtle graphics programs
 
@@ -290,66 +290,66 @@ hexagon.hpgl: hexagon
 	./hexagon >hexagon.hpgl
 
 hexagon: hexagon.o turtle.o
-	$(LD) -o hexagon hexagon.o turtle.o -lm
+	$(LD) -o $@ hexagon.o turtle.o -lm
 
 hexagon.o: hexagon.c turtle.h
-	$(CC) $(CFLAGS) -o hexagon.o hexagon.c
+	$(CC) $(CFLAGS) -o $@ hexagon.c
 
 plottext: plottext.o turtle.o
-	$(LD) -o plottext plottext.o turtle.o -lm
+	$(LD) -o $@ plottext.o turtle.o -lm
 
 plottext.o: plottext.c turtle.h
-	$(CC) $(CFLAGS) -o plottext.o plottext.c
+	$(CC) $(CFLAGS) -o $@ plottext.c
 
 flake.hpgl: flake
 	./flake >flake.hpgl
 
 flake: flake.o turtle.o
-	$(LD) -o flake flake.o turtle.o -lm
+	$(LD) -o $@ flake.o turtle.o -lm
 
 flake.o: flake.c turtle.h
-	$(CC) $(CFLAGS) -o flake.o flake.c
+	$(CC) $(CFLAGS) -o $@ flake.c
 
 hilb.hpgl: hilb
 	./hilb >hilb.hpgl
 
 hilb: hilb.o turtle.o
-	$(LD) -o hilb hilb.o turtle.o -lm
+	$(LD) -o $@ hilb.o turtle.o -lm
 
 hilb.o: hilb.c turtle.h
-	$(CC) $(CFLAGS) -o hilb.o hilb.c
+	$(CC) $(CFLAGS) -o $@ hilb.c
 
 tree.hpgl: tree
 	./tree >tree.hpgl
 
 tree: tree.o turtle.o
-	$(LD) -o tree tree.o turtle.o -lm
+	$(LD) -o $@ tree.o turtle.o -lm
 
 tree.o: tree.c turtle.h
-	$(CC) $(CFLAGS) -o tree.o tree.c
+	$(CC) $(CFLAGS) -o $@ tree.c
 
 rtree.hpgl: rtree
 	./rtree >rtree.hpgl
 
 rtree: rtree.o turtle.o
-	$(LD) -o rtree rtree.o turtle.o -lm
+	$(LD) -o $@ rtree.o turtle.o -lm
 
 rtree.o: rtree.c turtle.h
-	$(CC) $(CFLAGS) -o rtree.o rtree.c
+	$(CC) $(CFLAGS) -o $@ rtree.c
 
 dome.hpgl: dome
 	./dome >dome.hpgl
 
 dome: dome.o turtle.o
-	$(LD) -o dome dome.o turtle.o -lm
+	$(LD) -o $@ dome.o turtle.o -lm
 
 dome.o: dome.c turtle.h
-	$(CC) $(CFLAGS) -o dome.o dome.c
+	$(CC) $(CFLAGS) -o $@ dome.c
 
 # Build the HPGL library
 hpgllib.o: hpgllib.c hpgllib.h
-	$(CC) $(CFLAGS) -o hpgllib.o hpgllib.c
+	$(CC) $(CFLAGS) -o $@ hpgllib.c
 
 # Build the turtle library
 turtle.o: turtle.c turtle.h
-	$(CC) $(CFLAGS) -o turtle.o turtle.c
+	$(CC) $(CFLAGS) -o $@ turtle.c
