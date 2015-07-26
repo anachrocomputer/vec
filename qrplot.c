@@ -14,9 +14,6 @@ int plotPBM (char *fname, double x0, double y0, double pix);
 int main (int argc, char * const argv[])
 {
    int opt;
-   double xc, yc;
-   double maxx, maxy;
-   double height;
    
    while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
@@ -38,16 +35,6 @@ int main (int argc, char * const argv[])
 
    plotbegin (0);
 
-   getplotsize (&maxx, &maxy);
-   
-   xc = maxx / 2.0;
-   yc = maxy / 2.0;
-   
-   height = maxy;
-
-   /* Draw square border */
-// rectangle (xc - (height / 2.0), 0.0, xc + (height / 2.0), maxy);
-   
    plotPBM ("qr_sample.pbm", 50.0, 0.0, 2.0);
    
    plotend ();
