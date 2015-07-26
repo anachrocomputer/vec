@@ -79,6 +79,12 @@ int plotbegin (int border)
       case '2':
          fputs ("A2 plotter not yet supported\n", stderr);
          exit (EXIT_FAILURE);
+         /* Values used experimentally with A2 paper in DPX-3300:
+            Minx = -15970.0 - 200.0;
+            Miny = -10870.0 - 600.0;
+            Maxx = (10870.0 * 2.0) - (15970.0 + 200.0);
+            Maxy = (7985.0 * 2.0) - (10870.0 + 600.0);
+            Scale = 56.57;         */
          break;
       case '3':
          Minx = 0.0;
