@@ -4,6 +4,8 @@
 CC=gcc
 CFLAGS=-c -Wall
 LD=gcc
+HP2XX=hp2xx
+HPFLAGS=-c 12345 -m png -f $@
 
 TITLE=-t "Bristol Hackspace"
 BOLDPEN=-p 1
@@ -18,7 +20,12 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      curve_stitching.hpgl cs_rosette.hpgl allover13.hpgl allover12.hpgl \
      qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl
 
-all: $(HPGL) plottext
+PNG=$(HPGL:.hpgl=.png)
+
+%.png : %.hpgl
+	$(HP2XX) $(HPFLAGS) $<
+
+all: $(HPGL) $(PNG) plottext
 
 # Tarim's C++ code
 
