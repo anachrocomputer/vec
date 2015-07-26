@@ -1,4 +1,4 @@
-/* picic --- plot the "fish bladder"                        2011-10-02 */
+/* piscis --- plot the "fish bladder", vesica piscis        2011-10-02 */
 /* Copyright (c) 2011 John Honniball, Froods Software Development      */
 
 #include <stdio.h>

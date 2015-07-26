@@ -11,7 +11,7 @@ FINEPEN=-p 1
 
 all: flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      coords.hpgl hilb.hpgl hexagon.hpgl pappus.hpgl spiro.hpgl hyp.hpgl \
-     lobe.hpgl ellipse.hpgl arches.hpgl dala2.hpgl picis.hpgl rtree.hpgl \
+     lobe.hpgl ellipse.hpgl arches.hpgl dala2.hpgl piscis.hpgl rtree.hpgl \
      superellipse.hpgl lissajous.hpgl dala3.hpgl pin_and_cotton.hpgl \
      sqinsq.hpgl twist.hpgl pconic.hpgl zigzag.hpgl plottext \
      spiralsq.hpgl dala2c.hpgl fraserspiral.hpgl \
@@ -46,14 +46,14 @@ lobe: lobe.o
 lobe.o: lobe.c
 	$(CC) $(CFLAGS) -o lobe.o lobe.c
 
-picis.hpgl: picis Makefile
-	./picis $(TITLE) $(BOLDPEN) -o $@
+piscis.hpgl: piscis Makefile
+	./piscis $(TITLE) $(BOLDPEN) -o $@
 
-picis: picis.o hpgllib.o
-	$(LD) -o picis picis.o hpgllib.o -lm
+piscis: piscis.o hpgllib.o
+	$(LD) -o piscis piscis.o hpgllib.o -lm
 
-picis.o: picis.c hpgllib.h
-	$(CC) $(CFLAGS) -o picis.o picis.c
+piscis.o: piscis.c hpgllib.h
+	$(CC) $(CFLAGS) -o piscis.o piscis.c
 
 ellipse.hpgl: ellipse Makefile
 	./ellipse $(TITLE) $(BOLDPEN) -o $@
