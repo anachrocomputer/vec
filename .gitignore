@@ -3,6 +3,7 @@ private
 *.o
 *.hpgl
 *.nc
+*.png
 allover12
 allover13
 arches
