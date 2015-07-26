@@ -16,7 +16,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      sqinsq.hpgl twist.hpgl pconic.hpgl zigzag.hpgl \
      spiralsq.hpgl dala2c.hpgl fraserspiral.hpgl \
      curve_stitching.hpgl cs_rosette.hpgl allover13.hpgl allover12.hpgl \
-     qrplot.hpgl lotus.hpgl celticstep.hpgl
+     qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.c
 
 all: $(HPGL) plottext
 
@@ -175,6 +175,15 @@ celticstep: celticstep.o hpgllib.o
 
 celticstep.o: celticstep.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ celticstep.c
+
+op_moire.hpgl: op_moire Makefile
+	./op_moire $(TITLE) $(BOLDPEN) -o $@
+
+op_moire: op_moire.o hpgllib.o
+	$(LD) -o $@ op_moire.o hpgllib.o -lm
+
+op_moire.o: op_moire.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ op_moire.c
 
 qrplot.hpgl: qrplot Makefile
 	./qrplot $(TITLE) $(BOLDPEN) -o $@
