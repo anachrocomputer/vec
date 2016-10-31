@@ -67,6 +67,10 @@ int main (int argc, char * const argv[])
             scale = 80.0;
          else if (strchr (optarg, '2'))
             scale = 56.57;
+         else if (strchr (optarg, '4'))
+            scale = 28.28;
+         else if (strchr (optarg, '5'))
+            scale = 20.0;
             
       case 'n':
       case 'o':
