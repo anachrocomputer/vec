@@ -18,7 +18,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      sqinsq.hpgl twist.hpgl pconic.hpgl zigzag.hpgl \
      spiralsq.hpgl dala2c.hpgl fraserspiral.hpgl \
      curve_stitching.hpgl cs_rosette.hpgl allover13.hpgl allover12.hpgl \
-     qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl
+     qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl sutpent.hpgl
 
 PNG=$(HPGL:.hpgl=.png)
 
@@ -83,6 +83,15 @@ superellipse: superellipse.o hpgllib.o
 
 superellipse.o: superellipse.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ superellipse.c
+
+sutpent.hpgl: sutpent Makefile
+	./sutpent $(TITLE) $(BOLDPEN) -o $@
+
+sutpent: sutpent.o hpgllib.o
+	$(LD) -o $@ sutpent.o hpgllib.o -lm
+
+sutpent.o: sutpent.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ sutpent.c
 
 lissajous.hpgl: lissajous Makefile
 	./lissajous $(TITLE) $(BOLDPEN) -o $@
