@@ -18,7 +18,8 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      sqinsq.hpgl twist.hpgl pconic.hpgl zigzag.hpgl \
      spiralsq.hpgl dala2c.hpgl fraserspiral.hpgl \
      curve_stitching.hpgl cs_rosette.hpgl allover13.hpgl allover12.hpgl \
-     qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl sutpent.hpgl
+     qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl sutpent.hpgl \
+     morphpoly.hpgl
 
 PNG=$(HPGL:.hpgl=.png)
 
@@ -92,6 +93,15 @@ sutpent: sutpent.o hpgllib.o
 
 sutpent.o: sutpent.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ sutpent.c
+
+morphpoly.hpgl: morphpoly Makefile
+	./morphpoly $(TITLE) $(BOLDPEN) -o $@
+
+morphpoly: morphpoly.o hpgllib.o
+	$(LD) -o $@ morphpoly.o hpgllib.o -lm
+
+morphpoly.o: morphpoly.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ morphpoly.c
 
 lissajous.hpgl: lissajous Makefile
 	./lissajous $(TITLE) $(BOLDPEN) -o $@
