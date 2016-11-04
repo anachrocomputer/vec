@@ -1,4 +1,4 @@
-/* morphpoly --- plot a morhped polygon                     2016-11-03 */
+/* morphpoly --- plot a morphed polygon                     2016-11-03 */
 /* Copyright (c) 2016 John Honniball, Froods Software Development      */
 
 #include <stdio.h>
