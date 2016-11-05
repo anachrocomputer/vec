@@ -139,9 +139,10 @@ void drawpoly (const int nsides, const struct Vertex vertex[])
 {
    int i;
    
-   moveto (vertex[nsides - 1].x, vertex[nsides - 1].y);
+   openlinesequence (vertex[0].x, vertex[0].y);
 
-   for (i = 0; i < nsides; i++) {
-      lineto (vertex[i].x, vertex[i].y);
-   }
+   for (i = 1; i < nsides; i++)
+      linesegmentto (vertex[i].x, vertex[i].y);
+   
+   closelinesequence (1);
 }

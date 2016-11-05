@@ -66,11 +66,14 @@ int main (int argc, char * const argv[])
 
    /* Draw inner squares */
    for (i = 0; i <= n; i++) {
-      moveto (pt[3].x + xoff, pt[3].y);
+      openlinesequence (pt[0].x + xoff, pt[0].y);
       
-      for (j = 0; j < 4; j++) {
-         lineto (pt[j].x + xoff, pt[j].y);
-         
+      for (j = 1; j < 4; j++)
+         linesegmentto (pt[j].x + xoff, pt[j].y);
+      
+      closelinesequence (1);
+
+      for (j = 0; j < 4; j++) { 
          nextj = (j + 1) % 4;
          ptd[j].x = (um * pt[j].x) + (mu * pt[nextj].x);
          ptd[j].y = (um * pt[j].y) + (mu * pt[nextj].y);

@@ -335,6 +335,80 @@ void lineto (double x, double y)
 }
 
 
+static int FirstSeg = 0;
+static int SeqStartx = 0;
+static int SeqStarty = 0;
+
+void openlinesequence (double x, double y)
+{
+   int ix, iy;
+   double dx, dy;
+   
+   FirstSeg = 1;
+   
+   ix = (int)(x + Minx);
+   iy = (int)(y + Miny);
+
+   fprintf (Plt, "PU;PA%d,%d;PD;PA", ix, iy);
+   
+   dx = ix - Penx;
+   dy = iy - Peny;
+   
+   PenUpDist += sqrt ((dx * dx) + (dy * dy));
+   
+   Penx = ix;
+   Peny = iy;
+   
+   SeqStartx = ix;
+   SeqStarty = iy;
+}
+
+
+void linesegmentto (double x, double y)
+{
+   int ix, iy;
+   double dx, dy;
+   
+   ix = (int)(x + Minx);
+   iy = (int)(y + Miny);
+
+   if (FirstSeg) {
+      fprintf (Plt, "%d,%d", ix, iy);
+      FirstSeg = 0;
+   }
+   else
+      fprintf (Plt, ",%d,%d", ix, iy);
+   
+   dx = ix - Penx;
+   dy = iy - Peny;
+   
+   PenDownDist += sqrt ((dx * dx) + (dy * dy));
+   
+   Penx = ix;
+   Peny = iy;
+}
+
+
+void closelinesequence (int closePoly)
+{
+   double dx, dy;
+
+   if (closePoly) {
+      fprintf (Plt, ",%d,%d", SeqStartx, SeqStarty);
+
+      dx = SeqStartx - Penx;
+      dy = SeqStarty - Peny;
+      
+      PenDownDist += sqrt ((dx * dx) + (dy * dy));
+      
+      Penx = SeqStartx;
+      Peny = SeqStarty;
+   }
+
+   fprintf (Plt, ";\n");
+}
+
+
 void rectangle (double x1, double y1, double x2, double y2)
 {
    int ix1, iy1, ix2, iy2;
