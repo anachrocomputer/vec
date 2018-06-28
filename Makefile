@@ -19,7 +19,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      spiralsq.hpgl dala2c.hpgl fraserspiral.hpgl \
      curve_stitching.hpgl cs_rosette.hpgl allover13.hpgl allover12.hpgl \
      qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl sutpent.hpgl \
-     morphpoly.hpgl
+     morphpoly.hpgl pin_circle.hpgl
 
 PNG=$(HPGL:.hpgl=.png)
 
@@ -309,6 +309,15 @@ pin_and_cotton: pin_and_cotton.o hpgllib.o
 
 pin_and_cotton.o: pin_and_cotton.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ pin_and_cotton.c
+
+pin_circle.hpgl: pin_circle Makefile
+	./pin_circle $(TITLE) $(BOLDPEN) -o $@
+
+pin_circle: pin_circle.o hpgllib.o
+	$(LD) -o $@ pin_circle.o hpgllib.o -lm
+
+pin_circle.o: pin_circle.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ pin_circle.c
 
 hconic2.hpgl: hconic2
 	./hconic2 >hconic2.hpgl
