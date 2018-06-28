@@ -28,7 +28,7 @@ int main (int argc, const char *argv[])
    
 // title ("http://www.dorkbot.org/dorkbotbristol/", 3.75, BOT|LEFT, FLG_NONE);
    title ("Bristol Hackspace", 3.75, BOT|LEFT, FLG_NONE);
-// title ("2013-03-23", 3.75, BOT|RIGHT, FLG_NONE);
+   title ("2018-04-22", 3.75, BOT|RIGHT, FLG_NONE);
    
    srand ((unsigned int)time (NULL));
 
