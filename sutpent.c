@@ -24,6 +24,7 @@ int main (int argc, char * const argv[])
 {
    int opt;
    double w4, h4;
+   double xc;
    double maxx, maxy;
    double radius;
    
@@ -53,11 +54,14 @@ int main (int argc, char * const argv[])
    h4 = maxy / 4.0;
    
    radius = maxy / 4.0;
+   xc = sqrt (((2.0 * radius) * (2.0 * radius)) - (h4 * h4));
+   xc = (2.0 * w4) - xc;
    
-   sutcliffepolygon (w4 * 3.0, h4 * 3.0, radius, 4, 6, 0.15);
-   sutcliffepolygon (w4,       h4 * 3.0, radius, 5, 6, 0.15);
-   sutcliffepolygon (w4 * 3.0, h4,       radius, 6, 6, 0.15);
-   sutcliffepolygon (w4,       h4,       radius, 7, 6, 0.15);
+   sutcliffepolygon (maxx - xc, h4 * 3.0, radius, 5, 6, 0.15);
+   sutcliffepolygon (xc,        h4 * 3.0, radius, 6, 7, 0.15);
+   sutcliffepolygon (maxx - xc, h4,       radius, 7, 7, 0.15);
+   sutcliffepolygon (xc,        h4,       radius, 8, 7, 0.15);
+   sutcliffepolygon (w4 * 2.0,  h4 * 2.0, radius, 9, 7, 0.15);
 
    plotend ();
    
@@ -78,6 +82,7 @@ void sutcliffepolygon (const double xc, const double yc, const double radius, co
       vertex[i].y = yc + (sin (theta) * radius);
    }
    
+// circle (xc, yc, radius);
    sutpoly (nsides, vertex, levels, ratio);
 }
 
