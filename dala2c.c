@@ -1,4 +1,4 @@
-/* dala2c --- plot an HPGL mandala multicoloured             2011-09-10 */
+/* dala2c --- plot an HPGL mandala multicoloured            2011-09-10 */
 /* Copyright (c) 2011 John Honniball, Froods Software Development      */
 
 #include <stdio.h>
