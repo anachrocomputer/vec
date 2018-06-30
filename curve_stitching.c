@@ -8,20 +8,23 @@
 #include "hpgllib.h"
 
 
-void draw_quad (double x1, double y1, double x2, double y2,
-                double x3, double y3, double x4, double y4);
-void draw_curve (double x1, double y1, double x2, double y2, double x3, double y3);
-void drawline (double x1, double y1, double x2, double y2);
-
+#define RADIANS  (M_PI / 180.0)
 
 #define NPTS (20)
 
 
-int main (int argc, char * const argv[])
+void draw_quad(const double x1, const double y1, const double x2, const double y2,
+               const double x3, const double y3, const double x4, const double y4);
+void draw_curve(const double x1, const double y1, const double x2, const double y2, const double x3, const double y3);
+void drawline(const double wx1, const double wy1, const double wx2, const double wy2);
+
+
+int main(int argc, char * const argv[])
 {
    int opt;
    double side;
-   double c30, s30;
+   const double c30 = cos(30.0 * RADIANS);    /* Precompute sin and cos of 30 degrees */
+   const double s30 = sin(30.0 * RADIANS);
    double xc, yc;
    double x1, y1;
    double x2, y2;
@@ -29,7 +32,7 @@ int main (int argc, char * const argv[])
    double x4, y4;
    double maxx, maxy;
    
-   while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 'n':
       case 'o':
@@ -37,30 +40,26 @@ int main (int argc, char * const argv[])
       case 's':
       case 't':
       case 'v':
-         plotopt (opt, optarg);
+         plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf (stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
                   argv[0]);
-         fprintf (stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
-         exit (EXIT_FAILURE);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+         exit(EXIT_FAILURE);
       }
    }
 
-   plotbegin (0);
+   plotbegin(0);
 
-   getplotsize (&maxx, &maxy);
+   getplotsize(&maxx, &maxy);
    
    xc = maxx / 2.0;
    yc = maxy / 2.0;
    side = maxy / 2.0;
    
    /* Draw square border */
-   rectangle (xc - (maxy / 2.0), 0.0, xc + (maxy / 2.0), maxy);
-   
-   /* Precompute sin and cos of 30 degrees */
-   c30 = cos (30.0 / 57.295);
-   s30 = sin (30.0 / 57.295);
+   rectangle(xc - (maxy / 2.0), 0.0, xc + (maxy / 2.0), maxy);
    
    x1 = xc;
    y1 = yc;
@@ -71,12 +70,12 @@ int main (int argc, char * const argv[])
    x4 = x3;
    y4 = yc + (side * s30);
    
-   draw_quad (x1, y1, x2, y2, x3, y3, x4, y4);
+   draw_quad(x1, y1, x2, y2, x3, y3, x4, y4);
    
    x3 = xc + (side * c30);
    x4 = x3;
 
-   draw_quad (x1, y1, x2, y2, x3, y3, x4, y4);
+   draw_quad(x1, y1, x2, y2, x3, y3, x4, y4);
    
    x1 = xc;
    y1 = yc;
@@ -87,9 +86,9 @@ int main (int argc, char * const argv[])
    x4 = xc + (side * c30);
    y4 = y2;
 
-   draw_quad (x1, y1, x2, y2, x3, y3, x4, y4);
+   draw_quad(x1, y1, x2, y2, x3, y3, x4, y4);
 
-   plotend ();
+   plotend();
    
    return (0);
 }
@@ -97,19 +96,19 @@ int main (int argc, char * const argv[])
 
 /* draw_quad --- draw a four-sided curve-stitch */
 
-void draw_quad (double x1, double y1, double x2, double y2,
-                double x3, double y3, double x4, double y4)
+void draw_quad(const double x1, const double y1, const double x2, const double y2,
+               const double x3, const double y3, const double x4, const double y4)
 {
-   draw_curve (x1, y1, x2, y2, x3, y3);
-   draw_curve (x2, y2, x3, y3, x4, y4);
-   draw_curve (x3, y3, x4, y4, x1, y1);
-   draw_curve (x4, y4, x1, y1, x2, y2);
+   draw_curve(x1, y1, x2, y2, x3, y3);
+   draw_curve(x2, y2, x3, y3, x4, y4);
+   draw_curve(x3, y3, x4, y4, x1, y1);
+   draw_curve(x4, y4, x1, y1, x2, y2);
 }
 
 
 /* draw_curve --- draw a single curve-stitch */
 
-void draw_curve (double x1, double y1, double x2, double y2, double x3, double y3)
+void draw_curve(const double x1, const double y1, const double x2, const double y2, const double x3, const double y3)
 {
    int i;
    double alpha;
@@ -120,12 +119,12 @@ void draw_curve (double x1, double y1, double x2, double y2, double x3, double y
    double ypt2[NPTS];
    
    /* Draw axes */
-   drawline (x1, y1, x2, y2);
-   drawline (x2, y2, x3, y3);
+   drawline(x1, y1, x2, y2);
+   drawline(x2, y2, x3, y3);
    
    dx = x2 - x1;
    dy = y2 - y1;
-   
+
    for (i = 1; i < NPTS; i++) {
       alpha = (1.0 / (double)NPTS) * (double)i;
       
@@ -144,51 +143,47 @@ void draw_curve (double x1, double y1, double x2, double y2, double x3, double y
    }
    
    for (i = 1; i < NPTS; i++)
-      drawline (xpt1[i], ypt1[i], xpt2[i], ypt2[i]);
+      drawline(xpt1[i], ypt1[i], xpt2[i], ypt2[i]);
 }
 
 
-void drawline (double wx1, double wy1, double wx2, double wy2)
+void drawline(const double wx1, const double wy1, const double wx2, const double wy2)
 {
    static int cx = -32767, cy = -32767;
    static double wcx = -1.0, wcy = -1.0;
    int x1, y1, x2, y2;
-   double dx1, dy1, dx2, dy2;
-   double d1, d2;
+   const double dx1 = wx1 - wcx;
+   const double dy1 = wy1 - wcy;
+   const double dx2 = wx2 - wcx;
+   const double dy2 = wy2 - wcy;
+   const double d1 = sqrt((dx1 * dx1) + (dy1 * dy1));
+   const double d2 = sqrt((dx2 * dx2) + (dy2 * dy2));
    char hpgl[32];
    
-   dx1 = wx1 - wcx;
-   dy1 = wy1 - wcy;
-   dx2 = wx2 - wcx;
-   dy2 = wy2 - wcy;
-   
-   d1 = sqrt ((dx1 * dx1) + (dy1 * dy1));
-   d2 = sqrt ((dx2 * dx2) + (dy2 * dy2));
-   
    if (d1 < d2) {
-      x1 = getdevx (wx1);
-      y1 = getdevy (wy1);
-      x2 = getdevx (wx2);
-      y2 = getdevy (wy2);
+      x1 = getdevx(wx1);
+      y1 = getdevy(wy1);
+      x2 = getdevx(wx2);
+      y2 = getdevy(wy2);
       wcx = wx2;
       wcy = wy2;
    }
    else {
-      x1 = getdevx (wx2);
-      y1 = getdevy (wy2);
-      x2 = getdevx (wx1);
-      y2 = getdevy (wy1);
+      x1 = getdevx(wx2);
+      y1 = getdevy(wy2);
+      x2 = getdevx(wx1);
+      y2 = getdevy(wy1);
       wcx = wx1;
       wcy = wy1;
    }
    
    if ((cx != x1) || (cy != y1)) {
-      snprintf (hpgl, 32, "\nPU;PA%d,%d;", x1, y1);
-      hpglout (hpgl);
+      snprintf(hpgl, sizeof (hpgl), "\nPU;PA%d,%d;", x1, y1);
+      hpglout(hpgl);
    }
-      
-   snprintf (hpgl, 32, "PD;PA%d,%d;", x2, y2);   
-   hpglout (hpgl);
+
+   snprintf(hpgl, sizeof (hpgl), "PD;PA%d,%d;", x2, y2);
+   hpglout(hpgl);
    
    cx = x2;
    cy = y2;
