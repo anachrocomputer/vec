@@ -4,103 +4,103 @@
 #include <stdio.h>
 #include "turtle.h"
 
-void hexa (double len);
-void penta (double len);
+void hexa(const double len);
+void penta(const double len);
 
-int main (int argc, const char *argv[])
+int main(int argc, char * const argv[])
 {
    int i;
-   double size = 32.0;  /* 32mm sides */
+   const double size = 32.0;  /* 32mm sides */
    
-   turtle (DEV_HPGL, SIZ_A3, ORI_LAND, FLG_NONE);
+   turtle(DEV_HPGL, SIZ_A3, ORI_LAND, FLG_BORD);
    
-   pen (UP);
-   turn (90.0);
-   forward (size + 5.0);
-   turn (-90.0);
-   pen (DOWN);
+   pen(UP);
+   turn(90.0);
+   forward(size + 5.0);
+   turn(-90.0);
+   pen(DOWN);
 
-   colour (BLACK);
+   colour(BLACK);
    for (i = 0; i < 3; i++) {
-      penta (size);
+      penta(size);
 
-      turn (60.0);
-      forward (size);
-      turn (-60.0);
+      turn(60.0);
+      forward(size);
+      turn(-60.0);
 
-      hexa (size);
+      hexa(size);
 
-      turn (-60.0);
+      turn(-60.0);
 
-      penta (size);
+      penta(size);
 
-      turn (-60.0);
+      turn(-60.0);
 
-      hexa (size);
+      hexa(size);
 
-      turn (-60.0);
-      forward (size);
-      turn (60.0);
+      turn(-60.0);
+      forward(size);
+      turn(60.0);
    }
    
 #ifdef DRAW_FOLD_LINES
-   colour (RED);
+   colour(RED);
    for (i = 0; i < 6; i++) {  /* Clockwise hexagon in centre */
-      forward (size);
-      turn (-60.0);
+      forward(size);
+      turn(-60.0);
    }
    
    for (i = 0; i < 3; i++) {  /* Three half-hexagons for fold lines */
-      pen (UP);
-      forward (size);
-      turn (60.0);
-      forward (size);
-      turn (-60.0);
-      pen (DOWN);
+      pen(UP);
+      forward(size);
+      turn(60.0);
+      forward(size);
+      turn(-60.0);
+      pen(DOWN);
       
       for (j = 0; j < 3; j++) {
-         forward (size);
-         turn (-60.0);
+         forward(size);
+         turn(-60.0);
       }
       
-      pen (UP);
-      forward (size);
-      turn (60.0);
-      pen (DOWN);
+      pen(UP);
+      forward(size);
+      turn(60.0);
+      pen(DOWN);
    }
 #endif
 
-   show ();
+   show();
    
    return (0);
 }
    
 
-void hexa (double len)
+void hexa(const double len)
 {
    int i;
    
-   turn (120.0);
+   turn(120.0);
 
    for (i = 0; i < 5; i++) {
-      forward (len);
-      turn (-60.0);
+      forward(len);
+      turn(-60.0);
    }
 
-   turn (180.0);
+   turn(180.0);
 }
 
 
-void penta (double len)
+void penta(const double len)
 {
    int i;
    
-   turn (108.0);
+   turn(108.0);
 
    for (i = 0; i < 4; i++) {
-      forward (len);
-      turn (-72.0);
+      forward(len);
+      turn(-72.0);
    }
 
-   turn (180.0);
+   turn(180.0);
 }
