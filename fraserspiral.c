@@ -84,7 +84,6 @@ void ringoshapes (double x0, double y0, double radius, int nshapes)
       y = (radius * sin (theta)) + y0;
    
       moveto (x, y);
-      lineto (x, y);
       
       d = radius / 4.0;
       

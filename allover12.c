@@ -78,7 +78,6 @@ void drawx(const int nx, const int ny, const double r1, const double r2, const d
       x1 = offset;
       y = (double)(iy + 1) * pitch;
       moveto(x1, y);
-      lineto(x1, y);
 
       for (ix = 0; ix < nx; ix++) {
          x1 = ((double)ix * pitch) + offset;
@@ -105,7 +104,6 @@ void drawy(const int nx, const int ny, const double r1, const double r2, const d
       x = (double)(ix + 1) * pitch;
       y1 = offset;
       moveto(x, y1);
-      lineto(x, y1);
 
       for (iy = 0; iy < ny; iy++) {
          y1 = ((double)iy * pitch) + offset;

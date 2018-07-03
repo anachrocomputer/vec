@@ -99,7 +99,7 @@ void draw_module(const double x, const double y, const double side, const int fi
    
    if (firsty) {
       moveto(x + radius, y);
-      lineto(x + radius, y);
+
       if (firstx)
          arc(x, y, 90.0);
       else
@@ -107,7 +107,6 @@ void draw_module(const double x, const double y, const double side, const int fi
    }
    else if (firstx) {
       moveto(x, y - radius);
-      lineto(x, y - radius);
       arc(x, y, 180.0);
    }
    else
@@ -115,7 +114,7 @@ void draw_module(const double x, const double y, const double side, const int fi
    
    if (lastx) {
       moveto(x + side, y + radius);
-      lineto(x + side, y + radius);
+
       if (firsty)
          arc(x + side, y, 90.0);
       else
@@ -125,19 +124,16 @@ void draw_module(const double x, const double y, const double side, const int fi
    if (lasty) {
       if (firstx) {
          moveto(x, y + side - radius);
-         lineto(x, y + side - radius);
          arc(x, y + side, 90.0);
       }
       else {
          moveto(x - radius, y + side);
-         lineto(x - radius, y + side);
          arc(x, y + side, 180.0);
       }
    }
 
    if (lastx && lasty) {
       moveto(x + side - radius, y + side);
-      lineto(x + side - radius, y + side);
       arc(x + side, y + side, 90.0);
    }
 }

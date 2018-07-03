@@ -462,14 +462,12 @@ void circle2 (double x, double y, double r, double tol)
 }
 
 
-void arc (double x, double y, double a)
+void arc (const double x, const double y, const double a)
 {
-   int ix, iy;
-   
-   ix = (int)(x + Minx);
-   iy = (int)(y + Miny);
+   const int ix = (int)(x + Minx);
+   const int iy = (int)(y + Miny);
 
-   fprintf (Plt, "AA%d,%d,%2.1f;\n", ix, iy, a);
+   fprintf (Plt, "PD;AA%d,%d,%2.1f;\n", ix, iy, a);
 }
 
 
