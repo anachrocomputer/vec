@@ -46,7 +46,6 @@ void spiral (double cx, double cy, double radius, double ang, int n);
 void bordergrid (double x0, double y0, double w, double h, int nx, int ny, int diag);
 void superellipse (double x0, double y0, double a, double b, double theta, double d);
 double lotuszigzag (double x0, double y0, double r1, double r2, int npts, int flag);
-void roundrect (double x1, double y1, double x2, double y2, double radius);
 void drawstep (double x0, double y0, double w, double h, int flipx, int flipy);
 
 int main (int argc, char * const argv[])
@@ -1140,32 +1139,6 @@ double lotuszigzag (double x0, double y0, double r1, double r2, int npts, int fl
    lineto (x1[0], y1[0]);
    
    return (r2);
-}
-
-
-/* roundrect --- draw a rounded rectangle */
-
-void roundrect (double x1, double y1, double x2, double y2, double radius)
-{
-   moveto (x1 + radius, y1);
-   lineto (x2 - radius, y1);
-   
-   arc (x2 - radius, y1 + radius, 90.0);
-   
-// moveto (x2, y1 + radius);
-   lineto (x2, y2 - radius);
-   
-   arc (x2 - radius, y2 - radius, 90.0);
-   
-// moveto (x2 - radius, y2);
-   lineto (x1 + radius, y2);
-   
-   arc (x1 + radius, y2 - radius, 90.0);
-   
-// moveto (x1, y2 - radius);
-   lineto (x1, y1 + radius);
-   
-   arc (x1 + radius, y1 + radius, 90.0);
 }
 
 

@@ -497,6 +497,29 @@ void ellipse(const double x0, const double y0, const double a, const double b, c
 }
 
 
+/* roundrect --- draw a rounded rectangle */
+
+void roundrect (const double x1, const double y1, const double x2, const double y2, const double radius)
+{
+   moveto (x1 + radius, y1);
+   lineto (x2 - radius, y1);
+   
+   arc (x2 - radius, y1 + radius, 90.0);
+   
+   lineto (x2, y2 - radius);
+   
+   arc (x2 - radius, y2 - radius, 90.0);
+   
+   lineto (x1 + radius, y2);
+   
+   arc (x1 + radius, y2 - radius, 90.0);
+   
+   lineto (x1, y1 + radius);
+   
+   arc (x1 + radius, y1 + radius, 90.0);
+}
+
+
 void pencolr (int c)
 {
    if (c < 0) {

@@ -21,6 +21,7 @@ void circle (double x, double y, double r);
 void circle2 (double x, double y, double r, double tol);
 void arc (double x, double y, double a);
 void ellipse(const double x0, const double y0, const double a, const double b, const double theta);
+void roundrect (const double x1, const double y1, const double x2, const double y2, const double radius);
 void pencolr (int c);
 void vlabel (double x, double y, double siz, const char *str);
 void hlabel (double x, double y, double siz, const char *str);
