@@ -8,9 +8,9 @@
 #include "hpgllib.h"
 
 
-void draw_curve (double x1, double y1, double x2, double y2,
-                 double x3, double y3, int nlines);
-void drawline (double x1, double y1, double x2, double y2);
+void draw_curve(const double x1, const double y1, const double x2, const double y2,
+                const double x3, const double y3, const int nlines);
+void drawline(const double wx1, const double wy1, const double wx2, const double wy2);
 
 
 #define MAXLINES (20)
@@ -20,7 +20,7 @@ struct vector {
    double y;
 };
 
-int main (int argc, char * const argv[])
+int main(int argc, char * const argv[])
 {
    int opt;
    int i, j, k;
@@ -35,7 +35,7 @@ int main (int argc, char * const argv[])
    double x3, y3;
    double maxx, maxy;
    
-   while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 'n':
       case 'o':
@@ -43,13 +43,13 @@ int main (int argc, char * const argv[])
       case 's':
       case 't':
       case 'v':
-         plotopt (opt, optarg);
+         plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf (stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
                   argv[0]);
-         fprintf (stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
-         exit (EXIT_FAILURE);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+         exit(EXIT_FAILURE);
       }
    }
 
@@ -58,16 +58,16 @@ int main (int argc, char * const argv[])
    nrings = 4;
    nlines = 16;
    
-   plotbegin (0);
+   plotbegin(0);
 
-   getplotsize (&maxx, &maxy);
+   getplotsize(&maxx, &maxy);
    
    xc = maxx / 2.0;
    yc = maxy / 2.0;
    side = maxy / 2.0;
    
    /* Draw square border */
-   rectangle (xc - (maxy / 2.0), 0.0, xc + (maxy / 2.0), maxy);
+   rectangle(xc - (maxy / 2.0), 0.0, xc + (maxy / 2.0), maxy);
    
    /* Draw radials */
    delta = (2.0 * M_PI) / (double)nsectors;
@@ -75,20 +75,20 @@ int main (int argc, char * const argv[])
    for (i = 0; i < nsectors; i++) {
       theta = (double)i * delta;
       
-      x1 = xc + (side * cos (theta));
-      y1 = yc + (side * sin (theta));
+      x1 = xc + (side * cos(theta));
+      y1 = yc + (side * sin(theta));
       
-      drawline (xc, yc, x1, y1);
+      drawline(xc, yc, x1, y1);
    }
    
    for (i = 0; i < nsectors; i++) {
       theta = (double)i * delta;
 
       /* Compute vectors, length side/nrings */
-      v1.x = (side / (double)nrings) * cos (theta);
-      v1.y = (side / (double)nrings) * sin (theta);
-      v2.x = (side / (double)nrings) * cos (theta + delta);
-      v2.y = (side / (double)nrings) * sin (theta + delta);
+      v1.x = (side / (double)nrings) * cos(theta);
+      v1.y = (side / (double)nrings) * sin(theta);
+      v2.x = (side / (double)nrings) * cos(theta + delta);
+      v2.y = (side / (double)nrings) * sin(theta + delta);
       
       /* Draw lines parallel to v2 */
       for (j = 1; j < nrings; j++) {
@@ -99,7 +99,7 @@ int main (int argc, char * const argv[])
          x2 = x1 + ((double)k * v2.x);
          y2 = y1 + ((double)k * v2.y);
          
-         drawline (x1, y1, x2, y2);
+         drawline(x1, y1, x2, y2);
       }
 
       /* Draw lines parallel to v1 */
@@ -111,7 +111,7 @@ int main (int argc, char * const argv[])
          x2 = x1 + ((double)k * v1.x);
          y2 = y1 + ((double)k * v1.y);
          
-         drawline (x1, y1, x2, y2);
+         drawline(x1, y1, x2, y2);
       }
    }
    
@@ -120,10 +120,10 @@ int main (int argc, char * const argv[])
       theta = (double)i * delta;
       
       /* Vectors of length side/nrings again */
-      v1.x = (side / (double)nrings) * cos (theta);
-      v1.y = (side / (double)nrings) * sin (theta);
-      v2.x = (side / (double)nrings) * cos (theta + delta);
-      v2.y = (side / (double)nrings) * sin (theta + delta);
+      v1.x = (side / (double)nrings) * cos(theta);
+      v1.y = (side / (double)nrings) * sin(theta);
+      v2.x = (side / (double)nrings) * cos(theta + delta);
+      v2.y = (side / (double)nrings) * sin(theta + delta);
       
       for (j = 0; j < nrings; j++) {
          for (k = 0; k < (nrings - j); k++) {                           
@@ -135,7 +135,7 @@ int main (int argc, char * const argv[])
             x3 = x2 + v2.x;
             y3 = y2 + v2.y;
            
-            draw_curve (x1, y1, x2, y2, x3, y3, nlines);
+            draw_curve(x1, y1, x2, y2, x3, y3, nlines);
            
             j1 = j + 1;
             k1 = k + 1;
@@ -149,13 +149,13 @@ int main (int argc, char * const argv[])
                x3 = x2 - v2.x;
                y3 = y2 - v2.y;
               
-               draw_curve (x1, y1, x2, y2, x3, y3, nlines);
+               draw_curve(x1, y1, x2, y2, x3, y3, nlines);
             }
          }
       }
    }
 
-   plotend ();
+   plotend();
    
    return (0);
 }
@@ -163,8 +163,8 @@ int main (int argc, char * const argv[])
 
 /* draw_curve --- draw a single curve-stitch */
 
-void draw_curve (double x1, double y1, double x2, double y2,
-                 double x3, double y3, int nlines)
+void draw_curve(const double x1, const double y1, const double x2, const double y2,
+                const double x3, const double y3, const int nlines)
 {
    int i;
    double alpha;
@@ -195,51 +195,47 @@ void draw_curve (double x1, double y1, double x2, double y2,
    }
    
    for (i = 1; i < nlines; i++)
-      drawline (xpt1[i], ypt1[i], xpt2[i], ypt2[i]);
+      drawline(xpt1[i], ypt1[i], xpt2[i], ypt2[i]);
 }
 
 
-void drawline (double wx1, double wy1, double wx2, double wy2)
+void drawline(const double wx1, const double wy1, const double wx2, const double wy2)
 {
    static int cx = -32767, cy = -32767;
    static double wcx = -1.0, wcy = -1.0;
    int x1, y1, x2, y2;
-   double dx1, dy1, dx2, dy2;
-   double d1, d2;
+   const double dx1 = wx1 - wcx;
+   const double dy1 = wy1 - wcy;
+   const double dx2 = wx2 - wcx;
+   const double dy2 = wy2 - wcy;
+   const double d1 = sqrt((dx1 * dx1) + (dy1 * dy1));
+   const double d2 = sqrt((dx2 * dx2) + (dy2 * dy2));
    char hpgl[32];
    
-   dx1 = wx1 - wcx;
-   dy1 = wy1 - wcy;
-   dx2 = wx2 - wcx;
-   dy2 = wy2 - wcy;
-   
-   d1 = sqrt ((dx1 * dx1) + (dy1 * dy1));
-   d2 = sqrt ((dx2 * dx2) + (dy2 * dy2));
-   
    if (d1 < d2) {
-      x1 = getdevx (wx1);
-      y1 = getdevy (wy1);
-      x2 = getdevx (wx2);
-      y2 = getdevy (wy2);
+      x1 = getdevx(wx1);
+      y1 = getdevy(wy1);
+      x2 = getdevx(wx2);
+      y2 = getdevy(wy2);
       wcx = wx2;
       wcy = wy2;
    }
    else {
-      x1 = getdevx (wx2);
-      y1 = getdevy (wy2);
-      x2 = getdevx (wx1);
-      y2 = getdevy (wy1);
+      x1 = getdevx(wx2);
+      y1 = getdevy(wy2);
+      x2 = getdevx(wx1);
+      y2 = getdevy(wy1);
       wcx = wx1;
       wcy = wy1;
    }
    
    if ((cx != x1) || (cy != y1)) {
-      snprintf (hpgl, 32, "\nPU;PA%d,%d;", x1, y1);
-      hpglout (hpgl);
+      snprintf(hpgl, sizeof (hpgl), "\nPU;PA%d,%d;", x1, y1);
+      hpglout(hpgl);
    }
       
-   snprintf (hpgl, 32, "PD;PA%d,%d;", x2, y2);   
-   hpglout (hpgl);
+   snprintf(hpgl, sizeof (hpgl), "PD;PA%d,%d;", x2, y2);
+   hpglout(hpgl);
    
    cx = x2;
    cy = y2;
