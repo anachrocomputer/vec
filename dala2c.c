@@ -17,7 +17,6 @@ double circlediamonds (double x0, double y0, double radius, int ndiam);
 double ringofcircles (double x0, double y0, double radius, int ncirc);
 double sqwavering (double x0, double y0, double radius, double len, int nwaves);
 double ellipsering (double x0, double y0, double a, double b, int nell);
-void ellipse (double x0, double y0, double a, double b, double theta);
 void superellipse (double x0, double y0, double a, double b, double theta, double d);
 
 
@@ -458,34 +457,6 @@ double ellipsering (double x0, double y0, double a, double b, int nell)
       return (a);
    else
       return (b);
-}
-
-
-void ellipse (double x0, double y0, double a, double b, double theta)
-{
-   double t;
-   double delta;
-   double sintheta, costheta;
-   double x, y;
-   int npts = 72;
-   int i;
-   
-   delta = (2 * M_PI) / (double)npts;
-
-   sintheta = sin (theta);
-   costheta = cos (theta);
-   
-   for (i = 0; i <= npts; i++) {
-      t = (double)i * delta;
-      
-      x = (a * cos (t) * costheta) - (b * sin (t) * sintheta);
-      y = (a * cos (t) * sintheta) + (b * sin (t) * costheta);
-      
-      if (i == 0)
-         moveto (x0 + x, y0 + y);
-      else
-         lineto (x0 + x, y0 + y);
-   }
 }
 
 

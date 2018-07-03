@@ -471,6 +471,32 @@ void arc (double x, double y, double a)
 }
 
 
+/* ellipse --- draw an ellipse, given major and minor axes and angle */
+
+void ellipse(const double x0, const double y0, const double a, const double b, const double theta)
+{
+   const int npts = 72;
+   const double delta = (2.0 * M_PI) / (double)npts;
+   const double sintheta = sin(theta);
+   const double costheta = cos(theta);
+   double x, y;
+   double t;
+   int i;
+
+   for (i = 0; i <= npts; i++) {
+      t = (double)i * delta;
+      
+      x = (a * cos(t) * costheta) - (b * sin(t) * sintheta);
+      y = (a * cos(t) * sintheta) + (b * sin(t) * costheta);
+      
+      if (i == 0)
+         moveto(x0 + x, y0 + y);
+      else
+         lineto(x0 + x, y0 + y);
+   }
+}
+
+
 void pencolr (int c)
 {
    if (c < 0) {

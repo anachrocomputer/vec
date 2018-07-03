@@ -8,7 +8,6 @@
 #include "hpgllib.h"
 
 void ellipse_foci(const double x1, const double y1, const double x2, const double y2, const double d);
-void ellipse(const double x0, const double y0, const double a, const double b, const double theta);
 
 
 int main(int argc, char * const argv[])
@@ -91,28 +90,4 @@ void ellipse_foci(const double x1, const double y1, const double x2, const doubl
    const double theta = atan2(dy, dx);
    
    ellipse(x0, y0, a, b, theta);
-}
-
-
-void ellipse(const double x0, const double y0, const double a, const double b, const double theta)
-{
-   const int npts = 72;
-   const double delta = (2.0 * M_PI) / (double)npts;
-   const double sintheta = sin(theta);
-   const double costheta = cos(theta);
-   double x, y;
-   double t;
-   int i;
-
-   for (i = 0; i <= npts; i++) {
-      t = (double)i * delta;
-      
-      x = (a * cos(t) * costheta) - (b * sin(t) * sintheta);
-      y = (a * cos(t) * sintheta) + (b * sin(t) * costheta);
-      
-      if (i == 0)
-         moveto(x0 + x, y0 + y);
-      else
-         lineto(x0 + x, y0 + y);
-   }
 }

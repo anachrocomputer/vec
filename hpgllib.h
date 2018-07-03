@@ -20,6 +20,7 @@ void fillrectangle (double x1, double y1, double x2, double y2);
 void circle (double x, double y, double r);
 void circle2 (double x, double y, double r, double tol);
 void arc (double x, double y, double a);
+void ellipse(const double x0, const double y0, const double a, const double b, const double theta);
 void pencolr (int c);
 void vlabel (double x, double y, double siz, const char *str);
 void hlabel (double x, double y, double siz, const char *str);
