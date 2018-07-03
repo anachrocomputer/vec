@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "hpgllib.h"
 
+#define DEGREES   (180.0 / M_PI)
 
 void ringoshapes (double x0, double y0, double radius, int nshapes);
 
@@ -90,6 +91,6 @@ void ringoshapes (double x0, double y0, double radius, int nshapes)
       xc = (d * cos (theta + (M_PI / 2.0))) + x0;
       yc = (d * sin (theta + (M_PI / 2.0))) + y0;
 
-      arc (xc, yc, (delta * 1.2) * 57.295);
+      arc (xc, yc, (delta * 1.2) * DEGREES);
    }
 }

@@ -14,7 +14,7 @@
 #include "turtle.h"
 #include <math.h>
 
-#define RADIANS   (0.017453292)
+#define RADIANS  (M_PI / 180.0)
 #define ETX (0x03)
 
 static int Pltdev = DEV_NONE;

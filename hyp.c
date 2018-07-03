@@ -21,7 +21,7 @@ void pencolr (int c);
 #define MAXY (7600.0)
 #endif   /* A3 */
 
-#define DEG_TO_RAD (1.0 / 57.295)
+#define DEG_TO_RAD  (M_PI / 180.0)
 
 double X0, Y0;
 double Rad;

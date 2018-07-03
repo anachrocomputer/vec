@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "hpgllib.h"
 
+#define RADIANS  (M_PI / 180.0)
 
 void spiral (double cx, double cy, double radius, double ang, int n);
 double diamondsquare (double x0, double y0, double side);
@@ -71,7 +72,7 @@ int main (int argc, char * const argv[])
          slant = -20.0;
          
       r = radius * (i + 1.5);
-      ringoboxes2 (xc, yc, r, 18 * (i + 1), 1, 0, slant / 57.295);
+      ringoboxes2 (xc, yc, r, 18 * (i + 1), 1, 0, slant * RADIANS);
    }
    
    pencolr (1);
@@ -84,7 +85,7 @@ int main (int argc, char * const argv[])
          slant = -20.0;
          
       r = radius * (i + 1.5);
-      ringoboxes2 (xc, yc, r, 18 * (i + 1), 1, 1, slant / 57.295);
+      ringoboxes2 (xc, yc, r, 18 * (i + 1), 1, 1, slant * RADIANS);
    }
    
    plotend ();
