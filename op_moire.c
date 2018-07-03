@@ -17,7 +17,7 @@ int main (int argc, char * const argv[])
       1979, ISBN: 0-486-23758-3 */
    int opt;
    int nlines;
-   double xc, yc;
+   double xc;
    double scale = 40.0;
    double maxx, maxy;
    double xl, xr;
@@ -49,7 +49,6 @@ int main (int argc, char * const argv[])
    getplotsize (&maxx, &maxy);
    
    xc = maxx / 2.0;
-   yc = maxy / 2.0;
    
    height = maxy;
    

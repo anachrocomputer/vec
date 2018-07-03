@@ -22,7 +22,7 @@ int main (int argc, char * const argv[])
    int ngridx = 16;
    int ngridy = 16;
    double x, y;
-   double xc, yc;
+   double xc;
    double scale = 40.0;
    double maxx, maxy;
    double height;
@@ -63,7 +63,6 @@ int main (int argc, char * const argv[])
    getplotsize (&maxx, &maxy);
    
    xc = maxx / 2.0;
-   yc = maxy / 2.0;
    
    height = maxy;
 

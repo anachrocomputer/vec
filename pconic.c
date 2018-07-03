@@ -33,7 +33,6 @@ void showcurve (int colr, double xpts[], double ypts[], double wpts[], int n);
 int main (int argc, char * const argv[])
 {
    int opt;
-   double xc, yc;
    double maxx, maxy;
    static struct Point p0 = {
       180.0 * 40.0, 250.0 * 40.0
@@ -87,9 +86,6 @@ int main (int argc, char * const argv[])
 
    getplotsize (&maxx, &maxy);
    
-   xc = maxx / 2.0;
-   yc = maxy / 2.0;
-
    wt.w0 = 1.0;
    wt.w1 = 3.0;
    wt.w2 = 1.0;

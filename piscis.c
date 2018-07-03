@@ -13,7 +13,6 @@ int main (int argc, char * const argv[])
    int opt;
    double xc, yc;
    double maxx, maxy;
-   double d;   /* Distance from central axis to centre of smaller arcs */
    double r1;  /* Radius of smaller arcs */
    double r2;  /* Radius of larger arc */
    
@@ -45,7 +44,6 @@ int main (int argc, char * const argv[])
    
    r1 = 100.0;
    r2 = 120.0;
-   d = 90.0;
 
    /* Two overlapping circles */
    circle (xc - ((r1 / 2.0) * 40.0), yc, r1 * 40.0);

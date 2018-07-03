@@ -42,7 +42,7 @@ int main (int argc, char * const argv[])
    double d;
    double xoff;
    int opt;
-   double xc, yc;
+   double xc;
    double maxx, maxy;
    
    while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
@@ -68,7 +68,6 @@ int main (int argc, char * const argv[])
    getplotsize (&maxx, &maxy);
    
    xc = maxx / 2.0;
-   yc = maxy / 2.0;
    
    /* Draw square border */
    rectangle (xc - (maxy / 2.0), 0.0, xc + (maxy / 2.0), maxy);

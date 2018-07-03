@@ -16,7 +16,6 @@ void half_ellipse (double x0, double y0, double a, double b, double theta);
 int main (int argc, char * const argv[])
 {
    int opt;
-   double xc, yc;
    double maxx, maxy;
    double xcell;
    double ycell;
@@ -43,9 +42,6 @@ int main (int argc, char * const argv[])
    plotbegin (1);
 
    getplotsize (&maxx, &maxy);
-   
-   xc = maxx / 2.0;
-   yc = maxy / 2.0;
    
    xcell = maxx / 3.0;
    ycell = maxy / 2.0;
