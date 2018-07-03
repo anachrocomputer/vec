@@ -8,7 +8,7 @@
 #include "hpgllib.h"
 
 
-int main (int argc, char * const argv[])
+int main(int argc, char * const argv[])
 {
 /* High-Resolution Computer Graphics Using C, by Ian O. Angell, 1989.
    Example 3.1, page 50. */
@@ -27,7 +27,7 @@ int main (int argc, char * const argv[])
    double xoff;
    int i, j, nextj;
    
-   while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 'n':
       case 'o':
@@ -35,19 +35,19 @@ int main (int argc, char * const argv[])
       case 's':
       case 't':
       case 'v':
-         plotopt (opt, optarg);
+         plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf (stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
                   argv[0]);
-         fprintf (stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
-         exit (EXIT_FAILURE);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+         exit(EXIT_FAILURE);
       }
    }
 
-   plotbegin (0);
+   plotbegin(0);
 
-   getplotsize (&maxx, &maxy);
+   getplotsize(&maxx, &maxy);
    
    pt[0].x = maxy;
    pt[0].y = maxy;
@@ -66,12 +66,12 @@ int main (int argc, char * const argv[])
 
    /* Draw inner squares */
    for (i = 0; i <= n; i++) {
-      openlinesequence (pt[0].x + xoff, pt[0].y);
+      openlinesequence(pt[0].x + xoff, pt[0].y);
       
       for (j = 1; j < 4; j++)
-         linesegmentto (pt[j].x + xoff, pt[j].y);
+         linesegmentto(pt[j].x + xoff, pt[j].y);
       
-      closelinesequence (1);
+      closelinesequence(1);
 
       for (j = 0; j < 4; j++) { 
          nextj = (j + 1) % 4;
@@ -86,7 +86,7 @@ int main (int argc, char * const argv[])
       }
    }
    
-   plotend ();
+   plotend();
    
    return (0);
 }
