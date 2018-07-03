@@ -409,29 +409,31 @@ void closelinesequence (int closePoly)
 }
 
 
-void rectangle (double x1, double y1, double x2, double y2)
+void rectangle (const double x1, const double y1, const double x2, const double y2)
 {
-   int ix1, iy1, ix2, iy2;
-   
-   ix1 = (int)(x1 + Minx);
-   iy1 = (int)(y1 + Miny);
-   ix2 = (int)(x2 + Minx);
-   iy2 = (int)(y2 + Miny);
+/* Use 'PA' here instead of 'EA' (available in HPGL-2) because
+   some conversion programs (notably HPGL-to-PostScript) fail
+   to recognise 'EA'. */
+   const int ix1 = (int)(x1 + Minx);
+   const int iy1 = (int)(y1 + Miny);
+   const int ix2 = (int)(x2 + Minx);
+   const int iy2 = (int)(y2 + Miny);
 
-  fprintf (Plt, "PU%d,%d;EA%d,%d;\n", ix1, iy1, ix2, iy2);
+   fprintf (Plt, "PU%d,%d;PD;PA%d,%d,%d,%d,%d,%d,%d,%d;\n", ix1, iy1,
+                 ix1, iy2, ix2, iy2, ix2, iy1, ix1, iy1);
 }
 
 
-void fillrectangle (double x1, double y1, double x2, double y2)
+void fillrectangle (const double x1, const double y1, const double x2, const double y2)
 {
-   int ix1, iy1, ix2, iy2;
-   
-   ix1 = (int)(x1 + Minx);
-   iy1 = (int)(y1 + Miny);
-   ix2 = (int)(x2 + Minx);
-   iy2 = (int)(y2 + Miny);
+/* Note that 'RA' is an HPGL-2 command and may not be recognised
+   by all plotters and all HPGL conversion programs */
+   const int ix1 = (int)(x1 + Minx);
+   const int iy1 = (int)(y1 + Miny);
+   const int ix2 = (int)(x2 + Minx);
+   const int iy2 = (int)(y2 + Miny);
 
-  fprintf (Plt, "PU%d,%d;RA%d,%d;\n", ix1, iy1, ix2, iy2);
+   fprintf (Plt, "PU%d,%d;RA%d,%d;\n", ix1, iy1, ix2, iy2);
 }
 
 

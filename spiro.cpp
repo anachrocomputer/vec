@@ -18,6 +18,8 @@ void Spiro::setup()
 //  printf ("LBhttp://www.dorkbot.org/dorkbotbristol%c;\n", 3);
     printf ("LBBristol Hackspace%c;\n", 3);
     printf ("PU%d,%d;EA%d,%d\n", MINX, MINY, MAXX, MAXY);
+    printf ("PU%d,%d;PD;PA%d,%d,%d,%d,%d,%d,%d,%d\n", MINX, MINY,
+             MINX, MAXY, MAXX, MAXY, MAXX, MINY, MINX, MINY);
 }
 
 void Spiro::close()
