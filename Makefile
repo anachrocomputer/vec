@@ -19,7 +19,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      spiralsq.hpgl dala2c.hpgl fraserspiral.hpgl \
      curve_stitching.hpgl cs_rosette.hpgl allover13.hpgl allover12.hpgl \
      qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl sutpent.hpgl \
-     morphpoly.hpgl pin_circle.hpgl isogrid.hpgl
+     morphpoly.hpgl pin_circle.hpgl isogrid.hpgl circle_lines.hpgl
 
 PNG=$(HPGL:.hpgl=.png)
 
@@ -102,6 +102,15 @@ isogrid: isogrid.o hpgllib.o
 
 isogrid.o: isogrid.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ isogrid.c
+
+circle_lines.hpgl: circle_lines Makefile
+	./circle_lines $(TITLE) $(BOLDPEN) -o $@
+
+circle_lines: circle_lines.o hpgllib.o
+	$(LD) -o $@ circle_lines.o hpgllib.o -lm
+
+circle_lines.o: circle_lines.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ circle_lines.c
 
 morphpoly.hpgl: morphpoly Makefile
 	./morphpoly $(TITLE) $(BOLDPEN) -o $@
