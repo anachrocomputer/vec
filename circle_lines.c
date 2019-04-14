@@ -11,7 +11,7 @@
 void draw_side(const double xc, const double yc, const double radius, const double maxx, const int n);
 void draw3lines(const double xc, const double yc, const double x, const double y, const int up, const double maxx);
 
-int main (int argc, char * const argv[])
+int main(int argc, char * const argv[])
 {
    /* Inspired by Sol LeWitt's "Wall Drawing #370",
       via a tweet by Paul Ricards. */
@@ -26,16 +26,16 @@ int main (int argc, char * const argv[])
    
    lines = 64; /* Default for A3 */
    
-   while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 's':
-         if (strchr (optarg, '1'))
+         if (strchr(optarg, '1'))
             lines = 128;
-         else if (strchr (optarg, '2'))
+         else if (strchr(optarg, '2'))
             lines = 96;
-         else if (strchr (optarg, '4'))
+         else if (strchr(optarg, '4'))
             lines = 48;
-         else if (strchr (optarg, '5'))
+         else if (strchr(optarg, '5'))
             lines = 32;
             
       case 'n':
@@ -43,13 +43,13 @@ int main (int argc, char * const argv[])
       case 'p':
       case 't':
       case 'v':
-         plotopt (opt, optarg);
+         plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf (stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
                   argv[0]);
-         fprintf (stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
-//       exit (EXIT_FAILURE);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+//       exit(EXIT_FAILURE);
       }
    }
 
