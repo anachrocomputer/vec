@@ -67,6 +67,7 @@ int plotbegin (int border)
    int fd;
    int pen;
    
+   /* TODO: support non-ISO paper sizes */
    if ((PlotterName[0] == 'a') || (PlotterName[0] == 'A')) {
       switch (PlotterName[1]) {
       case '1':
@@ -114,6 +115,7 @@ int plotbegin (int border)
       exit (EXIT_FAILURE);
    }
    
+   /* TODO: support multiple pen numbers in a comma-separated list */
    pen = atoi (PenNum);
    if ((pen < 1) || (pen > 8)) {
       fprintf (stderr, "invalid pen number\n");
@@ -123,6 +125,7 @@ int plotbegin (int border)
    fd = openPlotter (OutputFile);
    
    if (fd < 0) {
+      perror (OutputFile);
       exit (EXIT_FAILURE);
    }
    
@@ -174,6 +177,7 @@ int plotbegin (int border)
    if (NoInit == 0)
       fprintf (Plt, "IN;\n");
    
+   /* TODO: take pen speed into account when calculating plot time */
    if (Velocity[0] != '\0') {
       v = atoi (Velocity);
       fprintf (Plt, "VS%d;\n", v);  /* Slow down for shite pens */
@@ -221,6 +225,7 @@ void plotend (void)
    printf ("PenUpDist = %.1f (%.1fmm)\n", PenUpDist, PenUpDist / 40.0);
    printf ("PenDownDist = %.1f (%.1fmm)\n", PenDownDist, PenDownDist / 40.0);
    
+   /* TODO: take pen speed into account when calculating plot time */
    sec = ((PenUpDist + PenDownDist) / 40.0) / 250.0;
    
    printf ("Estimated time to plot: %.1fs\n", sec);
@@ -295,13 +300,13 @@ int hpglout (const char *buf)
 }
 
 
-void moveto (double x, double y)
+/* moveto --- move the pen to the given coordinates without drawing a line */
+
+void moveto (const double x, const double y)
 {
-   int ix, iy;
+   const int ix = (int)(x + Minx);
+   const int iy = (int)(y + Miny);
    double dx, dy;
-   
-   ix = (int)(x + Minx);
-   iy = (int)(y + Miny);
 
    fprintf (Plt, "PU;PA%d,%d;\n", ix, iy);
    
@@ -315,13 +320,13 @@ void moveto (double x, double y)
 }
 
 
-void lineto (double x, double y)
+/* lineto --- draw a line from the current pen position to the new position */
+
+void lineto (const double x, const double y)
 {
-   int ix, iy;
+   const int ix = (int)(x + Minx);
+   const int iy = (int)(y + Miny);
    double dx, dy;
-   
-   ix = (int)(x + Minx);
-   iy = (int)(y + Miny);
 
    fprintf (Plt, "PD;PA%d,%d;\n", ix, iy);
    
@@ -339,17 +344,15 @@ static int FirstSeg = 0;
 static int SeqStartx = 0;
 static int SeqStarty = 0;
 
-void openlinesequence (double x, double y)
+void openlinesequence (const double x, const double y)
 {
-   int ix, iy;
+   const int ix = (int)(x + Minx);
+   const int iy = (int)(y + Miny);
    double dx, dy;
    
    FirstSeg = 1;
-   
-   ix = (int)(x + Minx);
-   iy = (int)(y + Miny);
 
-   fprintf (Plt, "PU;PA%d,%d;PD;PA", ix, iy);
+   fprintf (Plt, "PU;PA%d,%d;", ix, iy);
    
    dx = ix - Penx;
    dy = iy - Peny;
@@ -364,16 +367,14 @@ void openlinesequence (double x, double y)
 }
 
 
-void linesegmentto (double x, double y)
+void linesegmentto (const double x, const double y)
 {
-   int ix, iy;
+   const int ix = (int)(x + Minx);
+   const int iy = (int)(y + Miny);
    double dx, dy;
-   
-   ix = (int)(x + Minx);
-   iy = (int)(y + Miny);
 
    if (FirstSeg) {
-      fprintf (Plt, "%d,%d", ix, iy);
+      fprintf (Plt, "PD;PA%d,%d", ix, iy);
       FirstSeg = 0;
    }
    else
@@ -389,7 +390,7 @@ void linesegmentto (double x, double y)
 }
 
 
-void closelinesequence (int closePoly)
+void closelinesequence (const int closePoly)
 {
    double dx, dy;
 
@@ -437,26 +438,22 @@ void fillrectangle (const double x1, const double y1, const double x2, const dou
 }
 
 
-void circle (double x, double y, double r)
+void circle (const double x, const double y, const double r)
 {
-   int ix, iy, ir;
-   
-   ix = (int)(x + Minx);
-   iy = (int)(y + Miny);
-   ir = r;
+   const int ix = (int)(x + Minx);
+   const int iy = (int)(y + Miny);
+   const int ir = r;
 
    fprintf (Plt, "PU;PA%d,%d;CI%d;\n", ix, iy, ir);
 }
 
 
-void circle2 (double x, double y, double r, double tol)
+void circle2 (const double x, const double y, const double r, const double tol)
 {
-   int ix, iy, ir, itol;
-   
-   ix = (int)(x + Minx);
-   iy = (int)(y + Miny);
-   ir = r;
-   itol = tol;
+   const int ix = (int)(x + Minx);
+   const int iy = (int)(y + Miny);
+   const int ir = r;
+   const int itol = tol;
    
    fprintf (Plt, "PU;PA%d,%d;CI%d,%d;\n", ix, iy, ir, itol);
 }
