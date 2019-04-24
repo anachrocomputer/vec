@@ -8,7 +8,7 @@
 #include "hpgllib.h"
 
 
-void spiral (double cx, double cy, double radius, double ang, int n);
+void spiral (const double xc, const double yc, const double r1, const double r2, const double ang, const int n);
 
 
 int main (int argc, char * const argv[])
@@ -18,7 +18,6 @@ int main (int argc, char * const argv[])
    int opt;
    double xc, yc;
    double maxx, maxy;
-   double height;
    double radius;
    
    while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
@@ -46,19 +45,14 @@ int main (int argc, char * const argv[])
    xc = maxx / 2.0;
    yc = maxy / 2.0;
    
-   height = maxy;
-
-   /* Draw square border */
-// rectangle (xc - (height / 2.0), 0.0, xc + (height / 2.0), maxy);
-   
    radius = maxy / 2.0;
    
    circle (xc, yc, radius);
 
-   spiral (xc, yc, radius, 0.0, 4);
-   spiral (xc, yc, radius, M_PI / 2.0, 4);
-   spiral (xc, yc, radius, M_PI, 4);
-   spiral (xc, yc, radius, 3.0 * M_PI / 2.0, 4);
+   spiral (xc, yc, 0.0, radius, 0.0, 4);
+   spiral (xc, yc, 0.0, radius, M_PI / 2.0, 4);
+   spiral (xc, yc, 0.0, radius, M_PI, 4);
+   spiral (xc, yc, 0.0, radius, 3.0 * M_PI / 2.0, 4);
    
    plotend ();
    
@@ -66,23 +60,24 @@ int main (int argc, char * const argv[])
 }
 
 
-void spiral (double cx, double cy, double radius, double ang, int n)
+/* spiral --- draw a spiral given angle and number of turns */
+
+void spiral (const double xc, const double yc, const double r1, const double r2, const double ang, const int n)
 {
-   double theta = ang;
-   double thinc = 2.0 * M_PI / 72.0;
-   double r;
+   const double delta = (2.0 * M_PI) / 72.0;
    int i;
-   int ptnumber = 72 * n;
-   double x, y;
+   const double dr = (r2 - r1) / (72.0 * n);
    
-   moveto (cx, cy);
+   openlinesequence ((r1 * cos (ang)) + xc, (r1 * sin (ang)) + yc);
    
-   for (i = 0; i < ptnumber; i++) {
-      theta += thinc;
-      r = (radius * i) / (double)ptnumber;
-      x = (r * cos (theta)) + cx;
-      y = (r * sin (theta)) + cy;
+   for (i = 0; i < (72 * n); i++) {
+      const double theta = ang + (delta * i);
+      const double r = r1 + (dr * i);
+      const double x = (r * cos (theta)) + xc;
+      const double y = (r * sin (theta)) + yc;
       
-      lineto (x, y);
+      linesegmentto (x, y);
    }
+   
+   closelinesequence (0);
 }
