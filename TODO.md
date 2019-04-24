@@ -15,6 +15,12 @@ SIGINT has stopped a plot.
 function that will reverse a line end-for-end to speed up drawing. That function
 is useful in many situations and would eliminate explicit logic to plot
 lines in reverse directions.
+* Move 'spiral()' into the library. Another useful general-purpose
+drawing function. Make sure it can start with a non-zero radius, and draw
+both clockwise and anti-clockwise.
+* Introduce a proper strategy for handling arc tolerance. Several
+functions have a hard-coded '72' in them to represent the default HPGL
+arc tolerance of 72 chords. Make this a settable parameter somehow.
 * Add multi-pen support. Probably make the '-p' argument accept a
 comma-separated list of pens. Plot programs could then call for the
 next (or previous) pen and make simple multi-colour plots.
