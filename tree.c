@@ -18,7 +18,7 @@ int main(int argc, const char *argv[])
 // const double size = 30.0;  /* 30mm trunk for A4 */
    const double size = 65.0;  /* 65mm trunk for A3 */
    
-   turtle(DEV_HPGL, SIZ_A1, ORI_LAND, FLG_NONE|FLG_RELS|FLG_BORD);
+   turtle(DEV_HPGL, SIZ_A3, ORI_LAND, FLG_RELS|FLG_BORD);
    
 // title("http://www.dorkbot.org/dorkbotbristol/", 3.75, BOT|CENTRE, FLG_NONE);
    title("Bristol Hackspace", 3.75, BOT|CENTRE, FLG_NONE);
