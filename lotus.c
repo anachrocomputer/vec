@@ -9,10 +9,10 @@
 #include "hpgllib.h"
 
 
-double zigzagring (double x0, double y0, double r1, double r2, int npts, int incr, int flag);
+double zigzagring(const double x0, const double y0, const double r1, const double r2, const int npts, const int incr, const int flag);
 
 
-int main (int argc, char * const argv[])
+int main(int argc, char * const argv[])
 {
 /* Mosaic and Tessellated Patterns, by John Willson, 1983.
    ISBN: 0-486-24379-6. Plate 23. */
@@ -25,16 +25,16 @@ int main (int argc, char * const argv[])
    double radius;
    double incrad;
    
-   while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 's':
-         if (strchr (optarg, '1'))
+         if (strchr(optarg, '1'))
             scale = 80.0;
-         else if (strchr (optarg, '2'))
+         else if (strchr(optarg, '2'))
             scale = 56.57;
-         else if (strchr (optarg, '4'))
+         else if (strchr(optarg, '4'))
             scale = 28.28;
-         else if (strchr (optarg, '5'))
+         else if (strchr(optarg, '5'))
             scale = 20.0;
             
       case 'n':
@@ -42,19 +42,18 @@ int main (int argc, char * const argv[])
       case 'p':
       case 't':
       case 'v':
-         plotopt (opt, optarg);
+         plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf (stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
-                  argv[0]);
-         fprintf (stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n", argv[0]);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
          exit (EXIT_FAILURE);
       }
    }
 
-   plotbegin (0);
+   plotbegin(0);
 
-   getplotsize (&maxx, &maxy);
+   getplotsize(&maxx, &maxy);
    
    xc = maxx / 2.0;
    yc = maxy / 2.0;
@@ -62,30 +61,28 @@ int main (int argc, char * const argv[])
    height = maxy;
 
    /* Draw square border */
-   rectangle (xc - (height / 2.0), 0.0, xc + (height / 2.0), maxy);
+   rectangle(xc - (height / 2.0), 0.0, xc + (height / 2.0), maxy);
    
-   radius = 15.0 * scale;  /* Inital radius 15mm */
+   radius = 15.0 * scale;  /* Initial radius 15mm */
    incrad = 15.0 * scale;  /* Each zig-zag 15mm bigger than the previous one */
 
    for (i = 0; i < 8; i++)
-      radius = zigzagring (xc, yc, radius, radius + incrad, 18, 1, i & 1);
+      radius = zigzagring(xc, yc, radius, radius + incrad, 18, 1, i & 1);
    
-   plotend ();
+   plotend();
    
    return (0);
 }
 
 
-double zigzagring (double x0, double y0, double r1, double r2, int npts, int incr, int flag)
+double zigzagring(const double x0, const double y0, const double r1, const double r2, const int npts, const int incr, const int flag)
 {
    int i;
    double x1[128], y1[128];
    double x2[128], y2[128];
    double theta1, theta2;
-   double delta;
    int n1, n2;
-   
-   delta = (2.0 * M_PI) / (double)npts;
+   const double delta = (2.0 * M_PI) / (double)npts;
    
    for (i = 0; i < npts; i++) {
       if (flag) {
@@ -97,26 +94,26 @@ double zigzagring (double x0, double y0, double r1, double r2, int npts, int inc
          theta2 = (delta * (double)i) + (delta / 2.0);
       }
       
-      x1[i] = (cos (theta1) * r1) + x0;
-      y1[i] = (sin (theta1) * r1) + y0;
+      x1[i] = (cos(theta1) * r1) + x0;
+      y1[i] = (sin(theta1) * r1) + y0;
       
-      x2[i] = (cos (theta2) * r2) + x0;    
-      y2[i] = (sin (theta2) * r2) + y0;
+      x2[i] = (cos(theta2) * r2) + x0;    
+      y2[i] = (sin(theta2) * r2) + y0;
    }
    
-   moveto (x1[0], y1[0]);
+   moveto(x1[0], y1[0]);
    n1 = 0;
    n2 = incr / 2;
    
    for (i = 0; i < npts; i++) {
-      lineto (x1[n1], y1[n1]);
-      lineto (x2[n2], y2[n2]);
+      lineto(x1[n1], y1[n1]);
+      lineto(x2[n2], y2[n2]);
       
       n1 = (n1 + incr) % npts;
       n2 = (n2 + incr) % npts;
    }
    
-   lineto (x1[0], y1[0]);
-   
+   lineto(x1[0], y1[0]);
+           
    return (r2);
 }

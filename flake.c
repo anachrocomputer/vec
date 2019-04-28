@@ -11,7 +11,7 @@ struct Finger {
    double w2;
 };
 
-int main (int argc, char * const argv[])
+int main(int argc, char * const argv[])
 {
    int i;
    int j;

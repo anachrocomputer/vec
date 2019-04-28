@@ -12,7 +12,7 @@
 
 int draw_pin_circle(const double xc, const double yc, const double r, const int n1, const int n2);
 
-int main (int argc, char * const argv[])
+int main(int argc, char * const argv[])
 {
 /* https://twitter.com/janjarfalk/status/991291613338132480 */
    int n1, n2;
@@ -22,7 +22,7 @@ int main (int argc, char * const argv[])
    double xc, yc;
    double maxx, maxy;
    
-   while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 'n':
       case 'o':
@@ -30,25 +30,24 @@ int main (int argc, char * const argv[])
       case 's':
       case 't':
       case 'v':
-         plotopt (opt, optarg);
+         plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf (stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
-                  argv[0]);
-         fprintf (stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
-         exit (EXIT_FAILURE);
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n", argv[0]);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+         exit(EXIT_FAILURE);
       }
    }
 
-   plotbegin (0);
+   plotbegin(0);
 
-   getplotsize (&maxx, &maxy);
+   getplotsize(&maxx, &maxy);
    
    xc = maxx / 2.0;
    yc = maxy / 2.0;
    
    /* Draw square border */
-   rectangle (xc - (maxy / 2.0), 0.0, xc + (maxy / 2.0), maxy);
+   rectangle(xc - (maxy / 2.0), 0.0, xc + (maxy / 2.0), maxy);
    
    n1 = 24;
    n2 = 5;
@@ -56,12 +55,13 @@ int main (int argc, char * const argv[])
    
    nlines = draw_pin_circle(xc, yc, r, n1, n2);
    
-   plotend ();
+   plotend();
    
-   printf ("%d+%d pins, %d lines drawn\n", n1, n2, nlines);
+   printf("%d+%d pins, %d lines drawn\n", n1, n2, nlines);
 
    return (0);
 }
+
 
 int draw_pin_circle(const double xc, const double yc, const double r, const int n1, const int n2)
 {
@@ -80,21 +80,20 @@ int draw_pin_circle(const double xc, const double yc, const double r, const int 
    int nlines = 0;
    int pin1, pin2;
    const double delta = (M_PI * 2.0) / (double)n1;
-   double theta;
    int needmove;
    const int n3 = n2 + 1;
    const int n4 = n1 + n2;
    
    /* Pre-compute coordinates of pins */
    for (i = 0; i < n1; i++) {
-      theta = (double)i * delta;
+      const double theta = (double)i * delta;
       
       pin[i].x = xc + (cos(theta) * r);
       pin[i].y = yc + (sin(theta) * r);
    }
    
    for (i = 0; i < n2; i++) {
-      theta = ((double)i * delta) + (delta / 2.0);
+      const double theta = ((double)i * delta) + (delta / 2.0);
       
       pin[i + n1].x = xc + (cos(theta) * r);
       pin[i + n1].y = yc + (sin(theta) * r);
@@ -139,19 +138,19 @@ int draw_pin_circle(const double xc, const double yc, const double r, const int 
             else
                pin2 = line[j].p1;
             
-//          printf ("Drawing to pin %d.\n", pin2);
+//          printf("Drawing to pin %d.\n", pin2);
          }
          else {
             pin1 = (pin1 + 1) % (n1 * 4);
             needmove = 1;
-//          printf ("Moving to pin %d\n", pin1);
+//          printf("Moving to pin %d\n", pin1);
          }
       } while (j >= nlines);
       
       if (needmove)
-         moveto (pin[pin1].x, pin[pin1].y);
+         moveto(pin[pin1].x, pin[pin1].y);
          
-      lineto (pin[pin2].x, pin[pin2].y);
+      lineto(pin[pin2].x, pin[pin2].y);
       line[j].drawn = 1;
       pin1 = pin2;
       needmove = 0;
