@@ -28,7 +28,7 @@ static double Xpos, Ypos;
 static int Penstate, Pencol;
 static int Main_flags;
 
-int turtle (int dev, int siz, int ori, int flags)
+int turtle(const int dev, const int siz, const int ori, const int flags)
 {
    Pltdev = dev;
    Main_flags = flags;
@@ -67,14 +67,14 @@ int turtle (int dev, int siz, int ori, int flags)
          Scale = 20.0;
          break;
        default:
-         fprintf (stderr, "paper size not supported\n");
+         fprintf(stderr, "paper size not supported\n");
          break;
       }
       
       if ((flags & FLG_RELS) == 0)
          Scale = 40.0;  /* Absolute scaling: 40 plotter units per mm */
 
-      printf ("IN;SP%d;\n", BLACK);
+      printf("IN;SP%d;\n", BLACK);
       break;
    case DEV_BMC:
       /* A3 in GDU mode: */
@@ -87,7 +87,7 @@ int turtle (int dev, int siz, int ori, int flags)
 
       Scale = 10.0;  /* 10 plotter units per mm */
 
-      printf ("IP1;PS%d;\n", BLACK);
+      printf("IP1;PS%d;\n", BLACK);
       break;
    case DEV_PS:
       Scale = 1.0;   /* Plotter units are mm */
@@ -105,13 +105,13 @@ int turtle (int dev, int siz, int ori, int flags)
    Pencol = BLACK;
    Heading = 0.0;
    
-   Xvec = cos (Heading * RADIANS);
-   Yvec = sin (Heading * RADIANS);
+   Xvec = cos(Heading * RADIANS);
+   Yvec = sin(Heading * RADIANS);
    
    if (flags & FLG_SLOW) {
       switch (Pltdev) {
       case DEV_HPGL:
-         printf ("VS10;\n");  /* Slow down for shite pens */
+         printf("VS10;\n");  /* Slow down for shite pens */
          break;
       case DEV_BMC:
          break;
@@ -120,7 +120,7 @@ int turtle (int dev, int siz, int ori, int flags)
       case DEV_VGA:
          break;
       default:
-         fprintf (stderr, "Turtle graphics not initialised\n");
+         fprintf(stderr, "Turtle graphics not initialised\n");
          break;
       }
    }
@@ -128,11 +128,11 @@ int turtle (int dev, int siz, int ori, int flags)
    if (flags & FLG_BORD) {
       switch (Pltdev) {
       case DEV_HPGL:
-         printf ("PU;PA%d,%d;\n", (int)Minx, (int)Miny);
-         printf ("PD;PA%d,%d;\n", (int)Maxx, (int)Miny);
-         printf ("PD;PA%d,%d;\n", (int)Maxx, (int)Maxy);
-         printf ("PD;PA%d,%d;\n", (int)Minx, (int)Maxy);
-         printf ("PD;PA%d,%d;\n", (int)Minx, (int)Miny);
+         printf("PU;PA%d,%d;\n", (int)Minx, (int)Miny);
+         printf("PD;PA%d,%d;\n", (int)Maxx, (int)Miny);
+         printf("PD;PA%d,%d;\n", (int)Maxx, (int)Maxy);
+         printf("PD;PA%d,%d;\n", (int)Minx, (int)Maxy);
+         printf("PD;PA%d,%d;\n", (int)Minx, (int)Miny);
          break;
       case DEV_BMC:
          break;
@@ -141,24 +141,24 @@ int turtle (int dev, int siz, int ori, int flags)
       case DEV_VGA:
          break;
       default:
-         fprintf (stderr, "Turtle graphics not initialised\n");
+         fprintf(stderr, "Turtle graphics not initialised\n");
          break;
       }
    }
 
    switch (Pltdev) {
    case DEV_HPGL:
-      printf ("PU;PA%d,%d;\n", (int)Homex, (int)Homey);
+      printf("PU;PA%d,%d;\n", (int)Homex, (int)Homey);
       break;
    case DEV_BMC:
-      printf ("MA%d,%d\n", (int)Homex, (int)Homey);
+      printf("MA%d,%d\n", (int)Homex, (int)Homey);
       break;
    case DEV_PS:
       break;
    case DEV_VGA:
       break;
    default:
-      fprintf (stderr, "Turtle graphics not initialised\n");
+      fprintf(stderr, "Turtle graphics not initialised\n");
       break;
    }
    
@@ -171,21 +171,21 @@ int turtle (int dev, int siz, int ori, int flags)
 
 /* show --- finish off the plot */
 
-void show (void)
+void show(void)
 {
    switch (Pltdev) {
    case DEV_HPGL:
-      printf ("PU;PA%d,%d;SP0;\n", (int)Minx, (int)Miny);
+      printf("PU;PA%d,%d;SP0;\n", (int)Minx, (int)Miny);
       break;
    case DEV_BMC:
-      printf ("MA0,0;\n");
+      printf("MA0,0;\n");
       break;
    case DEV_PS:
       break;
    case DEV_VGA:
       break;
    default:
-      fprintf (stderr, "Turtle graphics not initialised\n");
+      fprintf(stderr, "Turtle graphics not initialised\n");
       break;
    }
 }
@@ -193,12 +193,12 @@ void show (void)
 
 /* title --- draw a title on the plot */
 
-void title (const char str[], double size, int posn, int flags)
+void title(const char str[], const double size, const int posn, const int flags)
 {
    int x, y;
    double xc = 0.0;
    double yc = 0.0;
-   int len = strlen (str);
+   const int len = strlen(str);
    
    switch (Pltdev) {
    case DEV_HPGL:
@@ -243,13 +243,13 @@ void title (const char str[], double size, int posn, int flags)
       }
 
       if (flags & ITALIC)
-         printf ("SL.36;\n");
+         printf("SL.36;\n");
       else
-         printf ("SL0;\n");
+         printf("SL0;\n");
       
-      printf ("SI%1.2f,%1.2f;\n", size / 13.1579, size / 10.0);
-      printf ("PU;PA%d,%d;CP%1.2f,%1.2f;LB%s%c;\n", x, y, xc, yc, str, ETX);
-      printf ("PU;PA%d,%d;\n", (int)Xpos, (int)Ypos);
+      printf("SI%1.2f,%1.2f;\n", size / 13.1579, size / 10.0);
+      printf("PU;PA%d,%d;CP%1.2f,%1.2f;LB%s%c;\n", x, y, xc, yc, str, ETX);
+      printf("PU;PA%d,%d;\n", (int)Xpos, (int)Ypos);
       break;
    case DEV_BMC:
       break;
@@ -258,7 +258,7 @@ void title (const char str[], double size, int posn, int flags)
    case DEV_VGA:
       break;
    default:
-      fprintf (stderr, "Turtle graphics not initialised\n");
+      fprintf(stderr, "Turtle graphics not initialised\n");
       break;
    }
 }
@@ -266,24 +266,24 @@ void title (const char str[], double size, int posn, int flags)
 
 /* bottom_left --- move the turtle to the bottom left corner */
 
-void bottom_left (void)
+void bottom_left(void)
 {
    Xpos = Minx;
    Ypos = Miny;
    
    switch (Pltdev) {
    case DEV_HPGL:
-      printf ("PU;PA%d,%d;\n", (int)Xpos, (int)Ypos);
+      printf("PU;PA%d,%d;\n", (int)Xpos, (int)Ypos);
       break;
    case DEV_BMC:
-      printf ("MA%d,%d\n", (int)Xpos, (int)Ypos);
+      printf("MA%d,%d\n", (int)Xpos, (int)Ypos);
       break;
    case DEV_PS:
       break;
    case DEV_VGA:
       break;
    default:
-      fprintf (stderr, "Turtle graphics not initialised\n");
+      fprintf(stderr, "Turtle graphics not initialised\n");
       break;
    }
 }
@@ -291,39 +291,36 @@ void bottom_left (void)
 
 /* set_heading --- set the turtle heading to an absolute angle */
 
-void set_heading (double deg)
+void set_heading(const double deg)
 {
    Heading = deg;
    
-   Xvec = cos (Heading * RADIANS);
-   Yvec = sin (Heading * RADIANS);
+   Xvec = cos(Heading * RADIANS);
+   Yvec = sin(Heading * RADIANS);
 }
 
 
 /* forward --- move the turtle forward by a given number of millimetres */
 
-void forward (double len)
+void forward(const double mm)
 {
-   double newx, newy;
-   
-   len *= Scale;
-   
-   newx = Xpos + (Xvec * len);
-   newy = Ypos + (Yvec * len);
+   const double len = mm * Scale;
+   const double newx = Xpos + (Xvec * len);
+   const double newy = Ypos + (Yvec * len);
    
    switch (Pltdev) {
    case DEV_HPGL:
       if (Penstate == DOWN)
-         printf ("PD;PA%d,%d;\n", (int)newx, (int)newy);
+         printf("PD;PA%d,%d;\n", (int)newx, (int)newy);
       else
-         printf ("PU;PA%d,%d;\n", (int)newx, (int)newy);
+         printf("PU;PA%d,%d;\n", (int)newx, (int)newy);
 
       break;
    case DEV_BMC:
       if (Penstate == DOWN)
-         printf ("DA%d,%d\n", (int)newx, (int)newy);
+         printf("DA%d,%d\n", (int)newx, (int)newy);
       else
-         printf ("MA%d,%d\n", (int)newx, (int)newy);
+         printf("MA%d,%d\n", (int)newx, (int)newy);
 
       break;
    case DEV_PS:
@@ -331,7 +328,7 @@ void forward (double len)
    case DEV_VGA:
       break;
    default:
-      fprintf (stderr, "Turtle graphics not initialised\n");
+      fprintf(stderr, "Turtle graphics not initialised\n");
       break;
    }
    
@@ -342,7 +339,7 @@ void forward (double len)
 
 /* turn --- turn the turtle by a given number of degrees */
 
-void turn (double deg)
+void turn(const double deg)
 {
    Heading += deg;
    
@@ -352,17 +349,17 @@ void turn (double deg)
    if (Heading < 0.0)
       Heading += 360.0;
    
-   Xvec = cos (Heading * RADIANS);
-   Yvec = sin (Heading * RADIANS);
+   Xvec = cos(Heading * RADIANS);
+   Yvec = sin(Heading * RADIANS);
 #ifdef DB
-   printf ("turn (%f): %f (%f,%f)\n", deg, Heading, Xvec, Yvec);
+   printf("turn (%f): %f (%f,%f)\n", deg, Heading, Xvec, Yvec);
 #endif
 }
 
 
 /* pen --- raise or lower the pen; only draws when pen down */
 
-void pen (int flag)
+void pen(const int flag)
 {
    Penstate = flag;
 }
@@ -370,38 +367,39 @@ void pen (int flag)
 
 /* colour --- set the pen colour */
 
-void colour (int c)
+void colour(const int c)
 {
    if (Pencol == c)
       return;
       
    switch (Pltdev) {
    case DEV_HPGL:
-      printf ("SP%d;\n", c);
+      printf("SP%d;\n", c);
       break;
    case DEV_BMC:
-      printf ("PS%d;\n", c);
+      printf("PS%d;\n", c);
       break;
    case DEV_PS:
       break;
    case DEV_VGA:
       break;
    default:
-      fprintf (stderr, "Turtle graphics not initialised\n");
+      fprintf(stderr, "Turtle graphics not initialised\n");
       break;
    }
 
    Pencol = c;
 }
 
+
 /* page_width --- return width of page in millimetres */
 
-double page_width (void)
+double page_width(void)
 {
    if (Pltdev != DEV_NONE)
       return ((Maxx - Minx) / Scale);
    else {
-      fprintf (stderr, "Turtle graphics not initialised\n");
+      fprintf(stderr, "Turtle graphics not initialised\n");
       return (0.0);
    }
 }
@@ -409,12 +407,12 @@ double page_width (void)
 
 /* page_height --- return height of page in millimetres */
 
-double page_height (void)
+double page_height(void)
 {
    if (Pltdev != DEV_NONE)
       return ((Maxy - Miny) / Scale);
    else {
-      fprintf (stderr, "Turtle graphics not initialised\n");
+      fprintf(stderr, "Turtle graphics not initialised\n");
       return (0.0);
    }
 }

@@ -38,14 +38,14 @@
 #define GREEN     (3)
 #define BLUE      (4)
 
-int turtle (int dev, int siz, int ori, int flags);
-void show (void);
-void title (const char str[], double size, int posn, int flags);
-void bottom_left (void);
-void set_heading (double deg);
-void forward (double len);
-void turn (double deg);
-void pen (int flag);
-void colour (int c);
-double page_width (void);
-double page_height (void);
+int turtle(const int dev, const int siz, const int ori, const int flags);
+void show(void);
+void title(const char str[], const double size, const int posn, const int flags);
+void bottom_left(void);
+void set_heading(const double deg);
+void forward(const double mm);
+void turn(const double deg);
+void pen(const int flag);
+void colour(const int c);
+double page_width(void);
+double page_height(void);
