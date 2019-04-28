@@ -1,5 +1,6 @@
 # Things To Do
 
+## HPGL library
 * Add support for non-ISO paper sizes (i.e. U.S. paper sizes)
 * Add support for plot scaling. We should be able to plot directly
 in millimetres (and possibly in inches) as well as in device
@@ -30,8 +31,21 @@ that the library tries to maintain.
 * Support non-HPGL output. Maybe PostScript, BMC plotter commands,
 G-code or SVG. This would be a big change to the library and would
 introduce a lot of new code. It would also be a big testing issue.
+* Add circles and arcs to the PenDownDistance and plot time calculations.
+* Make plot time take into account pen speed if '-v' is used.
+
+## Turtle library
+* Implement run-time option setting in all Turtle plots, and in the
+Turtle library. This would allow a consistent user interface across
+direct HPGL programs and Turtle programs.
+* Make Turtle library drive the plotter directly, as the HPGL library
+does. This would eliminate the need to redirect the output to the
+plotter (using shell I/O redirection) when plotting Turtle programs.
+
+## Plotting programs
 * Add new drawings! Especially colouring-in drawings, all-over patterns,
 3D perspective drawings, maps and even slow-to-draw drawings!
+* Add colour (pen changes) to drawings.
 * Convert some of the older drawings to fully use the HPGL library.
 E.g. op, pconic, hconic, lobe, hyp.
 * Finish off some of the incomplete plots. E.g. hexagon, fraserspiral,
@@ -40,5 +54,3 @@ twist, zigzag.
 * Clean up the various 'dala' drawings. Eliminate the 'dala2c' variant
 by adding colour to 'dala2.c'.
 * Add run-time variation to 'dala2.c'.
-* Add circles and arcs to the PenDownDistance and plot time calculations.
-* Make plot time take into account pen speed if '-v' is used.
