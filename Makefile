@@ -20,7 +20,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      curve_stitching.hpgl cs_rosette.hpgl allover13.hpgl allover12.hpgl \
      qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl sutpent.hpgl \
      morphpoly.hpgl pin_circle.hpgl isogrid.hpgl circle_lines.hpgl \
-     star_grid.hpgl ternary_arcs.hpgl
+     star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl
 
 PNG=$(HPGL:.hpgl=.png)
 
@@ -384,6 +384,15 @@ hexagon: hexagon.o turtle.o
 
 hexagon.o: hexagon.c turtle.h
 	$(CC) $(CFLAGS) -o $@ hexagon.c
+
+hexspiral.hpgl: hexspiral
+	./hexspiral >hexspiral.hpgl
+
+hexspiral: hexspiral.o turtle.o
+	$(LD) -o $@ hexspiral.o turtle.o -lm
+
+hexspiral.o: hexspiral.c turtle.h
+	$(CC) $(CFLAGS) -o $@ hexspiral.c
 
 plottext: plottext.o turtle.o
 	$(LD) -o $@ plottext.o turtle.o -lm
