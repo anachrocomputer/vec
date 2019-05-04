@@ -4,26 +4,26 @@
 #include <stdio.h>
 #include "turtle.h"
 
-int main (int argc, const char *argv[])
+int main(int argc, const char *argv[])
 {
    int i;
-   double size = 80.0;  /* 80mm sides */
+   const double size = 80.0;  /* 80mm sides */
    
-   turtle (DEV_HPGL, SIZ_A4, ORI_LAND, FLG_NONE);
+   turtle(DEV_HPGL, SIZ_A4, ORI_LAND, FLG_NONE);
    
-   colour (BLACK);
+   colour(BLACK);
    
-   pen (UP);
-   forward (size);
-   turn (120.0);
-   pen (DOWN);
+   pen(UP);
+   forward(size);
+   turn(120.0);
+   pen(DOWN);
    
    for (i = 0; i < 6; i++) {
-      forward (size);
-      turn (60.0);
+      forward(size);
+      turn(60.0);
    }
 
-   show ();
+   show();
    
    return (0);
 }
