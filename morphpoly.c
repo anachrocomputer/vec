@@ -19,13 +19,13 @@ struct Vertex {
    double y;
 };
 
-int generate2polygons (const double radius, const double angle, const int nsides, const int nsubdiv, struct Vertex outer[], struct Vertex inner[]);
-void splitside (const struct Vertex v1, const struct Vertex v2, const int nsubdiv, struct Vertex *result);
-void morphpolygon (const double xc, const double yc, const int nsides, const struct Vertex inner[], const struct Vertex outer[], const int nsteps);
-void drawpoly (const int nsides, const double xc, const double yc, const struct Vertex vertex[]);
+int generate2polygons(const double radius, const double angle, const int nsides, const int nsubdiv, struct Vertex outer[], struct Vertex inner[]);
+void splitside(const struct Vertex v1, const struct Vertex v2, const int nsubdiv, struct Vertex *result);
+void morphpolygon(const double xc, const double yc, const int nsides, const struct Vertex inner[], const struct Vertex outer[], const int nsteps);
+void drawpoly(const int nsides, const double xc, const double yc, const struct Vertex vertex[]);
 
 
-int main (int argc, char * const argv[])
+int main(int argc, char * const argv[])
 {
    int opt;
    int nsides;
@@ -40,7 +40,7 @@ int main (int argc, char * const argv[])
    double maxx, maxy;
    struct Vertex inner[64], outer[64];
    
-   while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 's':
       case 'n':
@@ -48,21 +48,20 @@ int main (int argc, char * const argv[])
       case 'p':
       case 't':
       case 'v':
-         plotopt (opt, optarg);
+         plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf (stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
-                  argv[0]);
-         fprintf (stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
-         exit (EXIT_FAILURE);
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n", argv[0]);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+         exit(EXIT_FAILURE);
       }
    }
 
-   srand ((unsigned int)time (NULL));
+   srand((unsigned int)time(NULL));
 
-   plotbegin (1);
+   plotbegin(1);
 
-   getplotsize (&maxx, &maxy);
+   getplotsize(&maxx, &maxy);
    
 #ifdef LADY_QUARK
    radius = (maxy / 3.0) / sqrt (2.0);
@@ -76,8 +75,8 @@ int main (int argc, char * const argv[])
       for (x = 0; x < 3; x++) {
          xc = (h3 / 2.0) + (h3 * x) + ((maxx - maxy) / 2.0);
 
-         nsides = generate2polygons (radius, M_PI / 4.0, 4, 4, outer, inner);
-         morphpolygon (xc, yc, nsides, outer, inner, 20);
+         nsides = generate2polygons(radius, M_PI / 4.0, 4, 4, outer, inner);
+         morphpolygon(xc, yc, nsides, outer, inner, 20);
       }
    }
 
@@ -87,44 +86,43 @@ int main (int argc, char * const argv[])
    w4 = maxx / 4.0;
    h4 = maxy / 4.0;
    
-   nsides = generate2polygons (radius, 0.0, 4, 4, outer, inner);
-   morphpolygon (w4 * 3.0, h4 * 3.0, nsides, outer, inner, 12);
+   nsides = generate2polygons(radius, 0.0, 4, 4, outer, inner);
+   morphpolygon(w4 * 3.0, h4 * 3.0, nsides, outer, inner, 12);
 
-   nsides = generate2polygons (radius, 0.0, 5, 4, outer, inner);
-   morphpolygon (w4,       h4 * 3.0, nsides, outer, inner, 12);
+   nsides = generate2polygons(radius, 0.0, 5, 4, outer, inner);
+   morphpolygon(w4,       h4 * 3.0, nsides, outer, inner, 12);
 
-   nsides = generate2polygons (radius, 0.0, 6, 4, outer, inner);
-   morphpolygon (w4 * 3.0, h4,       nsides, outer, inner, 12);
+   nsides = generate2polygons(radius, 0.0, 6, 4, outer, inner);
+   morphpolygon(w4 * 3.0, h4,       nsides, outer, inner, 12);
 
-   nsides = generate2polygons (radius, 0.0, 7, 4, outer, inner);
-   morphpolygon (w4,       h4,       nsides, outer, inner, 12);
+   nsides = generate2polygons(radius, 0.0, 7, 4, outer, inner);
+   morphpolygon(w4,       h4,       nsides, outer, inner, 12);
 #endif
 
-   plotend ();
+   plotend();
    
    return (0);
 }
 
    
-int generate2polygons (const double radius, const double angle,  const int nsides,
-                       const int nsubdiv, struct Vertex outer[],
-                       struct Vertex inner[])
+int generate2polygons(const double radius, const double angle,  const int nsides,
+                      const int nsubdiv, struct Vertex outer[],
+                      struct Vertex inner[])
 {
    const double rad = radius * 0.2;
-   int i, i1;
+   int i;
    const double delta = (2.0 * M_PI) / (double)nsides;
-   double theta;
    struct Vertex vertex[64];
    struct Vertex jiggle;
    
    for (i = 0; i < nsides; i++) {
-      theta = (double)i * delta;
-      vertex[i].x = cos (theta + angle) * radius;
-      vertex[i].y = sin (theta + angle) * radius;
+      const double theta = (double)i * delta;
+      vertex[i].x = cos(theta + angle) * radius;
+      vertex[i].y = sin(theta + angle) * radius;
    }
    
    for (i = 0; i < nsides; i++) {
-      i1 = (i + 1) % nsides;
+      const int i1 = (i + 1) % nsides;
       
       splitside (vertex[i1], vertex[i], nsubdiv, &outer[i * (nsubdiv + 1)]);
    }
@@ -140,9 +138,8 @@ int generate2polygons (const double radius, const double angle,  const int nside
 }
 
 
-void splitside (const struct Vertex v1, const struct Vertex v2, const int nsubdiv, struct Vertex *result)
+void splitside(const struct Vertex v1, const struct Vertex v2, const int nsubdiv, struct Vertex *result)
 {
-
    int i;
    
    for (i = 0; i <= nsubdiv; i++) {
@@ -155,13 +152,13 @@ void splitside (const struct Vertex v1, const struct Vertex v2, const int nsubdi
 }
 
 
-void morphpolygon (const double xc, const double yc, const int nsides, const struct Vertex outer[], const struct Vertex inner[], const int nsteps)
+void morphpolygon(const double xc, const double yc, const int nsides, const struct Vertex outer[], const struct Vertex inner[], const int nsteps)
 {
    int i, j;
    const double delta = 1.0 / nsteps;
    struct Vertex vertex[64];
    
-   drawpoly (nsides, xc, yc, outer);
+   drawpoly(nsides, xc, yc, outer);
    
    for (i = 1; i < nsteps; i++) {
       const double innerportion = delta * i;
@@ -172,23 +169,23 @@ void morphpolygon (const double xc, const double yc, const int nsides, const str
          vertex[j].y = (outer[j].y * outerportion) + (inner[j].y * innerportion);
       }
 
-      drawpoly (nsides, xc, yc, vertex);
+      drawpoly(nsides, xc, yc, vertex);
    }
 
-   drawpoly (nsides, xc, yc, inner);
+   drawpoly(nsides, xc, yc, inner);
 }
 
 
-void drawpoly (const int nsides, const double xc, const double yc, const struct Vertex vertex[])
+void drawpoly(const int nsides, const double xc, const double yc, const struct Vertex vertex[])
 {
    int i;
    
-   openlinesequence (xc + vertex[0].x, yc + vertex[0].y);
+   openlinesequence(xc + vertex[0].x, yc + vertex[0].y);
 
    for (i = 1; i < nsides; i++) {
-      linesegmentto (xc + vertex[i].x, yc + vertex[i].y);
-//    circle (xc + vertex[i].x, yc + vertex[i].y, 20.0);
+      linesegmentto(xc + vertex[i].x, yc + vertex[i].y);
+//    circle(xc + vertex[i].x, yc + vertex[i].y, 20.0);
    }
 
-   closelinesequence (1);
+   closelinesequence(1);
 }
