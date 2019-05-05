@@ -8,28 +8,28 @@
 
 #define MAXX   (15970.0)
 
-int main (int argc, const char *argv[])
+int main(int argc, char * const argv[])
 {
    int len;
-   double width = MAXX / 40.0;  /* Width of plotter, in mm */
+   const double width = MAXX / 40.0;  /* Width of plotter, in mm */
    double effchars;  /* Effective chars, allowing for spacing */
    double size;      /* Text size (height) required, in mm */
    
    if (argc < 2) {
-      fputs ("Usage: plottext <string>\n", stderr);
-      exit (1);
+      fputs("Usage: plottext <string>\n", stderr);
+      exit(1);
    }
    
-   len = strlen (argv[1]);
+   len = strlen(argv[1]);
    effchars = ((double)len) + 0.25;
    effchars *= 1.5;  /* Char cell 1.5 times actual char width */
    size = (width / effchars) * 1.31579;
    
-   turtle (DEV_HPGL, SIZ_A3, ORI_LAND, FLG_NONE);
+   turtle(DEV_HPGL, SIZ_A3, ORI_LAND, FLG_NONE);
    
-   title (argv[1], size, MID|CENTRE, FLG_NONE);
+   title(argv[1], size, MID|CENTRE, FLG_NONE);
    
-   show ();
+   show();
    
    return (0);
 }
