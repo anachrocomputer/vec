@@ -8,7 +8,7 @@
 #include "hpgllib.h"
 
 
-int main (int argc, char * const argv[])
+int main(int argc, char * const argv[])
 {
    int opt;
    double xc, yc;
@@ -16,7 +16,7 @@ int main (int argc, char * const argv[])
    double r1;  /* Radius of smaller arcs */
    double r2;  /* Radius of larger arc */
    
-   while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 'n':
       case 'o':
@@ -24,20 +24,19 @@ int main (int argc, char * const argv[])
       case 's':
       case 't':
       case 'v':
-         plotopt (opt, optarg);
+         plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf (stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
-                  argv[0]);
-         fprintf (stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
-//       exit (EXIT_FAILURE);
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n", argv[0]);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+//       exit(EXIT_FAILURE);
       }
    }
 
    /* Select first pen and draw border */
-   plotbegin (1);
+   plotbegin(1);
 
-   getplotsize (&maxx, &maxy);
+   getplotsize(&maxx, &maxy);
    
    xc = maxx / 2.0;
    yc = maxy / 2.0;
@@ -46,17 +45,17 @@ int main (int argc, char * const argv[])
    r2 = 120.0;
 
    /* Two overlapping circles */
-   circle (xc - ((r1 / 2.0) * 40.0), yc, r1 * 40.0);
-   circle (xc + ((r1 / 2.0) * 40.0), yc, r1 * 40.0);
+   circle(xc - ((r1 / 2.0) * 40.0), yc, r1 * 40.0);
+   circle(xc + ((r1 / 2.0) * 40.0), yc, r1 * 40.0);
    
    /* Round-ended oval around picis */
-   moveto (xc - ((r1 / 2.0) * 40.0), yc - (r2 * 40.0));
-   lineto (xc + ((r1 / 2.0) * 40.0), yc - (r2 * 40.0));
-   arc (xc + ((r1 / 2.0) * 40.0), yc, 180.0);
-   lineto (xc - ((r1 / 2.0) * 40.0), yc + (r2 * 40.0));
-   arc (xc - ((r1 / 2.0) * 40.0), yc, 180.0);
+   moveto(xc - ((r1 / 2.0) * 40.0), yc - (r2 * 40.0));
+   lineto(xc + ((r1 / 2.0) * 40.0), yc - (r2 * 40.0));
+   arc(xc + ((r1 / 2.0) * 40.0), yc, 180.0);
+   lineto(xc - ((r1 / 2.0) * 40.0), yc + (r2 * 40.0));
+   arc(xc - ((r1 / 2.0) * 40.0), yc, 180.0);
 
-   plotend ();
+   plotend();
    
    return (0);
 }
