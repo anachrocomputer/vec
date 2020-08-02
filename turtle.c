@@ -28,6 +28,17 @@ static double Xpos, Ypos;
 static int Penstate, Pencol;
 static int Main_flags;
 
+
+/**
+ * @brief Initialise the turtle graphics subsystem
+ *
+ * @param dev   Device to use, ::DEV_HPGL, ::DEV_PS, ::DEV_BMC, ::DEV_VGA
+ * @param siz   Paper size, ::SIZ_A1, ::SIZ_A2, ::SIZ_A3, ::SIZ_A4, ::SIZ_A5
+ * @param ori   Drawing orientation (unused), ::ORI_LAND, ::ORI_PORT
+ * @param flags Option flags, ::FLG_NONE, ::FLG_SLOW, ::FLG_BORD
+ *
+ * @return 0 if successful, 1 otherwise
+ */
 int turtle(const int dev, const int siz, const int ori, const int flags)
 {
    Pltdev = dev;
@@ -169,8 +180,9 @@ int turtle(const int dev, const int siz, const int ori, const int flags)
 }
 
 
-/* show --- finish off the plot */
-
+/** 
+ * @brief Finish off the plot
+ */
 void show(void)
 {
    switch (Pltdev) {
@@ -191,8 +203,14 @@ void show(void)
 }
 
 
-/* title --- draw a title on the plot */
-
+/**
+ * @brief Draw a title on the plot
+ *
+ * @param str   String to draw as a title
+ * @param size  Size of text
+ * @param posn  Position of text
+ * @param flags Flags, ::ITALIC
+ */
 void title(const char str[], const double size, const int posn, const int flags)
 {
    int x, y;
@@ -264,8 +282,9 @@ void title(const char str[], const double size, const int posn, const int flags)
 }
 
 
-/* bottom_left --- move the turtle to the bottom left corner */
-
+/**
+ * @brief Move the turtle to the bottom left corner
+ */
 void bottom_left(void)
 {
    Xpos = Minx;
@@ -289,8 +308,11 @@ void bottom_left(void)
 }
 
 
-/* set_heading --- set the turtle heading to an absolute angle */
-
+/**
+ * @brief Set the turtle heading to an absolute angle
+ *
+ * @param deg New heading in degrees
+ */
 void set_heading(const double deg)
 {
    Heading = deg;
@@ -300,8 +322,11 @@ void set_heading(const double deg)
 }
 
 
-/* forward --- move the turtle forward by a given number of millimetres */
-
+/**
+ * @brief Move the turtle forward by a given number of millimetres
+ *
+ * @param mm Number of millimetres to move
+ */
 void forward(const double mm)
 {
    const double len = mm * Scale;
@@ -337,8 +362,11 @@ void forward(const double mm)
 }
 
 
-/* turn --- turn the turtle by a given number of degrees */
-
+/**
+ * @brief Turn the turtle by a given number of degrees
+ *
+ * @param deg Number of degrees to turn
+ */
 void turn(const double deg)
 {
    Heading += deg;
@@ -357,16 +385,22 @@ void turn(const double deg)
 }
 
 
-/* pen --- raise or lower the pen; only draws when pen down */
-
+/**
+ * @brief Raise or lower the pen; only draws when pen down
+ *
+ * @param flag New pen state, ::UP or ::DOWN
+ */
 void pen(const int flag)
 {
    Penstate = flag;
 }
 
 
-/* colour --- set the pen colour */
-
+/**
+ * @brief Set the pen colour
+ *
+ * @param c New pen colour
+ */
 void colour(const int c)
 {
    if (Pencol == c)
@@ -392,8 +426,11 @@ void colour(const int c)
 }
 
 
-/* page_width --- return width of page in millimetres */
-
+/**
+ * @brief Return width of page in millimetres
+ *
+ * @return width of page in millimetres
+ */
 double page_width(void)
 {
    if (Pltdev != DEV_NONE)
@@ -405,8 +442,11 @@ double page_width(void)
 }
 
 
-/* page_height --- return height of page in millimetres */
-
+/**
+ * @brief Return height of page in millimetres
+ *
+ * @return height of page in millimetres
+ */
 double page_height(void)
 {
    if (Pltdev != DEV_NONE)

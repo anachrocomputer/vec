@@ -42,7 +42,7 @@ direct HPGL programs and Turtle programs.
 * Make Turtle library drive the plotter directly, as the HPGL library
 does. This would eliminate the need to redirect the output to the
 plotter (using shell I/O redirection) when plotting Turtle programs.
-* Add Doxygen comments to the library source.
+* Write complete Doxygen comments in the library source.
 
 ## Plotting programs
 * Add new drawings! Especially colouring-in drawings, all-over patterns,
