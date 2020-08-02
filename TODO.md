@@ -33,7 +33,7 @@ G-code or SVG. This would be a big change to the library and would
 introduce a lot of new code. It would also be a big testing issue.
 * Add circles and arcs to the PenDownDistance and plot time calculations.
 * Make plot time take into account pen speed if '-v' is used.
-* Add Doxygen comments to the library source.
+* Add Doxygen comments to the library source and add a Makefile rule for Doxygen.
 
 ## Turtle library
 * Implement run-time option setting in all Turtle plots, and in the

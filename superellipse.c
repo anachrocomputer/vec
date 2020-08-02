@@ -8,10 +8,10 @@
 #include "hpgllib.h"
 
 
-void superellipse (double x0, double y0, double a, double b, double theta, double d);
+void superellipse(const double x0, const double y0, const double a, const double b, const double theta, const double d);
 
 
-int main (int argc, char * const argv[])
+int main(int argc, char * const argv[])
 {
    int opt;
    double xc, yc;
@@ -33,7 +33,7 @@ int main (int argc, char * const argv[])
 #endif
    int i;
 
-   while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 'n':
       case 'o':
@@ -41,31 +41,30 @@ int main (int argc, char * const argv[])
       case 's':
       case 't':
       case 'v':
-         plotopt (opt, optarg);
+         plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf (stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
-                  argv[0]);
-         fprintf (stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
-         exit (EXIT_FAILURE);
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n", argv[0]);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+         exit(EXIT_FAILURE);
       }
    }
 
    /* Select first pen and draw border */
-   plotbegin (1);
+   plotbegin(1);
 
-   getplotsize (&maxx, &maxy);
+   getplotsize(&maxx, &maxy);
    
    xc = maxx / 2.0;
    yc = maxy / 2.0;
    
    /* Draw axes */
-   moveto (0.0, yc);
-   lineto (maxx, yc);
-   moveto (xc, 0.0);
-   lineto (xc, maxy);
+   moveto(0.0, yc);
+   lineto(maxx, yc);
+   moveto(xc, 0.0);
+   lineto(xc, maxy);
    
-   pencolr (1);
+   pencolr(1);
    
 #ifndef DEVELOPMENT
    theta = 0.0;
@@ -75,12 +74,12 @@ int main (int argc, char * const argv[])
       /* if a==b, we'll get squares and circles */
       a = (45.0 + (5.0 * i)) * 40.0;
       b = (45.0 + (5.0 * i)) * 40.0;
-      superellipse (xc, yc, a, b, theta, sq[i]);
+      superellipse(xc, yc, a, b, theta, sq[i]);
    }
    
    a = (45.0 + (5.0 * i)) * 40.0;
    b = (45.0 + (5.0 * i)) * 40.0;
-   rectangle (xc - a, yc - b, xc + a, yc + b);
+   rectangle(xc - a, yc - b, xc + a, yc + b);
 #else
    delta = (M_PI * 2.0) / 5.0;
    
@@ -88,27 +87,27 @@ int main (int argc, char * const argv[])
       a = 87.0 * 40.0;
       b = 87.0 * 40.0;
       theta = delta * (double)i;
-      superellipse (xc, yc, a, b, theta, 2.8);
+      superellipse(xc, yc, a, b, theta, 2.8);
    }
 
-   twroot2 = pow (2.0, 1.0 / 12.0);
+   twroot2 = pow(2.0, 1.0 / 12.0);
    theta = M_PI / 4.0;
 
    for (i = 0; i <= 12; i++) {
       /* if a==b, we'll get squares and circles */
       a = (100.0 + (6.0 * i)) * 40.0; 
       b = (100.0 + (6.0 * i)) * 40.0;
-      superellipse (X0, Y0, a, b, theta, pow (twroot2, (double)(12 - i)));
+      superellipse(X0, Y0, a, b, theta, pow(twroot2, (double)(12 - i)));
    }
 #endif
 
-   plotend ();
+   plotend();
    
    return (0);
 }
 
 
-void superellipse (double x0, double y0, double a, double b, double theta, double d)
+void superellipse(const double x0, const double y0, const double a, const double b, const double theta, const double d)
 {
    double t;
    double delta;
@@ -121,31 +120,31 @@ void superellipse (double x0, double y0, double a, double b, double theta, doubl
    
    delta = (2.0 * M_PI) / (double)npts;
 
-   sintheta = sin (theta);
-   costheta = cos (theta);
+   sintheta = sin(theta);
+   costheta = cos(theta);
    
    for (i = 0; i <= npts; i++) {
       t = (double)i * delta;
       
-      st = sin (t);
-      ct = cos (t);
+      st = sin(t);
+      ct = cos(t);
       
       if (st < 0.0)
-         sinpt = -pow (-st, 2.0 / d);
+         sinpt = -pow(-st, 2.0 / d);
       else
-         sinpt = pow (st, 2.0 / d);
+         sinpt = pow(st, 2.0 / d);
       
       if (ct < 0.0)
-         cospt = -pow (-ct, 2.0 / d);
+         cospt = -pow(-ct, 2.0 / d);
       else
-         cospt = pow (ct, 2.0 / d);
+         cospt = pow(ct, 2.0 / d);
       
       x = (a * cospt * costheta) - (b * sinpt * sintheta);
       y = (a * cospt * sintheta) + (b * sinpt * costheta);
       
       if (i == 0)
-         moveto (x0 + x, y0 + y);
+         moveto(x0 + x, y0 + y);
       else
-         lineto (x0 + x, y0 + y);
+         lineto(x0 + x, y0 + y);
    }
 }

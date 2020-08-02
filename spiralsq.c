@@ -9,10 +9,12 @@
 
 #define RADIANS  (M_PI / 180.0)
 
-void ringoboxes2 (double x0, double y0, double radius, int nboxes, int ninner, int offset, double slant);
+#define SLANT_DEGREES  (20.0)
+
+void ringoboxes2(const double x0, const double y0, const double radius, int nboxes, const int ninner, const int offset, const double slant);
 
 
-int main (int argc, char * const argv[])
+int main(int argc, char * const argv[])
 {
    int opt;
    int i;
@@ -23,7 +25,7 @@ int main (int argc, char * const argv[])
    double r;
    double slant;
    
-   while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 'n':
       case 'o':
@@ -31,19 +33,18 @@ int main (int argc, char * const argv[])
       case 's':
       case 't':
       case 'v':
-         plotopt (opt, optarg);
+         plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf (stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
-                  argv[0]);
-         fprintf (stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
-//       exit (EXIT_FAILURE);
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n", argv[0]);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+//       exit(EXIT_FAILURE);
       }
    }
 
-   plotbegin (0);
+   plotbegin(0);
 
-   getplotsize (&maxx, &maxy);
+   getplotsize(&maxx, &maxy);
    
    xc = maxx / 2.0;
    yc = maxy / 2.0;
@@ -51,41 +52,41 @@ int main (int argc, char * const argv[])
    height = maxy;
 
    /* Draw square border */
-   rectangle (xc - (height / 2.0), 0.0, xc + (height / 2.0), maxy);
+   rectangle(xc - (height / 2.0), 0.0, xc + (height / 2.0), maxy);
 
    radius = height / 12.0;
    
    /* Draw four concentric circles of squares */
    for (i = 0; i < 4; i++) {
       if (i & 1)
-         slant = 20.0;
+         slant = SLANT_DEGREES;
       else
-         slant = -20.0;
+         slant = -SLANT_DEGREES;
          
       r = radius * (i + 1.5);
-      ringoboxes2 (xc, yc, r, 18 * (i + 1), 1, 0, slant * RADIANS);
+      ringoboxes2(xc, yc, r, 18 * (i + 1), 1, 0, slant * RADIANS);
    }
    
-   pencolr (1);
+   pencolr(1);
    
    /* Draw four concentric circles of squares */
    for (i = 0; i < 4; i++) {
       if (i & 1)
-         slant = 20.0;
+         slant = SLANT_DEGREES;
       else
-         slant = -20.0;
+         slant = -SLANT_DEGREES;
          
       r = radius * (i + 1.5);
-      ringoboxes2 (xc, yc, r, 18 * (i + 1), 1, 1, slant * RADIANS);
+      ringoboxes2(xc, yc, r, 18 * (i + 1), 1, 1, slant * RADIANS);
    }
    
-   plotend ();
+   plotend();
    
    return (0);
 }
 
 
-void ringoboxes2 (double x0, double y0, double radius, int nboxes, int ninner, int offset, double slant)
+void ringoboxes2(const double x0, const double y0, const double radius, int nboxes, const int ninner, const int offset, const double slant)
 {
    int i, j, k, n;
    double side, s2;
@@ -113,12 +114,12 @@ void ringoboxes2 (double x0, double y0, double radius, int nboxes, int ninner, i
       if (offset)
          theta += delta / 2.0;
          
-      s = sin (theta);
-      c = cos (theta);
+      s = sin(theta);
+      c = cos(theta);
       
       for (k = 0; k < ninner; k++) {
-         sr = sin (slant);
-         cr = cos (slant);
+         sr = sin(slant);
+         cr = cos(slant);
          
          /* Set up a square */
          x[0] = -s2;
@@ -158,11 +159,11 @@ void ringoboxes2 (double x0, double y0, double radius, int nboxes, int ninner, i
          }
          
          /* Draw the rotated square */
-         moveto (rx[0], ry[0]);
-         lineto (rx[1], ry[1]);
-         lineto (rx[2], ry[2]);
-         lineto (rx[3], ry[3]);
-         lineto (rx[0], ry[0]);
+         moveto(rx[0], ry[0]);
+         lineto(rx[1], ry[1]);
+         lineto(rx[2], ry[2]);
+         lineto(rx[3], ry[3]);
+         lineto(rx[0], ry[0]);
       }
    }
 }

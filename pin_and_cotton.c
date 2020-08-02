@@ -16,7 +16,7 @@
 #define LEFT      8
 
 
-int main (int argc, char * const argv[])
+int main(int argc, char * const argv[])
 {
 /* High-Resolution Computer Graphics Using C, by Ian O. Angell, 1989.
    Exercise 1.10, page 21. */
@@ -45,7 +45,7 @@ int main (int argc, char * const argv[])
    double xc;
    double maxx, maxy;
    
-   while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 'n':
       case 'o':
@@ -53,24 +53,23 @@ int main (int argc, char * const argv[])
       case 's':
       case 't':
       case 'v':
-         plotopt (opt, optarg);
+         plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf (stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
-                  argv[0]);
-         fprintf (stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
-         exit (EXIT_FAILURE);
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n", argv[0]);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+         exit(EXIT_FAILURE);
       }
    }
 
-   plotbegin (0);
+   plotbegin(0);
 
-   getplotsize (&maxx, &maxy);
+   getplotsize(&maxx, &maxy);
    
    xc = maxx / 2.0;
    
    /* Draw square border */
-   rectangle (xc - (maxy / 2.0), 0.0, xc + (maxy / 2.0), maxy);
+   rectangle(xc - (maxy / 2.0), 0.0, xc + (maxy / 2.0), maxy);
    
    xoff = (maxx - maxy) / 2.0;
    
@@ -145,28 +144,28 @@ int main (int argc, char * const argv[])
             else
                pin2 = line[j].p1;
             
-//          printf ("Drawing to pin %d.\n", pin2);
+//          printf("Drawing to pin %d.\n", pin2);
          }
          else {
             pin1 = (pin1 + 1) % (n * 4);
             needmove = 1;
-//          printf ("Moving to pin %d\n", pin1);
+//          printf("Moving to pin %d\n", pin1);
          }
       } while (j >= nlines);
       
       if (needmove)
-         moveto (pin[pin1].x, pin[pin1].y);
+         moveto(pin[pin1].x, pin[pin1].y);
          
-      lineto (pin[pin2].x, pin[pin2].y);
+      lineto(pin[pin2].x, pin[pin2].y);
       line[j].drawn = 1;
       pin1 = pin2;
       needmove = 0;
    }
    
    
-   plotend ();
+   plotend();
    
-   printf ("%d pins, %d lines drawn\n", n * 4, nlines);
+   printf("%d pins, %d lines drawn\n", n * 4, nlines);
 
    return (0);
 }
