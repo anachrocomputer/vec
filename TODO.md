@@ -57,3 +57,6 @@ twist, zigzag.
 by adding colour to 'dala2.c'.
 * Add run-time variation to 'dala2.c'.
 * Consider using Doxygen to document the programs.
+* Convert older programs (e.g. lobe.c, hyp.c) to use 'hpgllib'.
+* Sort out 'hconic2.c' and 'pconic.c'. Do we need both of them? Also, they're not
+ANSI C, they're K&R style.

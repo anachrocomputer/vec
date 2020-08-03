@@ -19,12 +19,12 @@ static double Homex, Homey;
 static int Pencol;
 static int Pltdev = DEV_HPGL;
 
-void drawlobes (double a, double b, double l);
-void moveto (double x, double y);
-void drawto (double x, double y);
-void setpen (int pen);
+void drawlobes(const double a, const double b, const double l);
+void moveto(const double x, const double y);
+void drawto(const double x, const double y);
+void setpen(const int pen);
 
-int main (int argc, const char *argv[])
+int main(int argc, const char *argv[])
 {
    double a, b, l;
    int i;
@@ -50,9 +50,9 @@ int main (int argc, const char *argv[])
    Pencol = BLACK;
    
    if (Pltdev == DEV_HPGL)
-      printf ("SP%d;\n", Pencol);
+      printf("SP%d;\n", Pencol);
    else
-      printf ("IP1;PS%d;\n", Pencol);
+      printf("IP1;PS%d;\n", Pencol);
    
    a = Maxy / 4.0;
    b = a / 3.0;
@@ -61,72 +61,73 @@ int main (int argc, const char *argv[])
       l = (double)i;
       switch (i % 4) {
       case 0:
-         setpen (BLACK);
+         setpen(BLACK);
          break;
       case 1:
-         setpen (RED);
+         setpen(RED);
          break;
       case 2:
-         setpen (GREEN);
+         setpen(GREEN);
          break;
       case 3:
-         setpen (BLUE);
+         setpen(BLUE);
          break;
       }
-      drawlobes (a, b, l);
+
+      drawlobes(a, b, l);
    }
 
    if (Pltdev == DEV_HPGL)
-      printf ("SP0;\n");
+      printf("SP0;\n");
    else
-      printf ("MA0,0;CH;\n");
+      printf("MA0,0;CH;\n");
       
    return (0);
 }
 
 
-void drawlobes (double a, double b, double l)
+void drawlobes(const double a, const double b, const double l)
 {
    double r, theta;
    double x, y;
    int i;
 
-   moveto (Homex + a + b, Homey);
+   moveto(Homex + a + b, Homey);
    
    for (i = 1; i <= 360; i++) {
       theta = i * RADIANS;
-      r = a + (b * cos (l * theta));
+      r = a + (b * cos(l * theta));
       
-      x = r * cos (theta);
-      y = r * sin (theta);
+      x = r * cos(theta);
+      y = r * sin(theta);
       
-      drawto (Homex + x, Homey + y);
+      drawto(Homex + x, Homey + y);
    }
 }
 
 
-void moveto (double x, double y)
+void moveto(const double x, const double y)
 {
    if (Pltdev == DEV_HPGL)
-      printf ("PU;PA%d,%d\n", (int)x, (int)y);
+      printf("PU;PA%d,%d\n", (int)x, (int)y);
    else
-      printf ("MA%d,%d\n", (int)x, (int)y);
+      printf("MA%d,%d\n", (int)x, (int)y);
 }
 
 
-void drawto (double x, double y)
+void drawto(const double x, const double y)
 {
    if (Pltdev == DEV_HPGL)
-      printf ("PD;PA%d,%d\n", (int)x, (int)y);
+      printf("PD;PA%d,%d\n", (int)x, (int)y);
    else
-      printf ("DA%d,%d\n", (int)x, (int)y);
+      printf("DA%d,%d\n", (int)x, (int)y);
 }
 
 
-void setpen (int pen)
+void setpen(const int pen)
 {
    if (Pltdev == DEV_HPGL)
-      printf ("SP%d;\n", pen);
+      printf("SP%d;\n", pen);
    else
-      printf ("PS%d\n", pen);
+      printf("PS%d\n", pen);
 }

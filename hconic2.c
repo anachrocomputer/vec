@@ -26,34 +26,34 @@ struct Point {
    double x, y;
 };
 
-void drawbox (double x0, double y0, double width, double height);
-void straightbox (double x0, double y0, double x1, double y1);
-double quadfunc (struct Weights *wp, double x0, double x1, double x2, double u);
-void genconic ();
-void showcurve (int colr, double xpts[], double ypts[], double wpts[], int n, int move);
+void drawbox(const double x0, const double y0, const double width, const double height);
+void straightbox(const double x0, const double y0, const double x1, const double y1);
+double quadfunc(struct Weights *wp, const double x0, const double x1, const double x2, const double u);
+void genconic();
+void showcurve(int colr, double xpts[], double ypts[], double wpts[], int n, int move);
 
-int main (int argc, const char *argv[])
+int main(int argc, const char *argv[])
 {
    int x, y;
    
-   printf ("IN;SP1;\n");
+   printf("IN;SP1;\n");
 
-   printf ("SP1;PU;PA%d,%d\n", 10 * 40, 10 * 40);
-   printf ("DR0,1;\n");
-// printf ("LBhttp://www.dorkbot.org/dorkbotbristol%c;\n", 3);
-   printf ("LBBristol Hackspace%c;\n", 3);
+   printf("SP1;PU;PA%d,%d\n", 10 * 40, 10 * 40);
+   printf("DR0,1;\n");
+// printf("LBhttp://www.dorkbot.org/dorkbotbristol%c;\n", 3);
+   printf("LBBristol Hackspace%c;\n", 3);
 
    for (y = 0; y < 9600; y += 4800)
       for (x = 0; x < 14400; x += 4800)
-         drawbox ((double)(x + (20 * 40)), (double)y, 4800.0, 4800.0);
+         drawbox((double)(x + (20 * 40)), (double)y, 4800.0, 4800.0);
    
-   printf ("PU;PA0,0;SP0;\n");
+   printf("PU;PA0,0;SP0;\n");
    
    return (0);
 }
 
 
-void drawbox (double x0, double y0, double width, double height)
+void drawbox(const double x0, const double y0, const double width, const double height)
 {
    double xpts[NPTS + 1], ypts[NPTS + 1], wpts[NPTS + 1];
    struct Point p0, p1, p2, p3, p4, p5, p6, p7;
@@ -77,7 +77,7 @@ void drawbox (double x0, double y0, double width, double height)
     * p3    p4    p5
     */
     
-   straightbox (x0, y0, x0 + width, y0 + height);
+   straightbox(x0, y0, x0 + width, y0 + height);
     
    for (i = 1; i <= 6; i++) {
       xmin = x0 + (i * xstep);
@@ -113,24 +113,24 @@ void drawbox (double x0, double y0, double width, double height)
       
       w1 = controls[i];
       
-      genconic (p0, p1, p2, w0, w1, w2, xpts, ypts, wpts, NPTS);
-      showcurve (1, xpts, ypts, wpts, NPTS, 1);
+      genconic(p0, p1, p2, w0, w1, w2, xpts, ypts, wpts, NPTS);
+      showcurve(1, xpts, ypts, wpts, NPTS, 1);
 
-      genconic (p2, p3, p4, w0, w1, w2, xpts, ypts, wpts, NPTS);
-      showcurve (1, xpts, ypts, wpts, NPTS, 0); 
+      genconic(p2, p3, p4, w0, w1, w2, xpts, ypts, wpts, NPTS);
+      showcurve(1, xpts, ypts, wpts, NPTS, 0); 
                    
-      genconic (p4, p5, p6, w0, w1, w2, xpts, ypts, wpts, NPTS);
-      showcurve (1, xpts, ypts, wpts, NPTS, 0);
+      genconic(p4, p5, p6, w0, w1, w2, xpts, ypts, wpts, NPTS);
+      showcurve(1, xpts, ypts, wpts, NPTS, 0);
                    
-      genconic (p6, p7, p0, w0, w1, w2, xpts, ypts, wpts, NPTS);
-      showcurve (1, xpts, ypts, wpts, NPTS, 0); 
+      genconic(p6, p7, p0, w0, w1, w2, xpts, ypts, wpts, NPTS);
+      showcurve(1, xpts, ypts, wpts, NPTS, 0); 
    }
    
-   printf ("PU;PA%d,%d;CI%d;\n", (int)p4.x, (int)p6.y, (int)((width - (14.0 * xstep)) / 2.0));
+   printf("PU;PA%d,%d;CI%d;\n", (int)p4.x, (int)p6.y, (int)((width - (14.0 * xstep)) / 2.0));
 }
 
 
-void straightbox (double x0, double y0, double x1, double y1)
+void straightbox(const double x0, const double y0, const double x1, const double y1)
 {
    int ix0, iy0, ix1, iy1;
    
@@ -140,14 +140,14 @@ void straightbox (double x0, double y0, double x1, double y1)
    ix1 = (int)(x1 + 0.5);
    iy1 = (int)(y1 + 0.5);
 
-   printf ("PU;PA%d,%d;", ix0, iy0);
-   printf ("PD;PA%d,%d,%d,%d,%d,%d,%d,%d\n", ix1, iy0, ix1, iy1, ix0, iy1, ix0, iy0);
+   printf("PU;PA%d,%d;", ix0, iy0);
+   printf("PD;PA%d,%d,%d,%d,%d,%d,%d,%d\n", ix1, iy0, ix1, iy1, ix0, iy1, ix0, iy0);
 }
 
 
 /* quadfunc --- rational quadratic function */
 
-double quadfunc (struct Weights *wp, double x0, double x1, double x2, double u)
+double quadfunc(struct Weights *wp, const double x0, const double x1, const double x2, const double u)
 {
    double t0, t1, t2;
    
@@ -168,7 +168,7 @@ double quadfunc (struct Weights *wp, double x0, double x1, double x2, double u)
 
 /* gencurve --- generate 'n + 1' points on the curve */
 
-void gencurve (wp, x0, x1, x2, x, n)
+void gencurve(wp, x0, x1, x2, x, n)
 struct Weights *wp;
 double x0, x1, x2;
 double x[];
@@ -182,14 +182,14 @@ int n;
    
    for (i = 0; i <= n; i++) {
       t = i * step;
-      x[i] = quadfunc (wp, x0, x1, x2, t);
+      x[i] = quadfunc(wp, x0, x1, x2, t);
    }
 }
 
 
 /* genconic --- generate a conic section from 'p0' to 'p2' */
 
-void genconic (p0, p1, p2, w0, w1, w2, x, y, w, n)
+void genconic(p0, p1, p2, w0, w1, w2, x, y, w, n)
 struct Point p0, p1, p2;
 double w0, w1, w2;
 double x[], y[], w[];
@@ -201,15 +201,15 @@ int n;
    wt.w1 = w1;
    wt.w2 = w2;
    
-   gencurve (&wt, p0.x, p1.x, p2.x, x, n);
-   gencurve (&wt, p0.y, p1.y, p2.y, y, n);
-   gencurve (&wt, 1.0,  1.0,  1.0,  w, n);
+   gencurve(&wt, p0.x, p1.x, p2.x, x, n);
+   gencurve(&wt, p0.y, p1.y, p2.y, y, n);
+   gencurve(&wt, 1.0,  1.0,  1.0,  w, n);
 }
 
 
 /* showcurve --- generate HPGL commands to transfer the curve to the plotter */
 
-void showcurve (colr, xpts, ypts, wpts, n, move)
+void showcurve(colr, xpts, ypts, wpts, n, move)
 int colr;
 double xpts[], ypts[], wpts[];
 int n;
@@ -225,12 +225,11 @@ int move;
    x = (xpts[0] / wpts[0]) + 0.5;
    y = (ypts[0] / wpts[0]) + 0.5;
 
-
    /* Move to starting position */
    if (move)
-      printf ("PU;PA%d,%d;\n", x, y);
+      printf("PU;PA%d,%d;\n", x, y);
    
-   printf ("PD;PA");
+   printf("PD;PA");
 
    for (i = 1; i <= n; i++) {
 #ifdef A4
@@ -239,11 +238,11 @@ int move;
       x = (xpts[i] / wpts[i]) + 0.5;
       y = (ypts[i] / wpts[i]) + 0.5;
 
-      printf ("%d,%d", x, y);
+      printf("%d,%d", x, y);
 
       if (i < n)
-         printf (",");
+         printf(",");
    }
 
-   printf (";\n");
+   printf(";\n");
 }
