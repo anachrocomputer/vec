@@ -34,6 +34,10 @@ introduce a lot of new code. It would also be a big testing issue.
 * Add circles and arcs to the PenDownDistance and plot time calculations.
 * Make plot time take into account pen speed if '-v' is used.
 * Add Doxygen comments to the library source and add a Makefile rule for Doxygen.
+* Make printout of time-to-plot optional. Maybe add a command-line argument
+to enable it?
+* Make 'plotcancel()' work properly. Install a signal handler in 'plotbegin()'
+to call it if/when we get a signal.
 
 ## Turtle library
 * Implement run-time option setting in all Turtle plots, and in the
