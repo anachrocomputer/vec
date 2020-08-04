@@ -9,15 +9,15 @@
 #include "hpgllib.h"
 
 
-double diamondsquare (double x0, double y0, double side);
-double radials (double x0, double y0, double inner, double length, int n);
-double ringoboxes (double x0, double y0, double radius, int nboxes, int ninner);
-void superellipse (double x0, double y0, double a, double b, double theta, double d);
+double diamondsquare(const double x0, const double y0, double side);
+double radials(const double x0, const double y0, const double inner, const double length, const int n);
+double ringoboxes(const double x0, const double y0, const double radius, const int nboxes, const int ninner);
+void superellipse(const double x0, const double y0, const double a, const double b, const double theta, const double d);
 
 
 double Scale = 40.0;
 
-int main (int argc, char * const argv[])
+int main(int argc, char * const argv[])
 {
    int opt;
    double xc, yc;
@@ -25,7 +25,7 @@ int main (int argc, char * const argv[])
    double height;
    double radius;
    
-   while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 'n':
       case 'o':
@@ -33,19 +33,18 @@ int main (int argc, char * const argv[])
       case 's':
       case 't':
       case 'v':
-         plotopt (opt, optarg);
+         plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf (stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
-                  argv[0]);
-         fprintf (stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
-//       exit (EXIT_FAILURE);
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n", argv[0]);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+//       exit(EXIT_FAILURE);
       }
    }
 
-   plotbegin (0);
+   plotbegin(0);
 
-   getplotsize (&maxx, &maxy);
+   getplotsize(&maxx, &maxy);
    
    xc = maxx / 2.0;
    yc = maxy / 2.0;
@@ -53,61 +52,61 @@ int main (int argc, char * const argv[])
    height = maxy;
 
    /* Draw square border */
-   rectangle (xc - (height / 2.0), 0.0, xc + (height / 2.0), maxy);
+   rectangle(xc - (height / 2.0), 0.0, xc + (height / 2.0), maxy);
 
    /* 12.5mm square */
-   diamondsquare (xc, yc, 12.5 * Scale);
+   diamondsquare(xc, yc, 12.5 * Scale);
 
    /* 25mm square */
-   diamondsquare (xc, yc, 25.0 * Scale);
+   diamondsquare(xc, yc, 25.0 * Scale);
 
    /* 50mm square */
-   diamondsquare (xc, yc, 50.0 * Scale);
+   diamondsquare(xc, yc, 50.0 * Scale);
    
    /* 100mm square */
-   radius = diamondsquare (xc, yc, 100.0 * Scale);
+   radius = diamondsquare(xc, yc, 100.0 * Scale);
    
    /* Plot circle around square */
-   circle (xc, yc, radius);
+   circle(xc, yc, radius);
    
    /* Plot radial lines */
-   radius = radials (xc, yc, radius + (5.0 * Scale), 30.0 * Scale, 128);
+   radius = radials(xc, yc, radius + (5.0 * Scale), 30.0 * Scale, 128);
    
-   radius = ringoboxes (xc, yc, radius + (5.0 * Scale), 48, 3);
+   radius = ringoboxes(xc, yc, radius + (5.0 * Scale), 48, 3);
    
    radius = ((height / 2.0) + radius) / 2.0;
    
-   superellipse (xc, yc, radius, radius, 0.0, 4.0);
+   superellipse(xc, yc, radius, radius, 0.0, 4.0);
    
-   plotend ();
+   plotend();
    
    return (0);
 }
 
 
-double diamondsquare (double x0, double y0, double side)
+double diamondsquare(const double x0, const double y0, double side)
 {
    side /= 2.0;
    
    /* Plot outer square */
-   moveto (x0 - side, y0 - side);
-   lineto (x0 + side, y0 - side);
-   lineto (x0 + side, y0 + side);
-   lineto (x0 - side, y0 + side);
-   lineto (x0 - side, y0 - side);
+   moveto(x0 - side, y0 - side);
+   lineto(x0 + side, y0 - side);
+   lineto(x0 + side, y0 + side);
+   lineto(x0 - side, y0 + side);
+   lineto(x0 - side, y0 - side);
    
    /* Plot inner diagonal square */
-   moveto (x0, y0 - side);
-   lineto (x0 + side, y0);
-   lineto (x0, y0 + side);
-   lineto (x0 - side, y0);
-   lineto (x0, y0 - side);
+   moveto(x0, y0 - side);
+   lineto(x0 + side, y0);
+   lineto(x0, y0 + side);
+   lineto(x0 - side, y0);
+   lineto(x0, y0 - side);
    
-   return (sqrt (side * side * 2.0));
+   return (sqrt(side * side * 2.0));
 }
 
 
-double radials (double x0, double y0, double inner, double length, int n)
+double radials(const double x0, const double y0, const double inner, const double length, const int n)
 {
    int i;
    double theta;
@@ -120,8 +119,8 @@ double radials (double x0, double y0, double inner, double length, int n)
    
    for (i = 0; i < n; i++) {
       theta = (double)i * delta;
-      xvec = cos (theta);
-      yvec = sin (theta);
+      xvec = cos(theta);
+      yvec = sin(theta);
       
       x1 = xvec * inner;
       y1 = yvec * inner;
@@ -130,12 +129,12 @@ double radials (double x0, double y0, double inner, double length, int n)
       y2 = yvec * (inner + length);
       
       if (i & 1) {
-         moveto (x0 + x1, y0 + y1);
-         lineto (x0 + x2, y0 + y2);
+         moveto(x0 + x1, y0 + y1);
+         lineto(x0 + x2, y0 + y2);
       }
       else {
-         moveto (x0 + x2, y0 + y2);
-         lineto (x0 + x1, y0 + y1);
+         moveto(x0 + x2, y0 + y2);
+         lineto(x0 + x1, y0 + y1);
       }
    }
    
@@ -143,7 +142,7 @@ double radials (double x0, double y0, double inner, double length, int n)
 }
 
 
-double ringoboxes (double x0, double y0, double radius, int nboxes, int ninner)
+double ringoboxes(const double x0, const double y0, const double radius, const int nboxes, const int ninner)
 {
    int i, j, k;
    double side, s2;
@@ -163,8 +162,8 @@ double ringoboxes (double x0, double y0, double radius, int nboxes, int ninner)
 
    for (i = 0; i < nboxes; i++) {
       theta = (double)i * delta;
-      s = sin (theta);
-      c = cos (theta);
+      s = sin(theta);
+      c = cos(theta);
       
       for (k = 0; k < ninner; k++) {
          /* Set up a square */
@@ -200,11 +199,11 @@ double ringoboxes (double x0, double y0, double radius, int nboxes, int ninner)
          }
          
          /* Draw the rotated square */
-         moveto (rx[0], ry[0]);
-         lineto (rx[1], ry[1]);
-         lineto (rx[2], ry[2]);
-         lineto (rx[3], ry[3]);
-         lineto (rx[0], ry[0]);
+         moveto(rx[0], ry[0]);
+         lineto(rx[1], ry[1]);
+         lineto(rx[2], ry[2]);
+         lineto(rx[3], ry[3]);
+         lineto(rx[0], ry[0]);
       }
    }
    
@@ -212,7 +211,7 @@ double ringoboxes (double x0, double y0, double radius, int nboxes, int ninner)
 }
 
 
-void superellipse (double x0, double y0, double a, double b, double theta, double d)
+void superellipse(const double x0, const double y0, const double a, const double b, const double theta, const double d)
 {
    double t;
    double delta;
@@ -225,31 +224,31 @@ void superellipse (double x0, double y0, double a, double b, double theta, doubl
    
    delta = (2.0 * M_PI) / (double)npts;
 
-   sintheta = sin (theta);
-   costheta = cos (theta);
+   sintheta = sin(theta);
+   costheta = cos(theta);
    
    for (i = 0; i <= npts; i++) {
       t = (double)i * delta;
       
-      st = sin (t);
-      ct = cos (t);
+      st = sin(t);
+      ct = cos(t);
       
       if (st < 0.0)
-         sinpt = -pow (-st, 2.0 / d);
+         sinpt = -pow(-st, 2.0 / d);
       else
-         sinpt = pow (st, 2.0 / d);
+         sinpt = pow(st, 2.0 / d);
       
       if (ct < 0.0)
-         cospt = -pow (-ct, 2.0 / d);
+         cospt = -pow(-ct, 2.0 / d);
       else
-         cospt = pow (ct, 2.0 / d);
+         cospt = pow(ct, 2.0 / d);
       
       x = (a * cospt * costheta) - (b * sinpt * sintheta);
       y = (a * cospt * sintheta) + (b * sinpt * costheta);
       
       if (i == 0)
-         moveto (x0 + x, y0 + y);
+         moveto(x0 + x, y0 + y);
       else
-         lineto (x0 + x, y0 + y);
+         lineto(x0 + x, y0 + y);
    }
 }
