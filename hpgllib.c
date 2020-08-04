@@ -477,11 +477,10 @@ void ellipse(const double x0, const double y0, const double a, const double b, c
    const double sintheta = sin(theta);
    const double costheta = cos(theta);
    double x, y;
-   double t;
    int i;
 
    for (i = 0; i <= npts; i++) {
-      t = (double)i * delta;
+      const double t = (double)i * delta;
       
       x = (a * cos(t) * costheta) - (b * sin(t) * sintheta);
       y = (a * cos(t) * sintheta) + (b * sin(t) * costheta);
