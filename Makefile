@@ -20,7 +20,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      curve_stitching.hpgl cs_rosette.hpgl allover13.hpgl allover12.hpgl \
      qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl sutpent.hpgl \
      morphpoly.hpgl pin_circle.hpgl isogrid.hpgl circle_lines.hpgl \
-     star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl
+     star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl poly_oval.hpgl
 
 PNG=$(HPGL:.hpgl=.png)
 
@@ -130,6 +130,15 @@ ternary_arcs: ternary_arcs.o hpgllib.o
 
 ternary_arcs.o: ternary_arcs.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ ternary_arcs.c
+
+poly_oval.hpgl: poly_oval Makefile
+	./poly_oval $(TITLE) $(BOLDPEN) -o $@
+
+poly_oval: poly_oval.o hpgllib.o
+	$(LD) -o $@ poly_oval.o hpgllib.o -lm
+
+poly_oval.o: poly_oval.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ poly_oval.c
 
 morphpoly.hpgl: morphpoly Makefile
 	./morphpoly $(TITLE) $(BOLDPEN) -o $@
