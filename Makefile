@@ -168,10 +168,10 @@ arches.o: arches.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ arches.c
 
 hyp.hpgl: hyp
-	./hyp >hyp.hpgl
+	./hyp $(TITLE) $(BOLDPEN) -o $@
 
 hyp: hyp.o
-	$(LD) -o $@ hyp.o -lm
+	$(LD) -o $@ hyp.o hpgllib.o -lm
 
 hyp.o: hyp.c
 	$(CC) $(CFLAGS) -o $@ hyp.c

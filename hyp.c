@@ -2,44 +2,53 @@
 /* Copyright (c) 2001 John Honniball, Froods Software Development      */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <math.h>
+#include "hpgllib.h"
 
-#define A3
 
 void infline(const double ctrang, const double incang, const int move);
-void moveto(const double x, const double y);
-void lineto(const double x, const double y);
-void circle(const double x, const double y, const double r);
-void arc(const double x, const double y, const double a);
-void pencolr(int c);
 
-#ifdef A3
-#define MAXX (15970.0)
-#define MAXY (10870.0)
-#else
-#define MAXX (10870.0)
-#define MAXY (7600.0)
-#endif   /* A3 */
 
 #define DEG_TO_RAD  (M_PI / 180.0)
 
 double X0, Y0;
 double Rad;
 
-int main(int argc, const char *argv[])
+int main(int argc, char *const argv[])
 {
+   int opt;
    int i;
    int level;
    int num;
    int first;
    double theta, phi;
    
-   X0 = MAXX / 2.0;
-   Y0 = MAXY / 2.0;
-   Rad = Y0;
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
+      switch (opt) {
+      case 's':
+      case 'n':
+      case 'o':
+      case 'p':
+      case 't':
+      case 'v':
+         plotopt(opt, optarg);
+         break;
+      default: /* '?' */
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n", argv[0]);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+         exit(EXIT_FAILURE);
+      }
+   }
+
+   plotbegin(0);
    
-   printf("SP1;\n");
-   /* printf("VS10;\n");   * Slow down for shite pens */
+   getplotsize(&X0, &Y0);
+
+   X0 /= 2.0;
+   Y0 /= 2.0;
+   Rad = Y0;
 
    /* Plot centre of main circle */
    moveto(X0 + 200.0, Y0);
@@ -71,7 +80,7 @@ int main(int argc, const char *argv[])
       num *= 2;
    }
 
-   printf("SP0;\n");
+   plotend();
    
    return (0);
 }
@@ -101,36 +110,4 @@ void infline(const double ctrang, const double incang, const int move)
    y = d * sin(b);
    
    arc(X0 + x, Y0 + y, c);
-}
-
-
-void moveto(const double x, const double y)
-{
-   printf("PU;PA%d,%d;\n", (int)x, (int)y);
-}
-
-
-void lineto(const double x, const double y)
-{
-   printf("PD;PA%d,%d;\n", (int)x, (int)y);
-}
-
-
-void circle(const double x, const double y, const double r)
-{
-   printf("PU;PA%d,%d;CI%d;\n", (int)x, (int)y, (int)r);
-}
-
-
-void arc(const double x, const double y, const double a)
-{
-   printf("PD;AA%d,%d,%2.1f;\n", (int)x, (int)y, a);
-}
-
-
-void pencolr(int c)
-{
-   c %= 4;
-   
-   printf("SP%d;", c + 1);
 }
