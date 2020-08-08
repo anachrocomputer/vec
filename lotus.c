@@ -21,7 +21,6 @@ int main(int argc, char * const argv[])
    double xc, yc;
    double scale = 40.0;
    double maxx, maxy;
-   double height;
    double radius;
    double incrad;
    
@@ -58,10 +57,8 @@ int main(int argc, char * const argv[])
    xc = maxx / 2.0;
    yc = maxy / 2.0;
    
-   height = maxy;
-
-   /* Draw square border */
-   rectangle(xc - (height / 2.0), 0.0, xc + (height / 2.0), maxy);
+   /* Draw circular border */
+   circle(xc, yc, yc);
    
    radius = 15.0 * scale;  /* Initial radius 15mm */
    incrad = 15.0 * scale;  /* Each zig-zag 15mm bigger than the previous one */

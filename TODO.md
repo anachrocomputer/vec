@@ -17,6 +17,8 @@ to call it if/when we get a signal.
 * Do not call 'exit()' anywhere in the library. Indicate failure via
 a return value, e.g. in 'plotbegin()'.
 * Consider adding return values to some drawing functions, e.g. 'roundrect()'.
+* Add automatic square and circular drawing boundaries. Several plots
+would benefit from this feature.
 * Move 'drawline()' into the library. It's a generalised line-drawing
 function that will reverse a line end-for-end to speed up drawing. That function
 is useful in many situations and would eliminate explicit logic to plot
