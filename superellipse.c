@@ -109,39 +109,32 @@ int main(int argc, char * const argv[])
 
 void superellipse(const double x0, const double y0, const double a, const double b, const double theta, const double d)
 {
-   double t;
-   double delta;
-   double st, ct;
-   double sinpt, cospt;
-   double sintheta, costheta;
-   double x, y;
-   int npts = 72;
+   const int npts = 72;
+   const double delta = (2.0 * M_PI) / (double)npts;
+   const double sintheta = sin(theta);
+   const double costheta = cos(theta);
    int i;
-   
-   delta = (2.0 * M_PI) / (double)npts;
 
-   sintheta = sin(theta);
-   costheta = cos(theta);
-   
    for (i = 0; i <= npts; i++) {
-      t = (double)i * delta;
-      
-      st = sin(t);
-      ct = cos(t);
-      
+      double sinpt, cospt;
+      const double t = (double)i * delta;
+
+      const double st = sin(t);
+      const double ct = cos(t);
+
       if (st < 0.0)
          sinpt = -pow(-st, 2.0 / d);
       else
          sinpt = pow(st, 2.0 / d);
-      
+
       if (ct < 0.0)
          cospt = -pow(-ct, 2.0 / d);
       else
          cospt = pow(ct, 2.0 / d);
-      
-      x = (a * cospt * costheta) - (b * sinpt * sintheta);
-      y = (a * cospt * sintheta) + (b * sinpt * costheta);
-      
+
+      const double x = (a * cospt * costheta) - (b * sinpt * sintheta);
+      const double y = (a * cospt * sintheta) + (b * sinpt * costheta);
+
       if (i == 0)
          moveto(x0 + x, y0 + y);
       else

@@ -950,14 +950,14 @@ void superellipse(const double x0, const double y0, const double a, const double
       const double ct = cos(t);
 
       if (st < 0.0)
-         sinpt = -pow (-st, 2.0 / d);
+         sinpt = -pow(-st, 2.0 / d);
       else
-         sinpt = pow (st, 2.0 / d);
+         sinpt = pow(st, 2.0 / d);
 
       if (ct < 0.0)
-         cospt = -pow (-ct, 2.0 / d);
+         cospt = -pow(-ct, 2.0 / d);
       else
-         cospt = pow (ct, 2.0 / d);
+         cospt = pow(ct, 2.0 / d);
 
       const double x = (a * cospt * costheta) - (b * sinpt * sintheta);
       const double y = (a * cospt * sintheta) + (b * sinpt * costheta);
