@@ -1,7 +1,7 @@
 # Things To Do
 
 ## HPGL library
-* Add support for non-ISO paper sizes (i.e. U.S. paper sizes)
+* Add support for non-ISO paper sizes (i.e. U.S. paper sizes, origami square paper)
 * Add support for plot scaling. We should be able to plot directly
 in millimetres (and possibly in inches) as well as in device
 coordinates and maybe in other units.
@@ -9,9 +9,14 @@ coordinates and maybe in other units.
 A4 paper in an A0 plotter. The big plotters have the origin in the
 centre of the bed, whereas the smaller ones have the origin in the
 lower left corner.
-* Fully implement and test serial plotter support.
+* Fully implement and test serial plotter support, e.g. on HP 7550.
 * Fully implement and test signal-handling and clean-up after a
 SIGINT has stopped a plot.
+* Make 'plotcancel()' work properly. Install a signal handler in 'plotbegin()'
+to call it if/when we get a signal.
+* Do not call 'exit()' anywhere in the library. Indicate failure via
+a return value, e.g. in 'plotbegin()'.
+* Consider adding return values to some drawing functions, e.g. 'roundrect()'.
 * Move 'drawline()' into the library. It's a generalised line-drawing
 function that will reverse a line end-for-end to speed up drawing. That function
 is useful in many situations and would eliminate explicit logic to plot
@@ -36,8 +41,9 @@ introduce a lot of new code. It would also be a big testing issue.
 * Add Doxygen comments to the library source and add a Makefile rule for Doxygen.
 * Make printout of time-to-plot optional. Maybe add a command-line argument
 to enable it?
-* Make 'plotcancel()' work properly. Install a signal handler in 'plotbegin()'
-to call it if/when we get a signal.
+* Add a means to derive the 'getopt()' string from the library. Maybe
+using a #define? In case we add a new argument that 'plotopt()' will
+recognise.
 
 ## Turtle library
 * Implement run-time option setting in all Turtle plots, and in the
@@ -52,6 +58,10 @@ plotter (using shell I/O redirection) when plotting Turtle programs.
 * Add new drawings! Especially colouring-in drawings, all-over patterns,
 3D perspective drawings, maps and even slow-to-draw drawings!
 * Add colour (pen changes) to drawings.
+* Add drawings that can be folded like Origami.
+* Add drawings that can be cut out and assembled, e.g. geodesic dome.
+* Check return value of 'plotbegin()' in all programs and exit if
+it's negative.
 * Convert some of the older drawings to fully use the HPGL library.
 E.g. op, pconic, hconic, lobe, hyp.
 * Finish off some of the incomplete plots. E.g. hexagon, fraserspiral,
