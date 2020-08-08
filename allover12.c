@@ -25,7 +25,7 @@ int main(int argc, char * const argv[])
    double d2;
    double maxx, maxy;
    
-   while ((opt = getopt (argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
       case 'n':
       case 'o':
@@ -36,8 +36,7 @@ int main(int argc, char * const argv[])
          plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n",
-                  argv[0]);
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n", argv[0]);
          fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
          exit(EXIT_FAILURE);
       }

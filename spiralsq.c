@@ -38,7 +38,7 @@ int main(int argc, char * const argv[])
       default: /* '?' */
          fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n", argv[0]);
          fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
-//       exit(EXIT_FAILURE);
+         exit(EXIT_FAILURE);
       }
    }
 
