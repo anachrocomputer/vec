@@ -57,8 +57,8 @@ int main(int argc, char * const argv[])
    yc = maxy / 2.0;
    side = maxy / 2.0;
    
-   /* Draw square border */
-   rectangle(xc - (maxy / 2.0), 0.0, xc + (maxy / 2.0), maxy);
+   /* Draw circular border */
+   circle(xc, yc, yc);
    
    x1 = xc;
    y1 = yc;

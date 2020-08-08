@@ -46,6 +46,7 @@ int main(int argc, char * const argv[])
    
    radius = maxy / 2.0;
    
+   /* Draw circular border */
    circle(xc, yc, radius);
 
    spiral(xc, yc, 0.0, radius, 0.0, 4);

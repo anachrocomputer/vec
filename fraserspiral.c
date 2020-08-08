@@ -48,8 +48,8 @@ int main(int argc, char * const argv[])
    
    height = maxy;
 
-   /* Draw square border */
-   rectangle(xc - (height / 2.0), 0.0, xc + (height / 2.0), maxy);
+   /* Draw circular border */
+   circle(xc, yc, yc);
 
    radius = height / 24.0;
    
