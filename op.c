@@ -11,7 +11,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
-/* #include <graph.h> */
 
 /* Takes about 28 minutes to plot on DPX-3300 at A1 */
 #define A3
@@ -34,17 +33,17 @@ struct CoOrd {
    double y;
 };
 
-void drawbox (int row, int col, struct CoOrd param[5], double zd, double width);
-void drawtri (int row, int col, int ineg, struct CoOrd nbox[5], double zd);
-void drawpoly (struct CoOrd *box, int nsides);
-int shrink (struct CoOrd *box, struct CoOrd *nbox, double zd, int nsides, int *ineg);
-double rnd (void);
+void drawbox(const int row, const int col, const struct CoOrd param[4], const double step, const double width);
+void drawtri(const int row, const int col, const int ineg, struct CoOrd nbox[5], const double zd);
+void drawpoly(const struct CoOrd *const box, const int nsides);
+int shrink(const struct CoOrd *box, struct CoOrd *nbox, const double zd, const int nsides, int *const ineg);
+double rnd(void);
 
-int OpenGraph (void);
-void CloseGraph (void);
+int OpenGraph(void);
+void CloseGraph(void);
 
 
-int main (int argc, const char *argv[])
+int main(int argc, const char *argv[])
 {
 #ifdef A1
    int nrows = 12;
@@ -64,17 +63,17 @@ int main (int argc, const char *argv[])
    int row, col;
    int ix, iy;
    
-   srand ((unsigned int)time (NULL));
+   srand((unsigned int)time(NULL));
    
-   if (OpenGraph () == NO) {
-      fprintf (stderr, "Could not start up graphics\n");
-      exit (1);
+   if (OpenGraph() == NO) {
+      fprintf(stderr, "Could not start up graphics\n");
+      exit(EXIT_FAILURE);
    }
    
-   printf ("SP1;PU;PA%d,%d\n", Devxmin + (10 * 40), Devymin + (10 * 40));
-   printf ("DR0,1;\n");
-// printf ("LBhttp://www.dorkbot.org/dorkbotbristol%c;\n", 3);
-   printf ("LBBristol Hackspace%c;\n", 3);
+   printf("SP1;PU;PA%d,%d\n", Devxmin + (10 * 40), Devymin + (10 * 40));
+   printf("DR0,1;\n");
+// printf("LBhttp://www.dorkbot.org/dorkbotbristol%c;\n", 3);
+   printf("LBBristol Hackspace%c;\n", 3);
 
    /* Build the regular grid */
    for (ix = 0; ix < maxx; ix++) {
@@ -106,11 +105,11 @@ int main (int argc, const char *argv[])
          box[1] = grid[col][row+1];
          box[2] = grid[col+1][row+1];
          box[3] = grid[col+1][row];
-         drawbox (row, col, box, step, 2.0 - ((double)row / (double)nrows));
+         drawbox(row, col, box, step, 2.0 - ((double)row / (double)nrows));
       }
    }
    
-   CloseGraph ();
+   CloseGraph();
 
    return (0);
 }
@@ -118,7 +117,7 @@ int main (int argc, const char *argv[])
 
 /* drawbox --- draw a single four-sided box */
 
-void drawbox (int row, int col, struct CoOrd param[4], double step, double width)
+void drawbox(const int row, const int col, const struct CoOrd param[4], const double step, const double width)
 {
    int i;
    struct CoOrd box[6], nbox[5];
@@ -127,7 +126,7 @@ void drawbox (int row, int col, struct CoOrd param[4], double step, double width
    double zd;
 
    if (GraphDev == GR_PS)
-      printf ("%f setlinewidth\n", width);
+      printf("%f setlinewidth\n", width);
 
    for (i = 0; i < 4; i++) {
       box[i] = param[i];
@@ -136,27 +135,27 @@ void drawbox (int row, int col, struct CoOrd param[4], double step, double width
    box[4] = box[0];
    box[5] = box[1];
 
-   drawpoly (box, 4);      /* Draw boxes */
+   drawpoly(box, 4);      /* Draw boxes */
       
    for (i = 0; i < 20; i++) {
       zd = (i + 1) * step;
       
-      nneg = shrink (box, nbox, zd, 4, &ineg);
+      nneg = shrink(box, nbox, zd, 4, &ineg);
       
       if (nneg > 0)
          break;
 
-      drawpoly (nbox, 4);     /* Draw smaller boxes */
+      drawpoly(nbox, 4);     /* Draw smaller boxes */
    }
 
    if (nneg == 1)
-      drawtri (row, col, ineg, nbox, step);
+      drawtri(row, col, ineg, nbox, step);
 }
 
 
 /* drawtri --- draw boxes when reduced to three sides */
 
-void drawtri (int row, int col, int ineg, struct CoOrd nbox[5], double zd)
+void drawtri(const int row, const int col, const int ineg, struct CoOrd nbox[5], const double zd)
 {
    int i, j;
    double m1, c1, m2, c2;
@@ -174,7 +173,7 @@ void drawtri (int row, int col, int ineg, struct CoOrd nbox[5], double zd)
    if (box[1].y == box[2].y) {
       box[1].y += 0.001;
 #ifdef DB
-      fputs ("Tilt 1\n", stderr);
+      fputs("Tilt 1\n", stderr);
 #endif
    }
       
@@ -186,7 +185,7 @@ void drawtri (int row, int col, int ineg, struct CoOrd nbox[5], double zd)
    if (box[0].y == box[3].y) {
       box[0].y += 0.001;
 #ifdef DB
-      fputs ("Tilt 2\n", stderr);
+      fputs("Tilt 2\n", stderr);
 #endif
    }
       
@@ -195,7 +194,7 @@ void drawtri (int row, int col, int ineg, struct CoOrd nbox[5], double zd)
    c2 = -box[0].x - (m2 * box[0].y);
    
    /* If gradients are equal, lines are parallel */
-   if (fabs (m2 - m1) < 0.00001)
+   if (fabs(m2 - m1) < 0.00001)
       return;
       
    /* Find point of intersection */
@@ -206,9 +205,9 @@ void drawtri (int row, int col, int ineg, struct CoOrd nbox[5], double zd)
    nbox[1] = box[1];
    
 #ifdef DB
-   fprintf (stderr, "(%d,%d): tri%d: (%.1f,%.1f) (%.1f,%.1f) (%.1f,%.1f)\n", row, col, ineg, nbox[0].x, nbox[0].y, nbox[1].x, nbox[1].y, nbox[2].x, nbox[2].y);
+   fprintf(stderr, "(%d,%d): tri%d: (%.1f,%.1f) (%.1f,%.1f) (%.1f,%.1f)\n", row, col, ineg, nbox[0].x, nbox[0].y, nbox[1].x, nbox[1].y, nbox[2].x, nbox[2].y);
    
-   printf ("SP2;PU;PA%d,%d;PD;PA%d,%d,%d,%d,%d,%d;SP1;\n", (int)(nbox[0].x * 40.0), (int)(nbox[0].y * 40.0), (int)(nbox[1].x * 40.0), (int)(nbox[1].y * 40.0), (int)(nbox[2].x * 40.0), (int)(nbox[2].y * 40.0), (int)(nbox[0].x * 40.0), (int)(nbox[0].y * 40.0));
+   printf("SP2;PU;PA%d,%d;PD;PA%d,%d,%d,%d,%d,%d;SP1;\n", (int)(nbox[0].x * 40.0), (int)(nbox[0].y * 40.0), (int)(nbox[1].x * 40.0), (int)(nbox[1].y * 40.0), (int)(nbox[2].x * 40.0), (int)(nbox[2].y * 40.0), (int)(nbox[0].x * 40.0), (int)(nbox[0].y * 40.0));
 #endif
 
    for (i = 0; i < 3; i++) {
@@ -219,13 +218,13 @@ void drawtri (int row, int col, int ineg, struct CoOrd nbox[5], double zd)
       box[3] = box[0];
       box[4] = box[1];
 
-      drawpoly (box, 3);       /* Draw triangles */
+      drawpoly(box, 3);       /* Draw triangles */
       
-      nneg = shrink (box, nbox, zd, 3, &junk);
+      nneg = shrink(box, nbox, zd, 3, &junk);
       
       if (nneg > 0) {
 #ifdef DB
-         fprintf (stderr, "tri: row %d, col %d, %d neg sides\n", row, col, nneg);
+         fprintf(stderr, "tri: row %d, col %d, %d neg sides\n", row, col, nneg);
 #endif
          return;
       }
@@ -239,35 +238,35 @@ void drawtri (int row, int col, int ineg, struct CoOrd nbox[5], double zd)
 
 /* drawpoly --- draw a polygon, given corner co-ords */
 
-void drawpoly (struct CoOrd *box, int nsides)
+void drawpoly(const struct CoOrd *const box, const int nsides)
 {
    int i;
    int ix, iy;
 
    switch (GraphDev) {
    case GR_PS:
-      printf ("newpath %.2f %.2f moveto\n", box[0].x, box[0].y);
+      printf("newpath %.2f %.2f moveto\n", box[0].x, box[0].y);
 
       for (i = 1; i < nsides; i++)
-         printf ("%.2f %.2f lineto\n", box[i].x, box[i].y);
+         printf("%.2f %.2f lineto\n", box[i].x, box[i].y);
 
-      printf ("closepath stroke\n");
+      printf("closepath stroke\n");
    
       break;
    case GR_HPGL:
       ix = Devxmin + (int)(box[0].x * 40.0);
       iy = Devymin + (int)(box[0].y * 40.0);
-      printf ("PU;PA%d,%d;PD;PA", ix, iy);
+      printf("PU;PA%d,%d;PD;PA", ix, iy);
       
       for (i = 1; i <= nsides; i++) {
          ix = Devxmin + (int)(box[i].x * 40.0);
          iy = Devymin + (int)(box[i].y * 40.0);
-         printf ("%d,%d", ix, iy);
+         printf("%d,%d", ix, iy);
          if (i < nsides)
-            printf (",");
+            printf(",");
       }
          
-      printf (";\n");
+      printf(";\n");
       
       break;
    case GR_BMC:
@@ -278,7 +277,7 @@ void drawpoly (struct CoOrd *box, int nsides)
 
 /* shrink --- make a smaller polygon inside a larger one */
 
-int shrink (struct CoOrd *box, struct CoOrd *nbox, double zd, int nsides, int *ineg)
+int shrink(const struct CoOrd *box, struct CoOrd *nbox, const double zd, const int nsides, int *const ineg)
 {
    struct CoOrd d[5];
    double len[5];
@@ -308,7 +307,7 @@ int shrink (struct CoOrd *box, struct CoOrd *nbox, double zd, int nsides, int *i
             d[i+1].x += 0.001;
             d[i+1].y += 0.001;
 #ifdef DB
-            fprintf (stderr, "(%d,%d): tst = %f, d[%d].x=%f, d[i+1].y=%f, d[i].y=%f\n", row, col, tst, i, d[i].x, d[i+1].y, d[i].y);
+            fprintf(stderr, "(%d,%d): tst = %f, d[%d].x=%f, d[i+1].y=%f, d[i].y=%f\n", row, col, tst, i, d[i].x, d[i+1].y, d[i].y);
 #endif
          }
       } while (tst == 0.0);
@@ -329,7 +328,7 @@ int shrink (struct CoOrd *box, struct CoOrd *nbox, double zd, int nsides, int *i
       t1 = (nbox[i+1].x - nbox[i].x);
       t2 = (box[i+2].x - box[i+1].x);
       
-      if ((fabs (t1) < 0.00001) || (fabs (t2) < 0.00001)) {
+      if ((fabs(t1) < 0.00001) || (fabs(t2) < 0.00001)) {
          t1 = (nbox[i+1].y - nbox[i].y);
          t2 = (box[i+2].y - box[i+1].y);
       }
@@ -338,7 +337,7 @@ int shrink (struct CoOrd *box, struct CoOrd *nbox, double zd, int nsides, int *i
 
       if (tst < 0.0) {
 #ifdef DB
-         fprintf (stdout, "t1=%f, t2=%f, tst=%f\n", t1, t2, tst);
+         fprintf(stdout, "t1=%f, t2=%f, tst=%f\n", t1, t2, tst);
 #endif
          nneg++;
          *ineg = i;
@@ -347,7 +346,7 @@ int shrink (struct CoOrd *box, struct CoOrd *nbox, double zd, int nsides, int *i
    
 #ifdef DB
    if (nneg > 0)
-      fprintf (stdout, "%d neg sides\n", nneg);
+      fprintf(stdout, "%d neg sides\n", nneg);
 #endif
 
    return (nneg);
@@ -356,13 +355,13 @@ int shrink (struct CoOrd *box, struct CoOrd *nbox, double zd, int nsides, int *i
 
 /* rnd --- simulate BASIC's rnd */
 
-double rnd (void)
+double rnd(void)
 {
-   return ((double)rand () / (double)RAND_MAX);
+   return ((double)rand() / (double)RAND_MAX);
 }
 
 
-int OpenGraph (void)
+int OpenGraph(void)
 {
    switch (GraphDev) {
    case GR_PS:
@@ -371,12 +370,12 @@ int OpenGraph (void)
       Devxmax = 639;
       Devymax = 479;
 
-      printf ("%%!PS-Adobe2.0\n");
-      printf ("%%%%Creator: op\n");
-      printf ("%%%%EndComments\n");
-      printf ("%%%%EndProlog\n");
-      printf ("%% begin page\n");
-      printf ("0 setgray\n");
+      printf("%%!PS-Adobe2.0\n");
+      printf("%%%%Creator: op\n");
+      printf("%%%%EndComments\n");
+      printf("%%%%EndProlog\n");
+      printf("%% begin page\n");
+      printf("0 setgray\n");
       break;
    case GR_HPGL:
 #ifdef A1
@@ -393,14 +392,14 @@ int OpenGraph (void)
       Devymax = 10870;
 #endif
 
-      printf ("IN;\n");
-      printf ("SP1;\n");
-/*    printf ("VS10;\n"); */
-      printf ("PU;PA%d,%d;PD;\n", Devxmin, Devymin);
-      printf ("PA%d,%d;\n", Devxmin, Devymax);
-      printf ("PA%d,%d;\n", Devxmax, Devymax);
-      printf ("PA%d,%d;\n", Devxmax, Devymin);
-      printf ("PA%d,%d;\n", Devxmin, Devymin);
+      printf("IN;\n");
+      printf("SP1;\n");
+/*    printf("VS10;\n"); */
+      printf("PU;PA%d,%d;PD;\n", Devxmin, Devymin);
+      printf("PA%d,%d;\n", Devxmin, Devymax);
+      printf("PA%d,%d;\n", Devxmax, Devymax);
+      printf("PA%d,%d;\n", Devxmax, Devymin);
+      printf("PA%d,%d;\n", Devxmin, Devymin);
       break;
    case GR_BMC:
       Devxmin = 0;
@@ -408,12 +407,15 @@ int OpenGraph (void)
       Devxmax = 3799 / 2;
       Devymax = 2549 / 2;
 
-      printf ("IP1;\n");   /* GDU mode */
-      printf ("MA%d,%d;PS1;\n", Devxmin, Devymin);
-      printf ("DA%d,%d;\n", Devxmin, Devymax);
-      printf ("DA%d,%d;\n", Devxmax, Devymax);
-      printf ("DA%d,%d;\n", Devxmax, Devymin);
-      printf ("DA%d,%d;\n", Devxmin, Devymin);
+      printf("IP1;\n");   /* GDU mode */
+      printf("MA%d,%d;PS1;\n", Devxmin, Devymin);
+      printf("DA%d,%d;\n", Devxmin, Devymax);
+      printf("DA%d,%d;\n", Devxmax, Devymax);
+      printf("DA%d,%d;\n", Devxmax, Devymin);
+      printf("DA%d,%d;\n", Devxmin, Devymin);
+      break;
+   default:
+      return (NO);
       break;
    }
    
@@ -421,19 +423,19 @@ int OpenGraph (void)
 }
 
 
-void CloseGraph (void)
+void CloseGraph(void)
 {
    switch (GraphDev) {
    case GR_PS:
-      printf ("showpage\n");
-      printf ("%%%%Trailer\n");
+      printf("showpage\n");
+      printf("%%%%Trailer\n");
       break;
    case GR_HPGL:
-      printf ("PU;PA%d,%d;\n", Devxmin, Devymin);
-      printf ("SP0;\n");
+      printf("PU;PA%d,%d;\n", Devxmin, Devymin);
+      printf("SP0;\n");
       break;
    case GR_BMC:
-      printf ("MA%d,%d;CH;\n", Devxmin, Devymin);
+      printf("MA%d,%d;CH;\n", Devxmin, Devymin);
       break;
    }
 }
