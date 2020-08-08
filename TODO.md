@@ -63,7 +63,7 @@ plotter (using shell I/O redirection) when plotting Turtle programs.
 * Check return value of 'plotbegin()' in all programs and exit if
 it's negative.
 * Convert some of the older drawings to fully use the HPGL library.
-E.g. op, pconic, hconic, lobe, hyp.
+E.g. op, pconic, hconic, lobe.
 * Finish off some of the incomplete plots. E.g. hexagon, fraserspiral,
 flake, arches, lissajous, piscis, qrplot, spiralsq, superellipse,
 twist, zigzag.
