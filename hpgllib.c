@@ -14,13 +14,20 @@
 #include <errno.h>
 #include "hpgllib.h"
 
-enum ptype {PLOT_UNKNOWN, PLOT_FILE, PLOT_SERIAL, PLOT_PARALLEL};
+enum ptype {
+   PLOT_UNKNOWN,  //!< Type of interface unknown
+   PLOT_FILE,     //!< Writing to a file
+   PLOT_SERIAL,   //!< Writing to a serial port
+   PLOT_PARALLEL  //!< Writing to a parallel port
+};
 
 static int openPlotter(const char *const port);
 static int openPlotterPort(const char *const port);
 
-static double Minx, Miny;
-static double Maxx, Maxy;
+static double Minx;
+static double Miny;
+static double Maxx;
+static double Maxy;
 static double Scale;
 static FILE *Plt = NULL;
 static int NoInit = 0;
@@ -30,10 +37,19 @@ static char PaperSize[16] = "A3";
 static char PlotterName[32] = "A3";
 static char Title[128] = "";
 static char Velocity[16] = "";
-static int Penx, Peny;
-static double PenUpDist, PenDownDist;
+static int Penx;
+static int Peny;
+static double PenUpDist;
+static double PenDownDist;
 static int PlotType = PLOT_UNKNOWN;
 
+
+/**
+ * @brief handle a library command-line argument
+ *
+ * @param ch  The option character
+ * @param arg The option string argument
+ */
 int plotopt(const int ch, const char *const arg)
 {
    switch (ch) {
@@ -61,13 +77,23 @@ int plotopt(const int ch, const char *const arg)
 }
 
 
+/**
+ * @brief Initialise the HPGL plotter library
+ *
+ * @todo Support non-ISO paper sizes
+ * @todo Support multiple pen numbers in a comma-separated list
+ * @todo Take pen speed into account when calculating plot time
+ *
+ * @param border Non-zero if a border should be drawn
+ *
+ * @return Zero if OK, negative if error
+ */
 int plotbegin(const int border)
 {
    int v;
    int fd;
    int pen;
    
-   /* TODO: support non-ISO paper sizes */
    if ((PlotterName[0] == 'a') || (PlotterName[0] == 'A')) {
       switch (PlotterName[1]) {
       case '1':
@@ -115,7 +141,6 @@ int plotbegin(const int border)
       exit(EXIT_FAILURE);
    }
    
-   /* TODO: support multiple pen numbers in a comma-separated list */
    pen = atoi(PenNum);
    if ((pen < 1) || (pen > 8)) {
       fprintf(stderr, "invalid pen number\n");
@@ -177,7 +202,6 @@ int plotbegin(const int border)
    if (NoInit == 0)
       fprintf(Plt, "IN;\n");
    
-   /* TODO: take pen speed into account when calculating plot time */
    if (Velocity[0] != '\0') {
       v = atoi(Velocity);
       fprintf(Plt, "VS%d;\n", v);  /* Slow down for shite pens */
@@ -202,6 +226,9 @@ int plotbegin(const int border)
 }
 
 
+/**
+ * @brief Finalise the plot
+ */
 void plotend(void)
 {
    double sec;
@@ -232,6 +259,9 @@ void plotend(void)
 }
 
 
+/**
+ * @brief Cancel a plot and flush any buffered output
+ */
 void plotcancel(void)
 {
    int fd;
@@ -264,6 +294,12 @@ void plotcancel(void)
 }
 
 
+/**
+ * @brief Get the maximum X and Y co-ordinates
+ *
+ * @param xp Pointer to return X dimension
+ * @param yp Pointer to return Y dimension
+ */
 void getplotsize(double *const xp, double *const yp)
 {
    if (xp != NULL)
@@ -274,24 +310,54 @@ void getplotsize(double *const xp, double *const yp)
 }
 
 
+/**
+ * @brief Convert an X co-ordinate to device units
+ *
+ * @param x X co-ordinate to be converted
+ *
+ * @return X co-ordinate scaled and offset to device units
+ */
 int getdevx(const double x)
 {
    return ((int)(x + Minx));
 }
 
 
+/**
+ * @brief Convert a Y co-ordinate to device units
+ *
+ * @param y Y co-ordinate to be converted
+ *
+ * @return Y co-ordinate scaled and offset to device units
+ */
 int getdevy(const double y)
 {
    return ((int)(y + Miny));
 }
 
 
+/**
+ * @brief Convert a radius to device units
+ *
+ * @param r Radius to be converted
+ *
+ * @return Radius scaled to device units
+ */
 int getdevr(const double r)
 {
    return ((int)r);
 }
 
 
+/**
+ * @brief Insert a snippet of HPGL into the output stream
+ *
+ * @todo Eliminate this function because it breaks the abstraction that the library creates
+ *
+ * @param buf Pointer to buffer containing HPGL command(s)
+ *
+ * @return Always zero
+ */
 int hpglout(const char *const buf)
 {
    fputs(buf, Plt);
@@ -300,8 +366,12 @@ int hpglout(const char *const buf)
 }
 
 
-/* moveto --- move the pen to the given coordinates without drawing a line */
-
+/**
+ * @brief Move the pen to the given coordinates without drawing a line
+ *
+ * @param x X co-ordinate to move to
+ * @param y Y co-ordinate to move to
+ */
 void moveto(const double x, const double y)
 {
    const int ix = (int)(x + Minx);
@@ -320,8 +390,12 @@ void moveto(const double x, const double y)
 }
 
 
-/* lineto --- draw a line from the current pen position to the new position */
-
+/**
+ * @brief Draw a line from the current pen position to the new position
+ *
+ * @param x X co-ordinate to draw to
+ * @param y Y co-ordinate to draw to
+ */
 void lineto(const double x, const double y)
 {
    const int ix = (int)(x + Minx);
@@ -410,11 +484,20 @@ void closelinesequence(const int closePoly)
 }
 
 
+/**
+ * @brief Draw a rectangle aligned with the X and Y axes
+ *
+ * @details Use 'PA' here instead of 'EA' (available in HPGL-2) because
+ * some conversion programs (notably HPGL-to-PostScript) fail
+ * to recognise 'EA'.
+ *
+ * @param x1 X co-ordinate of first corner
+ * @param y1 Y co-ordinate of first corner
+ * @param x2 X co-ordinate of second corner
+ * @param y2 Y co-ordinate of second corner
+ */
 void rectangle(const double x1, const double y1, const double x2, const double y2)
 {
-/* Use 'PA' here instead of 'EA' (available in HPGL-2) because
-   some conversion programs (notably HPGL-to-PostScript) fail
-   to recognise 'EA'. */
    const int ix1 = (int)(x1 + Minx);
    const int iy1 = (int)(y1 + Miny);
    const int ix2 = (int)(x2 + Minx);
@@ -425,10 +508,21 @@ void rectangle(const double x1, const double y1, const double x2, const double y
 }
 
 
+/**
+ * @brief Fill a rectangle aligned with the X and Y axes
+ *
+ * @details Note that 'RA' is an HPGL-2 command and may not be recognised
+ * by all plotters and all HPGL conversion programs
+ *
+ * @todo Detect plotters that do not support 'RA' and return an error code, or work around it
+ *
+ * @param x1 X co-ordinate of first corner
+ * @param y1 Y co-ordinate of first corner
+ * @param x2 X co-ordinate of second corner
+ * @param y2 Y co-ordinate of second corner
+ */
 void fillrectangle(const double x1, const double y1, const double x2, const double y2)
 {
-/* Note that 'RA' is an HPGL-2 command and may not be recognised
-   by all plotters and all HPGL conversion programs */
    const int ix1 = (int)(x1 + Minx);
    const int iy1 = (int)(y1 + Miny);
    const int ix2 = (int)(x2 + Minx);
@@ -438,6 +532,13 @@ void fillrectangle(const double x1, const double y1, const double x2, const doub
 }
 
 
+/**
+ * @brief Draw a circle
+ *
+ * @param x X co-ordinate of centre of circle
+ * @param y Y co-ordinate of centre of circle
+ * @param r Radius of circle
+ */
 void circle(const double x, const double y, const double r)
 {
    const int ix = (int)(x + Minx);
@@ -448,6 +549,14 @@ void circle(const double x, const double y, const double r)
 }
 
 
+/**
+ * @brief Draw a circle with a specified arc tolerance
+ *
+ * @param x   X co-ordinate of centre of circle
+ * @param y   Y co-ordinate of centre of circle
+ * @param r   Radius of circle
+ * @param tol Arc tolerance
+ */
 void circle2(const double x, const double y, const double r, const double tol)
 {
    const int ix = (int)(x + Minx);
@@ -459,6 +568,13 @@ void circle2(const double x, const double y, const double r, const double tol)
 }
 
 
+/**
+ * @brief Draw an arc
+ *
+ * @param x X co-ordinate of centre of arc
+ * @param y Y co-ordinate of centre of arc
+ * @param a Angle of arc in degrees
+ */
 void arc(const double x, const double y, const double a)
 {
    const int ix = (int)(x + Minx);
@@ -468,22 +584,28 @@ void arc(const double x, const double y, const double a)
 }
 
 
-/* ellipse --- draw an ellipse, given major and minor axes and angle */
-
+/**
+ * @brief Draw an ellipse, given major and minor axes and angle
+ *
+ * @param x0    X co-ordinate of centre of ellipse
+ * @param y0    Y co-ordinate of centre of ellipse
+ * @param a     Length of major axis of ellipse
+ * @param b     Length of minor axis of ellipse
+ * @param theta Angle from X axis to major axis of ellipse, in radians
+ */
 void ellipse(const double x0, const double y0, const double a, const double b, const double theta)
 {
    const int npts = 72;
    const double delta = (2.0 * M_PI) / (double)npts;
    const double sintheta = sin(theta);
    const double costheta = cos(theta);
-   double x, y;
    int i;
 
    for (i = 0; i <= npts; i++) {
       const double t = (double)i * delta;
       
-      x = (a * cos(t) * costheta) - (b * sin(t) * sintheta);
-      y = (a * cos(t) * sintheta) + (b * sin(t) * costheta);
+      const double x = (a * cos(t) * costheta) - (b * sin(t) * sintheta);
+      const double y = (a * cos(t) * sintheta) + (b * sin(t) * costheta);
       
       if (i == 0)
          moveto(x0 + x, y0 + y);
@@ -493,8 +615,15 @@ void ellipse(const double x0, const double y0, const double a, const double b, c
 }
 
 
-/* roundrect --- draw a rounded rectangle */
-
+/**
+ * @brief Draw a rounded rectangle
+ *
+ * @param x1     X co-ordinate of first corner
+ * @param y1     Y co-ordinate of first corner
+ * @param x2     X co-ordinate of second corner
+ * @param y2     Y co-ordinate of second corner
+ * @param radius Radius of rounded corners
+ */
 void roundrect(const double x1, const double y1, const double x2, const double y2, const double radius)
 {
    moveto(x1 + radius, y1);
@@ -516,6 +645,13 @@ void roundrect(const double x1, const double y1, const double x2, const double y
 }
 
 
+/**
+ * @brief Select a pen
+ *
+ * @todo Improve support for multiple-pen plotting
+ *
+ * @param c Logical pen number
+ */
 void pencolr(int c)
 {
    if (c < 0) {
@@ -529,28 +665,47 @@ void pencolr(int c)
 }
 
 
+/**
+ * @brief Draw a text label vertically
+ *
+ * @param x   X co-ordinate of start of text
+ * @param y   Y co-ordinate of start of text
+ * @param siz Size of text
+ * @param str String containing text to be plotted
+ */
 void vlabel(const double x, const double y, const double siz, const char *const str)
 {       
-   int ix, iy;
-   
-   ix = (int)(x + Minx);
-   iy = (int)(y + Miny);
+   const int ix = (int)(x + Minx);
+   const int iy = (int)(y + Miny);
 
    fprintf(Plt, "PU;PA%d,%d;SI%1.2f,%1.2f;DI0,1;LB%s%c;", ix, iy, siz/10.0, siz/10.0, str, 0x03);
 }
 
 
-void hlabel(const double x, double y, double siz, const char *const str)
+/**
+ * @brief Draw a text label horizontally
+ *
+ * @param x   X co-ordinate of start of text
+ * @param y   Y co-ordinate of start of text
+ * @param siz Size of text
+ * @param str String containing text to be plotted
+ */
+void hlabel(const double x, const double y, const double siz, const char *const str)
 {       
-   int ix, iy;
-   
-   ix = (int)(x + Minx);
-   iy = (int)(y + Miny);
+   const int ix = (int)(x + Minx);
+   const int iy = (int)(y + Miny);
 
    fprintf(Plt, "PU;PA%d,%d;SI%1.2f,%1.2f;DI1,0;LB%s%c;", ix, iy, siz/10.0, siz/10.0, str, 0x03);
 }
 
 
+/**
+ * @brief Open the port connected to the plotter
+ *
+ * @param port Name of port
+ *
+ * @return File descriptor if successful or -1 on failure
+ */
 static int openPlotter(const char *const port)
 {
    struct stat buf;
@@ -577,6 +732,13 @@ static int openPlotter(const char *const port)
 }
 
 
+/**
+ * @brief Open and configure the device file for the plotter
+ *
+ * @param port Name of port
+ *
+ * @return File descriptor if successful or -1 on failure
+ */
 static int openPlotterPort(const char *const port)
 {
    int fd = -1;
@@ -671,6 +833,11 @@ static int openPlotterPort(const char *const port)
 }
 
 
+/**
+ * @brief Signal handler to stop plotting and close port
+ *
+ * @param sig Signal number
+ */
 void catcher(const int sig)
 {
    printf("SIGINT!\n");
@@ -678,5 +845,5 @@ void catcher(const int sig)
 // fclose(Plt);
    plotcancel();
 
-   exit (EXIT_FAILURE);
+   exit(EXIT_FAILURE);
 }
