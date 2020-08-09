@@ -62,6 +62,8 @@ plotter (using shell I/O redirection) when plotting Turtle programs.
 * Add colour (pen changes) to drawings.
 * Add drawings that can be folded like Origami.
 * Add drawings that can be cut out and assembled, e.g. geodesic dome.
+* Write a library test plot that exercises all the drawing commands.
+Useful if/when we add support for BMC or other non-HPGL plotters.
 * Check return value of 'plotbegin()' in all programs and exit if
 it's negative.
 * Convert some of the older drawings to fully use the HPGL library.
