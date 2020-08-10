@@ -20,7 +20,8 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      curve_stitching.hpgl cs_rosette.hpgl allover13.hpgl allover12.hpgl \
      qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl sutpent.hpgl \
      morphpoly.hpgl pin_circle.hpgl isogrid.hpgl circle_lines.hpgl \
-     star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl poly_oval.hpgl
+     star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl poly_oval.hpgl \
+     libtest.hpgl
 
 PNG=$(HPGL:.hpgl=.png)
 
@@ -148,6 +149,15 @@ morphpoly: morphpoly.o hpgllib.o
 
 morphpoly.o: morphpoly.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ morphpoly.c
+
+libtest.hpgl: libtest Makefile
+	./libtest $(TITLE) $(BOLDPEN) -o $@
+
+libtest: libtest.o hpgllib.o
+	$(LD) -o $@ libtest.o hpgllib.o -lm
+
+libtest.o: libtest.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ libtest.c
 
 lissajous.hpgl: lissajous Makefile
 	./lissajous $(TITLE) $(BOLDPEN) -o $@
