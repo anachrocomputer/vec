@@ -64,7 +64,7 @@ int main(int argc, char * const argv[])
    getplotsize(&maxx, &maxy);
    
 #ifdef LADY_QUARK
-   radius = (maxy / 3.0) / sqrt (2.0);
+   radius = (maxy / 3.0) / sqrt(2.0);
 
    w3 = maxx / 3.0;
    h3 = maxy / 3.0;
@@ -124,12 +124,12 @@ int generate2polygons(const double radius, const double angle,  const int nsides
    for (i = 0; i < nsides; i++) {
       const int i1 = (i + 1) % nsides;
       
-      splitside (vertex[i1], vertex[i], nsubdiv, &outer[i * (nsubdiv + 1)]);
+      splitside(vertex[i1], vertex[i], nsubdiv, &outer[i * (nsubdiv + 1)]);
    }
 
    for (i = 0; i < (nsides * (nsubdiv + 1)); i++) {
-      jiggle.x = (((double)rand () / (double)RAND_MAX) * rad) - (rad / 2.0);
-      jiggle.y = (((double)rand () / (double)RAND_MAX) * rad) - (rad / 2.0);
+      jiggle.x = (((double)rand() / (double)RAND_MAX) * rad) - (rad / 2.0);
+      jiggle.y = (((double)rand() / (double)RAND_MAX) * rad) - (rad / 2.0);
       inner[i].x = (outer[i].x / 3.0) + jiggle.x;
       inner[i].y = (outer[i].y / 3.0) + jiggle.y;
    }
