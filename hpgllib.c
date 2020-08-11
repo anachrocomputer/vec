@@ -105,7 +105,7 @@ int plotbegin(const int border)
          break;
       case '2':
          fputs("A2 plotter not yet supported\n", stderr);
-         exit(EXIT_FAILURE);
+         return (-1);
          /* Values used experimentally with A2 paper in DPX-3300:
             Minx = -15970.0 - 200.0;
             Miny = -10870.0 - 600.0;
@@ -138,33 +138,31 @@ int plotbegin(const int border)
    }
    else {
       fprintf(stderr, "%s: unrecognised plotter size\n", PlotterName);
-      exit(EXIT_FAILURE);
+      return (-1);
    }
    
    pen = atoi(PenNum);
    if ((pen < 1) || (pen > 8)) {
       fprintf(stderr, "invalid pen number\n");
-      exit(EXIT_FAILURE);
+      return (-1);
    }
 
    fd = openPlotter(OutputFile);
    
    if (fd < 0) {
       perror(OutputFile);
-      exit(EXIT_FAILURE);
+      return (-1);
    }
    
    if (PlotType == PLOT_FILE) {
       if ((Plt = fdopen(fd, "w")) == NULL) {
          perror("fdopen w");
-         exit(EXIT_FAILURE);
          return (-1);
       } 
    }
    else {
       if ((Plt = fdopen(fd, "w+")) == NULL) {
          perror("fdopen w+");
-         exit(EXIT_FAILURE);
          return (-1);
       } 
    }

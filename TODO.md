@@ -14,8 +14,6 @@ lower left corner.
 SIGINT has stopped a plot.
 * Make 'plotcancel()' work properly. Install a signal handler in 'plotbegin()'
 to call it if/when we get a signal.
-* Do not call 'exit()' anywhere in the library. Indicate failure via
-a return value, e.g. in 'plotbegin()'.
 * Consider adding return values to some drawing functions, e.g. 'roundrect()'.
 * Add automatic square and circular drawing boundaries. Several plots
 would benefit from this feature.
@@ -64,8 +62,6 @@ plotter (using shell I/O redirection) when plotting Turtle programs.
 * Add drawings that can be cut out and assembled, e.g. geodesic dome.
 * Write a library test plot that exercises all the drawing commands.
 Useful if/when we add support for BMC or other non-HPGL plotters.
-* Check return value of 'plotbegin()' in all programs and exit if
-it's negative.
 * Convert some of the older drawings to fully use the HPGL library.
 E.g. op, pconic, hconic, lobe.
 * Finish off some of the incomplete plots. E.g. hexagon, fraserspiral,
