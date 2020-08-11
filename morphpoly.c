@@ -59,7 +59,10 @@ int main(int argc, char * const argv[])
 
    srand((unsigned int)time(NULL));
 
-   plotbegin(1);
+   if (plotbegin(1) < 0) {
+      fputs("Failed to initialise HPGL library\n", stderr);
+      exit(EXIT_FAILURE);
+   }
 
    getplotsize(&maxx, &maxy);
    

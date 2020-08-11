@@ -52,7 +52,10 @@ int main(int argc, char * const argv[])
    Scale = 40.0;
    pitch = 45.0 * Scale;
    
-   plotbegin(0);
+   if (plotbegin(0) < 0) {
+      fputs("Failed to initialise HPGL library\n", stderr);
+      exit(EXIT_FAILURE);
+   }
 
    getplotsize(&maxx, &maxy);
    

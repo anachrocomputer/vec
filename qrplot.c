@@ -32,7 +32,10 @@ int main(int argc, char * const argv[])
       }
    }
 
-   plotbegin(0);
+   if (plotbegin(0) < 0) {
+      fputs("Failed to initialise HPGL library\n", stderr);
+      exit(EXIT_FAILURE);
+   }
 
    plotPBM("qr_sample.pbm", 50.0, 0.0, 2.0);
    

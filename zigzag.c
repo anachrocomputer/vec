@@ -38,6 +38,11 @@ int main(int argc, char * const argv[])
       }
    }
 
+   if (plotbegin(1) < 0) {
+      fputs("Failed to initialise HPGL library\n", stderr);
+      exit(EXIT_FAILURE);
+   }
+
    if ((fp = fopen("zigzag.pgm", "r")) == NULL) {
       perror("zigzag.pgm");
       exit(EXIT_FAILURE);
@@ -46,8 +51,6 @@ int main(int argc, char * const argv[])
    fgets(lin, 128, fp);
    fgets(lin, 128, fp);
    fgets(lin, 128, fp);
-
-   plotbegin(1);
 
    getplotsize(&maxx, &maxy);
    

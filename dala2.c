@@ -84,7 +84,10 @@ int main(int argc, char * const argv[])
       }
    }
 
-   plotbegin(0);
+   if (plotbegin(0) < 0) {
+      fputs("Failed to initialise HPGL library\n", stderr);
+      exit(EXIT_FAILURE);
+   }
 
    getplotsize(&maxx, &maxy);
 

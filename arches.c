@@ -38,7 +38,10 @@ int main(int argc, char * const argv[])
    }
 
    /* Select first pen and draw border */
-   plotbegin(1);
+   if (plotbegin(1) < 0) {
+      fputs("Failed to initialise HPGL library\n", stderr);
+      exit(EXIT_FAILURE);
+   }
 
    getplotsize(&maxx, &maxy);
    
