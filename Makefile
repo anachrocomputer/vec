@@ -21,7 +21,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl sutpent.hpgl \
      morphpoly.hpgl pin_circle.hpgl isogrid.hpgl circle_lines.hpgl \
      star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl poly_oval.hpgl \
-     libtest.hpgl
+     libtest.hpgl linetiles.hpgl
 
 PNG=$(HPGL:.hpgl=.png)
 
@@ -158,6 +158,15 @@ libtest: libtest.o hpgllib.o
 
 libtest.o: libtest.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ libtest.c
+
+linetiles.hpgl: linetiles Makefile
+	./linetiles $(TITLE) $(BOLDPEN) -o $@
+
+linetiles: linetiles.o hpgllib.o
+	$(LD) -o $@ linetiles.o hpgllib.o -lm
+
+linetiles.o: linetiles.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ linetiles.c
 
 lissajous.hpgl: lissajous Makefile
 	./lissajous $(TITLE) $(BOLDPEN) -o $@
