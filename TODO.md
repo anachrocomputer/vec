@@ -63,9 +63,9 @@ plotter (using shell I/O redirection) when plotting Turtle programs.
 * Write a library test plot that exercises all the drawing commands.
 Useful if/when we add support for BMC or other non-HPGL plotters.
 * Convert some of the older drawings to fully use the HPGL library.
-E.g. op, pconic, hconic, lobe.
+E.g. op, pconic, hconic.
 * Finish off some of the incomplete plots. E.g. hexagon, fraserspiral,
-flake, arches, lissajous, piscis, qrplot, spiralsq, superellipse,
+flake, arches, piscis, qrplot, spiralsq, superellipse,
 twist, zigzag.
 * Clean up the various 'dala' drawings. Eliminate the 'dala2c' variant
 by adding colour to 'dala2.c'.

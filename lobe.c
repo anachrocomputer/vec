@@ -2,132 +2,89 @@
 /* Copyright (c) 1997 John Honniball, Froods Software Development      */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <math.h>
+#include "hpgllib.h"
 
 #define RADIANS  (M_PI / 180.0)
 
-#define BLACK     (1)
-#define RED       (2)
-#define GREEN     (3)
-#define BLUE      (4)
 
-#define DEV_HPGL  (1)
-#define DEV_BMC   (2)
+void drawlobes(const double x0, const double y0, const double a, const double b, const double l);
 
-static double Maxx, Maxy;
-static double Homex, Homey;
-static int Pencol;
-static int Pltdev = DEV_HPGL;
 
-void drawlobes(const double a, const double b, const double l);
-void moveto(const double x, const double y);
-void drawto(const double x, const double y);
-void setpen(const int pen);
-
-int main(int argc, const char *argv[])
+int main(int argc, char *const argv[])
 {
-   double a, b, l;
+   int opt;
+   double a, b;
+   double maxx, maxy;
+   double xc, yc;
+   double w4, h4;
    int i;
    
-   if (Pltdev == DEV_HPGL) {
-      Maxx = 10870;
-      Maxy = 7600;
-      
-      Maxx = 15970;
-      Maxy = 10870;
+   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
+      switch (opt) {
+      case 's':
+      case 'n':
+      case 'o':
+      case 'p':
+      case 't':
+      case 'v':
+         plotopt(opt, optarg);
+         break;
+      default: /* '?' */
+         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n", argv[0]);
+         fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
+         exit(EXIT_FAILURE);
+      }
    }
-   else {
-      Maxx = 3800.0;
-      Maxy = 2550.0;
-   
-      Maxx /= 1.4142;
-      Maxy /= 1.4142;
+
+   if (plotbegin(1) < 0) {
+      fputs("Failed to initialise HPGL library\n", stderr);
+      exit(EXIT_FAILURE);
    }
+
+   getplotsize(&maxx, &maxy);
    
-   Homex = Maxx / 2.0;
-   Homey = Maxy / 2.0;
+   xc = maxx / 2.0;
+   yc = maxy / 2.0;
    
-   Pencol = BLACK;
+   w4 = maxx / 4.0;
+   h4 = maxy / 4.0;
    
-   if (Pltdev == DEV_HPGL)
-      printf("SP%d;\n", Pencol);
-   else
-      printf("IP1;PS%d;\n", Pencol);
+   moveto(0.0, yc);
+   lineto(maxx, yc);
    
-   a = Maxy / 4.0;
+   moveto(xc, 0.0);
+   lineto(xc, maxy);
+   
+   a = maxy / 4.0;
    b = a / 3.0;
    
    for (i = 0; i < 9; i++) {
-      l = (double)i;
-      switch (i % 4) {
-      case 0:
-         setpen(BLACK);
-         break;
-      case 1:
-         setpen(RED);
-         break;
-      case 2:
-         setpen(GREEN);
-         break;
-      case 3:
-         setpen(BLUE);
-         break;
-      }
-
-      drawlobes(a, b, l);
+      pencolr(i % 4);
+      drawlobes(xc, yc, a, b, (double)i);
    }
 
-   if (Pltdev == DEV_HPGL)
-      printf("SP0;\n");
-   else
-      printf("MA0,0;CH;\n");
+   plotend();
       
    return (0);
 }
 
 
-void drawlobes(const double a, const double b, const double l)
+void drawlobes(const double x0, const double y0, const double a, const double b, const double l)
 {
-   double r, theta;
-   double x, y;
    int i;
 
-   moveto(Homex + a + b, Homey);
+   moveto(x0 + a + b, y0);
    
    for (i = 1; i <= 360; i++) {
-      theta = i * RADIANS;
-      r = a + (b * cos(l * theta));
+      const double theta = i * RADIANS;
+      const double r = a + (b * cos(l * theta));
       
-      x = r * cos(theta);
-      y = r * sin(theta);
+      const double x = r * cos(theta);
+      const double y = r * sin(theta);
       
-      drawto(Homex + x, Homey + y);
+      lineto(x0 + x, y0 + y);
    }
-}
-
-
-void moveto(const double x, const double y)
-{
-   if (Pltdev == DEV_HPGL)
-      printf("PU;PA%d,%d\n", (int)x, (int)y);
-   else
-      printf("MA%d,%d\n", (int)x, (int)y);
-}
-
-
-void drawto(const double x, const double y)
-{
-   if (Pltdev == DEV_HPGL)
-      printf("PD;PA%d,%d\n", (int)x, (int)y);
-   else
-      printf("DA%d,%d\n", (int)x, (int)y);
-}
-
-
-void setpen(const int pen)
-{
-   if (Pltdev == DEV_HPGL)
-      printf("SP%d;\n", pen);
-   else
-      printf("PS%d\n", pen);
 }

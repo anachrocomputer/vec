@@ -49,15 +49,6 @@ op: op.o
 op.o: op.c
 	$(CC) $(CFLAGS) -o $@ op.c
 
-lobe.hpgl: lobe
-	./lobe >lobe.hpgl
-
-lobe: lobe.o
-	$(LD) -o $@ lobe.o -lm
-
-lobe.o: lobe.c
-	$(CC) $(CFLAGS) -o $@ lobe.c
-
 # HPGL library programs
 
 piscis.hpgl: piscis Makefile
@@ -176,6 +167,15 @@ lissajous: lissajous.o hpgllib.o
 
 lissajous.o: lissajous.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ lissajous.c
+
+lobe.hpgl: lobe
+	./lobe $(TITLE) $(BOLDPEN) -o $@
+
+lobe: lobe.o hpgllib.o
+	$(LD) -o $@ lobe.o hpgllib.o -lm
+
+lobe.o: lobe.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ lobe.c
 
 arches.hpgl: arches Makefile
 	./arches $(TITLE) $(BOLDPEN) -o $@
