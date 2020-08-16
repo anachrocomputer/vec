@@ -391,6 +391,9 @@ void moveto(const double x, const double y)
 /**
  * @brief Draw a line from the current pen position to the new position
  *
+ * @todo Optimise HPGL by maintaining a state variable and eliminating
+ *  unnecesary 'PD;' and 'PA' commands.
+ *
  * @param x X co-ordinate to draw to
  * @param y Y co-ordinate to draw to
  */
@@ -533,6 +536,9 @@ void fillrectangle(const double x1, const double y1, const double x2, const doub
 /**
  * @brief Draw a circle
  *
+ * @todo Would it be more efficient to plot all circles as 360
+ *  degree arcs?
+ *
  * @param x X co-ordinate of centre of circle
  * @param y Y co-ordinate of centre of circle
  * @param r Radius of circle
@@ -549,6 +555,8 @@ void circle(const double x, const double y, const double r)
 
 /**
  * @brief Draw a circle with a specified arc tolerance
+ *
+ * @todo Design a more general method to specify arc tolerance.
  *
  * @param x   X co-ordinate of centre of circle
  * @param y   Y co-ordinate of centre of circle

@@ -21,6 +21,11 @@ would benefit from this feature.
 function that will reverse a line end-for-end to speed up drawing. That function
 is useful in many situations and would eliminate explicit logic to plot
 lines in reverse directions.
+* Optimise 'moveto()'/'lineto()' so that they don't generate
+unnecessary 'PD;' and 'PA;' commands. Keep a state variable that
+represents PEN_UP, PEN_DOWN, IN_PA, etc.
+* Draw circles using Arc Absolute 'AA;' and choose arc starting-point
+that's closest to current pen position.
 * Move 'spiral()' into the library. Another useful general-purpose
 drawing function. Make sure it can start with a non-zero radius, and draw
 both clockwise and anti-clockwise.
