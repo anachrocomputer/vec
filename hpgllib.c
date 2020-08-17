@@ -18,7 +18,9 @@ enum ptype {
    PLOT_UNKNOWN,  //!< Type of interface unknown
    PLOT_FILE,     //!< Writing to a file
    PLOT_SERIAL,   //!< Writing to a serial port
-   PLOT_PARALLEL  //!< Writing to a parallel port
+   PLOT_PARALLEL, //!< Writing to a parallel port
+   PLOT_IEEE488,  //!< Writing to an IEEE-488 port
+   PLOT_NETWORK   //!< Writing via the network
 };
 
 static int openPlotter(const char *const port);
@@ -289,6 +291,54 @@ void plotcancel(void)
    fflush(stdout);
 
    fclose(Plt);
+}
+
+
+/**
+ * @brief Return information about the plot
+ *
+ * @details This function fills in the fields of a structure
+ *  that give information about the plot in progress. The information
+ *  will not change throughout the plot (i.e. it will not include
+ *  pen position or pen number).
+ *
+ * @param p    Pointer to struct PlotInfo, to be filled in
+ * @param size Size of structure pointed to by \p p.
+ *
+ * @return 0 if successful, negative otherwise.
+ */
+int getplotinfo(struct PlotInfo *const p, unsigned int size)
+{
+   if ((p != NULL) && (size == sizeof (struct PlotInfo))) {
+      p->versionMajor = 1;
+      p->versionMinor = 1;
+      
+      p->plotterName = PlotterName;
+      p->portName = OutputFile;
+      p->paperName = PaperSize;
+      p->plotTitle = Title;
+      p->paperCapacityISO = "A3";
+      p->paperCapacityANSI = "B";
+      
+      p->nPenStalls = 8;   // HP 7470 = 2, 7475 = 6, 7550 = 8
+      p->nPens = 1;        // One, until we parse -p correctly
+      
+      p->unitsPermm = 40.0;
+      p->unitsPerInch = 40.0 * 25.4;
+      
+      p->widthInUnits = Maxx - Minx;
+      p->heightInUnits = Maxy - Miny;
+      
+      p->widthInmm = p->widthInUnits * p->unitsPermm;
+      p->heightInmm = p->heightInUnits * p->unitsPermm;
+   
+      p->widthInInches = p->widthInUnits * p->unitsPerInch;
+      p->heightInInches = p->heightInUnits * p->unitsPerInch;
+   
+      return (0);
+   }
+   else
+      return (-1);
 }
 
 

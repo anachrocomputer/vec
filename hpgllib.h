@@ -1,10 +1,37 @@
 /* hpgllib --- header file for HPGL library                 2013-03-23 */
 /* Copyright (c) 2013 John Honniball                                   */
 
+struct PlotInfo {
+   int versionMajor;          //!< Major version number of HPGL library
+   int versionMinor;          //!< Minor version number of HPGL library
+   char *plotterName;         //!< Model name of plotter
+   char *paperName;           //!< Name of paper size (ISO or ANSI)
+   char *portName;            //!< Name of port connectd to plotter
+   char *plotTitle;           //!< Title of plot, if set via command-line
+   char *paperCapacityISO;    //!< Biggest ISO paper size that will fit on the plotter
+   char *paperCapacityANSI;   //!< Biggest ANSI paper size that will fit on the plotter
+   int plotterInterface;      //!< Type of interface
+   int plotterLanguage;       //!< Plotter command language
+   int orientation;           //!< Orientation of plot, landscape or portrait
+   int nPenStalls;            //!< Number of pen stalls in the plotter
+   int nPens;                 //!< Number of pens to be used in this plot
+   double unitsPermm;         //!< Number of plotter units per millimetre
+   double unitsPerInch;       //!< Number of plotter units per inch
+   double widthInmm;          //!< Width of plottable area in millimetres
+   double heightInmm;         //!< Height of plottable area in millimetres
+   double widthInInches;      //!< Width of plottable area in inches
+   double heightInInches;     //!< Height of plottable area in inches
+   double widthInUnits;       //!< Width of plottable area in plotter units
+   double heightInUnits;      //!< Height of plottable area in plotter units
+};
+
+typedef struct PlotInfo PlotInfo_t;
+
 int plotopt(const int ch, const char *const arg);
 int plotbegin(const int border);
 void plotend(void);
 void plotcancel(void);
+int getplotinfo(struct PlotInfo *const p, unsigned int size);
 void getplotsize(double *const xp, double *const yp);
 int getdevx(const double x);
 int getdevy(const double y);

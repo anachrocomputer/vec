@@ -24,6 +24,7 @@ int main(int argc, char * const argv[])
    double xc, yc;
    double h4, w4;
    double maxx, maxy;
+   PlotInfo_t info;
    
    while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
@@ -44,6 +45,11 @@ int main(int argc, char * const argv[])
 
    if (plotbegin(1) < 0) {
       fputs("Failed to initialise HPGL library\n", stderr);
+      exit(EXIT_FAILURE);
+   }
+
+   if (getplotinfo(&info, sizeof (info)) < 0) {
+      fputs("Failed to get plot information\n", stderr);
       exit(EXIT_FAILURE);
    }
 

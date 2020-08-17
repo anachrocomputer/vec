@@ -14,6 +14,8 @@ lower left corner.
 SIGINT has stopped a plot.
 * Make 'plotcancel()' work properly. Install a signal handler in 'plotbegin()'
 to call it if/when we get a signal.
+* Add support for automatic paper feed on HP 7550 and any other plotters
+that have it.
 * Consider adding return values to some drawing functions, e.g. 'roundrect()'.
 * Add automatic square and circular drawing boundaries. Several plots
 would benefit from this feature.
@@ -65,6 +67,7 @@ plotter (using shell I/O redirection) when plotting Turtle programs.
 * Add colour (pen changes) to drawings.
 * Add drawings that can be folded like Origami.
 * Add drawings that can be cut out and assembled, e.g. geodesic dome.
+* Plot the Utah Teapot in wire-frame.
 * Write a library test plot that exercises all the drawing commands.
 Useful if/when we add support for BMC or other non-HPGL plotters.
 * Convert some of the older drawings to fully use the HPGL library.
