@@ -36,7 +36,12 @@ static int NoInit = 0;
 static char PenNum[16] = "1";
 static char OutputFile[FILENAME_MAX] = "/dev/usb/lp0";
 static char PaperSize[16] = "A3";
-static char PlotterName[32] = "A3";
+static char PlotterName[32] = "HPGL";
+static char PlotterFullName[64] = "HPGL";
+static int PlotterModel = -1;
+static int PenStalls = -1;
+static int PaperCapacityISO = -1;
+static int PaperCapacityANSI = -1;
 static char Title[128] = "";
 static char Velocity[16] = "";
 static int Penx;
@@ -61,8 +66,11 @@ int plotopt(const int ch, const char *const arg)
    case 'p':
       strcpy(PenNum, arg);
       break;
-   case 's':
+   case 'q':
       strcpy(PlotterName, arg);
+      break;
+   case 's':
+      strcpy(PaperSize, arg);
       break;
    case 't':
       strcpy(Title, arg);
@@ -96,8 +104,68 @@ int plotbegin(const int border)
    int fd;
    int pen;
    
-   if ((PlotterName[0] == 'a') || (PlotterName[0] == 'A')) {
-      switch (PlotterName[1]) {
+   if (strstr(PlotterName, "7470") != NULL)
+      PlotterModel = HP_7470A;
+   else if (strstr(PlotterName, "7475") != NULL)
+      PlotterModel = HP_7475A;
+   else if (strstr(PlotterName, "7550") != NULL)
+      PlotterModel = HP_7550A;
+   else if (strstr(PlotterName, "7585") != NULL)
+      PlotterModel = HP_7585A;
+   else if (strstr(PlotterName, "990") != NULL)
+      PlotterModel = ROLAND_DXY_990;
+   else if (strstr(PlotterName, "3300") != NULL)
+      PlotterModel = ROLAND_DPX_3300;
+   else
+      PlotterModel = GENERIC_HPGL;
+
+   switch (PlotterModel) {
+   case HP_7470A:
+      strcpy(PlotterFullName, "HP 7470A");
+      PenStalls = 2;
+      PaperCapacityISO = ISO_A3;
+      PaperCapacityANSI = ANSI_B;
+      break;
+   case HP_7475A:
+      strcpy(PlotterFullName, "HP 7475A");
+      PenStalls = 6;
+      PaperCapacityISO = ISO_A3;
+      PaperCapacityANSI = ANSI_B;
+      break;
+   case HP_7550A:
+      strcpy(PlotterFullName, "HP 7550A");
+      PenStalls = 8;
+      PaperCapacityISO = ISO_A3;
+      PaperCapacityANSI = ANSI_B;
+      break;
+   case HP_7585A:
+      strcpy(PlotterFullName, "HP 7585A");
+      PenStalls = 8;
+      PaperCapacityISO = ISO_A0;
+      PaperCapacityANSI = ANSI_E;
+      break;
+   case ROLAND_DPX_3300:
+      strcpy(PlotterFullName, "Roland DPX-3300");
+      PenStalls = 8;
+      PaperCapacityISO = ISO_A1;
+      PaperCapacityANSI = ANSI_D;
+      break;
+   case ROLAND_DXY_990:                           
+      PenStalls = 8;
+      strcpy(PlotterFullName, "Roland DXY-990");
+      PaperCapacityISO = ISO_A3;
+      PaperCapacityANSI = ANSI_B;
+      break;
+   case GENERIC_HPGL:
+      PenStalls = 8;
+      strcpy(PlotterFullName, "HPGL");
+      PaperCapacityISO = ISO_A3;    // Assume an A3 size
+      PaperCapacityANSI = ANSI_B;
+      break;
+   }
+
+   if ((PaperSize[0] == 'a') || (PaperSize[0] == 'A')) {
+      switch (PaperSize[1]) {
       case '1':
          Minx = -15970.0;
          Miny = -10870.0;
@@ -139,7 +207,7 @@ int plotbegin(const int border)
       }
    }
    else {
-      fprintf(stderr, "%s: unrecognised plotter size\n", PlotterName);
+      fprintf(stderr, "%s: unrecognised paper size\n", PaperSize);
       return (-1);
    }
    
@@ -313,14 +381,14 @@ int getplotinfo(struct PlotInfo *const p, unsigned int size)
       p->versionMajor = 1;
       p->versionMinor = 1;
       
-      p->plotterName = PlotterName;
+      p->plotterName = PlotterFullName;
       p->portName = OutputFile;
       p->paperName = PaperSize;
       p->plotTitle = Title;
       p->paperCapacityISO = "A3";
       p->paperCapacityANSI = "B";
       
-      p->nPenStalls = 8;   // HP 7470 = 2, 7475 = 6, 7550 = 8
+      p->nPenStalls = PenStalls;
       p->nPens = 1;        // One, until we parse -p correctly
       
       p->unitsPermm = 40.0;

@@ -5,6 +5,8 @@
 * Add support for plot scaling. We should be able to plot directly
 in millimetres (and possibly in inches) as well as in device
 coordinates and maybe in other units.
+* Add command-line argument for plotter type. But we've already used
+'p' for pen selection. Maybe use 'q'?
 * Separate paper size and plotter type so that we can draw on (say)
 A4 paper in an A0 plotter. The big plotters have the origin in the
 centre of the bed, whereas the smaller ones have the origin in the
@@ -15,7 +17,7 @@ SIGINT has stopped a plot.
 * Make 'plotcancel()' work properly. Install a signal handler in 'plotbegin()'
 to call it if/when we get a signal.
 * Add support for automatic paper feed on HP 7550 and any other plotters
-that have it.
+that have it. 7550A has 'PG' and 'NR' commands.
 * Consider adding return values to some drawing functions, e.g. 'roundrect()'.
 * Add automatic square and circular drawing boundaries. Several plots
 would benefit from this feature.

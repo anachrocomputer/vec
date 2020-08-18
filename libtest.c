@@ -13,10 +13,10 @@ struct Point {
    double y;
 };
 
-void lineTest(const double xc, const double yc, const double wd, const double ht);
-void circleTest(const double xc, const double yc, const double wd, const double ht);
-void arcTest(const double xc, const double yc, const double wd, const double ht);
-void textTest(const double xc, const double yc, const double wd, const double ht);
+void lineTest(const double xc, const double yc, const double wd, const double ht, const PlotInfo_t *const info);
+void circleTest(const double xc, const double yc, const double wd, const double ht, const PlotInfo_t *const info);
+void arcTest(const double xc, const double yc, const double wd, const double ht, const PlotInfo_t *const info);
+void textTest(const double xc, const double yc, const double wd, const double ht, const PlotInfo_t *const info);
 
 int main(int argc, char * const argv[])
 {
@@ -26,18 +26,19 @@ int main(int argc, char * const argv[])
    double maxx, maxy;
    PlotInfo_t info;
    
-   while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
+   while ((opt = getopt(argc, argv, "no:p:q:s:t:v:")) != -1) {
       switch (opt) {
       case 's':
       case 'n':
       case 'o':
       case 'p':
+      case 'q':
       case 't':
       case 'v':
          plotopt(opt, optarg);
          break;
       default: /* '?' */
-         fprintf(stderr, "Usage: %s [-p pen] [-s <size>] [-t title]\n", argv[0]);
+         fprintf(stderr, "Usage: %s [-p pen] [-q plotter] [-s <size>] [-t title]\n", argv[0]);
          fprintf(stderr, "       <size> ::= A1 | A2 | A3 | A4 | A5\n");
          exit(EXIT_FAILURE);
       }
@@ -60,17 +61,17 @@ int main(int argc, char * const argv[])
    
    w4 = maxx / 4.0;
    h4 = maxy / 4.0;
-      
+   
    moveto(0.0, yc);
    lineto(maxx, yc);
    
    moveto(xc, 0.0);
    lineto(xc, maxy);
    
-   lineTest(w4, yc + h4, w4, h4);
-   circleTest(w4, h4, w4, h4);
-   arcTest(xc + w4, yc + h4, w4, h4);
-   textTest(xc + w4, h4, w4, h4);
+   lineTest(w4, yc + h4, w4, h4, &info);
+   circleTest(w4, h4, w4, h4, &info);
+   arcTest(xc + w4, yc + h4, w4, h4, &info);
+   textTest(xc + w4, h4, w4, h4, &info);
    
    plotend();
    
@@ -78,7 +79,7 @@ int main(int argc, char * const argv[])
 }
 
 
-void lineTest(const double xc, const double yc, const double wd, const double ht)
+void lineTest(const double xc, const double yc, const double wd, const double ht, const PlotInfo_t *const info)
 {
    const double len = wd / 16.0;
    
@@ -87,10 +88,13 @@ void lineTest(const double xc, const double yc, const double wd, const double ht
    
    moveto(xc, yc - len);
    lineto(xc, yc + len);
+   
+   hlabel(xc - (wd / 2.0), yc - (ht / 2.0), 5.0, info->plotterName);
+   hlabel(xc + (wd / 2.0), yc - (ht / 2.0), 5.0, info->paperName);
 }
 
 
-void circleTest(const double xc, const double yc, const double wd, const double ht)
+void circleTest(const double xc, const double yc, const double wd, const double ht, const PlotInfo_t *const info)
 {
    const double major = wd / 2.0;
    const double minor = ht / 2.0;
@@ -103,7 +107,7 @@ void circleTest(const double xc, const double yc, const double wd, const double 
 }
 
 
-void arcTest(const double xc, const double yc, const double wd, const double ht)
+void arcTest(const double xc, const double yc, const double wd, const double ht, const PlotInfo_t *const info)
 {
    double radius = wd / 2.0;
    const double delta = M_PI / 4.0;
@@ -124,7 +128,7 @@ void arcTest(const double xc, const double yc, const double wd, const double ht)
 }
 
 
-void textTest(const double xc, const double yc, const double wd, const double ht)
+void textTest(const double xc, const double yc, const double wd, const double ht, const PlotInfo_t *const info)
 {
    const double len = wd / 16.0;
    

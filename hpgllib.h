@@ -1,6 +1,31 @@
 /* hpgllib --- header file for HPGL library                 2013-03-23 */
 /* Copyright (c) 2013 John Honniball                                   */
 
+enum PaperSizeCode {
+   ISO_A0,  //!< 841 x 1189 mm
+   ISO_A1,  //!< 594 x 841 mm
+   ISO_A2,  //!< 420 x 594 mm
+   ISO_A3,  //!< 297 x 420 mm
+   ISO_A4,  //!< 210 x 297 mm
+   ISO_A5,  //!< 148 x 210 mm
+   ISO_A6,  //!< 105 x 148 mm
+   ANSI_E,  //!< 34 x 44 inches
+   ANSI_D,  //!< 22 x 34 inches
+   ANSI_C,  //!< 17 x 22 inches
+   ANSI_B,  //!< 11 x 17 inches
+   ANSI_A   //!< 8.5 x 11 inches
+};
+
+enum PlotterModelCode {
+   HP_7470A,         //!< HP 7470A
+   HP_7475A,         //!< HP 7475A
+   HP_7550A,         //!< HP 7550A
+   HP_7585A,         //!< HP 7585A or 7585B
+   ROLAND_DPX_3300,  //!< Roland DPX-3300
+   ROLAND_DXY_990,   //!< Roland DXY-990
+   GENERIC_HPGL      //!< Unspecified, default to generic HPGL
+};
+
 struct PlotInfo {
    int versionMajor;          //!< Major version number of HPGL library
    int versionMinor;          //!< Minor version number of HPGL library
