@@ -28,6 +28,9 @@ unnecessary 'PD;' and 'PA;' commands. Keep a state variable that
 represents PEN_UP, PEN_DOWN, IN_PA, etc.
 * Draw circles using Arc Absolute 'AA;' and choose arc starting-point
 that's closest to current pen position.
+* Add support for the front-panel LCD on the HP 7550A. Use the 'WD'
+command. Make the plots announce their names on the LCD. Can't do
+this until we have a way to make sure we're running on a 7550A.
 * Move 'spiral()' into the library. Another useful general-purpose
 drawing function. Make sure it can start with a non-zero radius, and draw
 both clockwise and anti-clockwise.
