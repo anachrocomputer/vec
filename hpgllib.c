@@ -901,14 +901,15 @@ static int openPlotterPort(const char *const port)
       return (-1);
    }
    
-   cfsetospeed(&tbuf, B9600);
+   cfsetospeed(&tbuf, B9600); // Set 9600 baud TODO: make this configurable
    cfsetispeed(&tbuf, B9600);
    cfmakeraw(&tbuf);
 
-   tbuf.c_cflag |= CLOCAL;
+   tbuf.c_cflag |= CLOCAL;    // Ignore CD (Carrier Detect) signal
+   tbuf.c_cflag &= ~CSTOPB;   // One stop bit
    tbuf.c_cflag &= ~CSIZE;
    tbuf.c_cflag |= CS8 | CREAD | CRTSCTS;
-   tbuf.c_cflag &= ~PARENB;
+   tbuf.c_cflag &= ~PARENB;   // Disable parity
    
    if (tcsetattr (fd, TCSAFLUSH, &tbuf) < 0) {
       perror("tcsetattr");

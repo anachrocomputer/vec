@@ -16,6 +16,8 @@ lower left corner.
 SIGINT has stopped a plot.
 * Make 'plotcancel()' work properly. Install a signal handler in 'plotbegin()'
 to call it if/when we get a signal.
+* Add support for read-back commands when the interface allows them.
+E.g. 'OS', 'OA' and 'OI'.
 * Add support for automatic paper feed on HP 7550 and any other plotters
 that have it. 7550A has 'PG' and 'NR' commands.
 * Consider adding return values to some drawing functions, e.g. 'roundrect()'.
