@@ -77,3 +77,4 @@ void roundrect(const double x1, const double y1, const double x2, const double y
 void pencolr(int c);
 void vlabel(const double x, const double y, const double siz, const char *const str);
 void hlabel(const double x, const double y, const double siz, const char *const str);
+int writedisplay(const char *const str);

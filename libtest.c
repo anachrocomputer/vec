@@ -62,6 +62,8 @@ int main(int argc, char * const argv[])
    w4 = maxx / 4.0;
    h4 = maxy / 4.0;
    
+   writedisplay("LIBTEST");
+   
    moveto(0.0, yc);
    lineto(maxx, yc);
    

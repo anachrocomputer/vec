@@ -14,13 +14,14 @@
 #include <errno.h>
 #include "hpgllib.h"
 
-enum ptype {
+enum InterfaceType {
    PLOT_UNKNOWN,  //!< Type of interface unknown
    PLOT_FILE,     //!< Writing to a file
    PLOT_SERIAL,   //!< Writing to a serial port
    PLOT_PARALLEL, //!< Writing to a parallel port
    PLOT_IEEE488,  //!< Writing to an IEEE-488 port
-   PLOT_NETWORK   //!< Writing via the network
+   PLOT_NETWORK,  //!< Writing via the network
+   PLOT_USB       //!< Writing to USB
 };
 
 static int openPlotter(const char *const port);
@@ -836,6 +837,32 @@ void hlabel(const double x, const double y, const double siz, const char *const 
    const int iy = (int)(y + Miny);
 
    fprintf(Plt, "PU;PA%d,%d;SI%1.2f,%1.2f;DI1,0;LB%s%c;", ix, iy, siz/10.0, siz/10.0, str, 0x03);
+}
+
+
+/**
+ * @brief Write to the plotter's display (if it has one)
+ *
+ * @details Only supported on the mighty HP 7550A so far.
+ *
+ * @todo Should we clear the display at the end of every plot?
+ * @todo Decide what to do about padding the string out to the size of the display, with spaces.
+ * @todo Decide what to do about newlines within the string.
+ *
+ * @param str String to show on the display.
+ */
+int writedisplay(const char *const str)
+{
+   switch (PlotterModel) {
+   case HP_7550A:
+      fprintf(Plt, "WD%s%c;", str, 0x03);
+      break;
+   default:
+      return (-1);
+      break;
+   }
+   
+   return (0);
 }
 
 
