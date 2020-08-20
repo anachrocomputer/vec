@@ -35,10 +35,11 @@ static FILE *Plt = NULL;
 static int NoInit = 0;
 static char PenNum[16] = "1";
 static char OutputFile[FILENAME_MAX] = "/dev/usb/lp0";
-static char PaperSize[16] = "A3";
+static char PaperName[16] = "A3";
 static char PlotterName[32] = "HPGL";
 static char PlotterFullName[64] = "HPGL";
 static int PlotterModel = -1;
+static int PaperSize = -1;
 static int PenStalls = -1;
 static int PaperCapacityISO = -1;
 static int PaperCapacityANSI = -1;
@@ -70,7 +71,7 @@ int plotopt(const int ch, const char *const arg)
       strcpy(PlotterName, arg);
       break;
    case 's':
-      strcpy(PaperSize, arg);
+      strcpy(PaperName, arg);
       break;
    case 't':
       strcpy(Title, arg);
@@ -164,51 +165,66 @@ int plotbegin(const int border)
       break;
    }
 
-   if ((PaperSize[0] == 'a') || (PaperSize[0] == 'A')) {
-      switch (PaperSize[1]) {
-      case '1':
-         Minx = -15970.0;
-         Miny = -10870.0;
-         Maxx = 15970.0;
-         Maxy = 10870.0;
-         Scale = 80.0;
-         break;
-      case '2':
-         fputs("A2 plotter not yet supported\n", stderr);
-         return (-1);
-         /* Values used experimentally with A2 paper in DPX-3300:
-            Minx = -15970.0 - 200.0;
-            Miny = -10870.0 - 600.0;
-            Maxx = (10870.0 * 2.0) - (15970.0 + 200.0);
-            Maxy = (7985.0 * 2.0) - (10870.0 + 600.0);
-            Scale = 56.57;         */
-         break;
-      case '3':
-         Minx = 0.0;
-         Miny = 0.0;
-         Maxx = 15970.0;
-         Maxy = 10870.0;
-         Scale = 40.0;
-         break;
-      case '4':
-         Minx = 0.0;
-         Miny = 0.0;
-         Maxx = 10870.0;
-         Maxy = 7985.0;
-         Scale = 28.28;
-         break;
-      case '5':
-         Minx = 0.0;
-         Miny = 0.0;
-         Maxx = 7985.0;
-         Maxy = 5435.0;
-         Scale = 20.0;
-         break;
-      }
-   }
+   if ((strcmp(PaperName, "A0") == 0) || (strcmp(PaperName, "a0") == 0))
+      PaperSize = ISO_A0;
+   else if ((strcmp(PaperName, "A1") == 0) || (strcmp(PaperName, "a1") == 0))
+      PaperSize = ISO_A1;
+   else if ((strcmp(PaperName, "A2") == 0) || (strcmp(PaperName, "a2") == 0))
+      PaperSize = ISO_A2;
+   else if ((strcmp(PaperName, "A3") == 0) || (strcmp(PaperName, "a3") == 0))
+      PaperSize = ISO_A3;
+   else if ((strcmp(PaperName, "A4") == 0) || (strcmp(PaperName, "a4") == 0))
+      PaperSize = ISO_A4;
+   else if ((strcmp(PaperName, "A5") == 0) || (strcmp(PaperName, "a5") == 0))
+      PaperSize = ISO_A5;
    else {
-      fprintf(stderr, "%s: unrecognised paper size\n", PaperSize);
+      fprintf(stderr, "%s: unrecognised paper size\n", PaperName);
       return (-1);
+   }
+   
+   switch (PaperSize) {
+   case ISO_A0:
+      fputs("A0 paper not yet supported\n", stderr);
+      return (-1);
+      break;
+   case ISO_A1:
+      Minx = -15970.0;
+      Miny = -10870.0;
+      Maxx = 15970.0;
+      Maxy = 10870.0;
+      Scale = 80.0;
+      break;
+   case ISO_A2:
+      fputs("A2 paper not yet supported\n", stderr);
+      return (-1);
+      /* Values used experimentally with A2 paper in DPX-3300:
+         Minx = -15970.0 - 200.0;
+         Miny = -10870.0 - 600.0;
+         Maxx = (10870.0 * 2.0) - (15970.0 + 200.0);
+         Maxy = (7985.0 * 2.0) - (10870.0 + 600.0);
+         Scale = 56.57;         */
+      break;
+   case ISO_A3:
+      Minx = 0.0;
+      Miny = 0.0;
+      Maxx = 15970.0;
+      Maxy = 10870.0;
+      Scale = 40.0;
+      break;
+   case ISO_A4:
+      Minx = 0.0;
+      Miny = 0.0;
+      Maxx = 10870.0;
+      Maxy = 7985.0;
+      Scale = 28.28;
+      break;
+   case ISO_A5:
+      Minx = 0.0;
+      Miny = 0.0;
+      Maxx = 7985.0;
+      Maxy = 5435.0;
+      Scale = 20.0;
+      break;
    }
    
    pen = atoi(PenNum);
@@ -383,7 +399,7 @@ int getplotinfo(struct PlotInfo *const p, unsigned int size)
       
       p->plotterName = PlotterFullName;
       p->portName = OutputFile;
-      p->paperName = PaperSize;
+      p->paperName = PaperName;
       p->plotTitle = Title;
       p->paperCapacityISO = "A3";
       p->paperCapacityANSI = "B";
