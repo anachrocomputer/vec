@@ -27,7 +27,7 @@ enum InterfaceType {
 enum PenStatus {
    PEN_UP,        //!< Pen is up, moveto
    PEN_DOWN,      //!< Pen is down, lineto
-   IN_PA          //!< Unused at present @todo Implement this
+   IN_PA          //!< Pen is in the middle of a PA sequence, lineto
 };
 
 static int openPlotter(const char *const port);
@@ -521,12 +521,13 @@ void moveto(const double x, const double y)
    const int iy = (int)(y + Miny);
    double dx, dy;
 
-   if (PenState == PEN_DOWN) {
+   if (PenState == IN_PA)
+      fprintf(Plt, ";\nPU;");
+   else if (PenState == PEN_DOWN)
       fprintf(Plt, "PU;");
-      PenState = PEN_UP;
-   }
-      
+
    fprintf(Plt, "PA%d,%d;\n", ix, iy);
+   PenState = PEN_UP;
    
    dx = ix - Penx;
    dy = iy - Peny;
@@ -541,9 +542,6 @@ void moveto(const double x, const double y)
 /**
  * @brief Draw a line from the current pen position to the new position
  *
- * @todo Optimise HPGL by maintaining a state variable and eliminating
- *  unnecesary 'PD;' and 'PA' commands.
- *
  * @param x X co-ordinate to draw to
  * @param y Y co-ordinate to draw to
  */
@@ -553,12 +551,14 @@ void lineto(const double x, const double y)
    const int iy = (int)(y + Miny);
    double dx, dy;
 
-   if (PenState == PEN_UP) {
-      fprintf(Plt, "PD;");
-      PenState = PEN_DOWN;
-   }
+   if (PenState == PEN_UP)
+      fprintf(Plt, "PD;PA%d,%d", ix, iy);
+   else if (PenState == IN_PA)
+      fprintf(Plt, ",%d,%d", ix, iy);
+   else
+      fprintf(Plt, "PA%d,%d", ix, iy);
 
-   fprintf(Plt, "PA%d,%d;\n", ix, iy);
+   PenState = IN_PA;
    
    dx = ix - Penx;
    dy = iy - Peny;
@@ -582,12 +582,13 @@ void openlinesequence(const double x, const double y)
    
    FirstSeg = 1;
 
-   if (PenState == PEN_DOWN) {
+   if (PenState == IN_PA)
+      fprintf(Plt, ";\nPU;");
+   else if (PenState == PEN_DOWN)
       fprintf(Plt, "PU;");
-      PenState = PEN_UP;
-   }
       
    fprintf(Plt, "PA%d,%d;", ix, iy);
+   PenState = PEN_UP;
    
    dx = ix - Penx;
    dy = iy - Peny;
@@ -609,10 +610,10 @@ void linesegmentto(const double x, const double y)
    double dx, dy;
 
    if (FirstSeg) {
-      if (PenState == PEN_UP) {
+      if (PenState == IN_PA)
+         fprintf(Plt, ";\nPD;");
+      else if (PenState == PEN_UP)
          fprintf(Plt, "PD;");
-         PenState = PEN_DOWN;
-      }
          
       fprintf(Plt, "PA%d,%d", ix, iy);
       FirstSeg = 0;
@@ -620,6 +621,8 @@ void linesegmentto(const double x, const double y)
    else
       fprintf(Plt, ",%d,%d", ix, iy);
    
+   PenState = IN_PA;
+
    dx = ix - Penx;
    dy = iy - Peny;
    
@@ -669,10 +672,10 @@ void rectangle(const double x1, const double y1, const double x2, const double y
    const int ix2 = (int)(x2 + Minx);
    const int iy2 = (int)(y2 + Miny);
 
-   if (PenState == PEN_DOWN) {
+   if (PenState == IN_PA)
+      fprintf(Plt, ";\nPU;");
+   else if (PenState == PEN_DOWN)
       fprintf(Plt, "PU;");
-      PenState = PEN_UP;
-   }
       
    fprintf(Plt, "PA%d,%d;PD;PA%d,%d,%d,%d,%d,%d,%d,%d;\n", ix1, iy1,
                 ix1, iy2, ix2, iy2, ix2, iy1, ix1, iy1);
@@ -700,7 +703,12 @@ void fillrectangle(const double x1, const double y1, const double x2, const doub
    const int ix2 = (int)(x2 + Minx);
    const int iy2 = (int)(y2 + Miny);
 
-   fprintf(Plt, "PU%d,%d;RA%d,%d;\n", ix1, iy1, ix2, iy2);
+   if (PenState == IN_PA)
+      fprintf(Plt, ";\nPU;");
+   else if (PenState == PEN_DOWN)
+      fprintf(Plt, "PU;");
+
+   fprintf(Plt, "PA%d,%d;RA%d,%d;\n", ix1, iy1, ix2, iy2);
    PenState = PEN_DOWN;
 }
 
@@ -721,10 +729,10 @@ void circle(const double x, const double y, const double r)
    const int iy = (int)(y + Miny);
    const int ir = r;
 
-   if (PenState == PEN_DOWN) {
+   if (PenState == IN_PA)
+      fprintf(Plt, ";\nPU;");
+   else if (PenState == PEN_DOWN)
       fprintf(Plt, "PU;");
-      PenState = PEN_UP;
-   }
       
    fprintf(Plt, "PA%d,%d;CI%d;\n", ix, iy, ir);
    PenState = PEN_DOWN;
@@ -748,10 +756,10 @@ void circle2(const double x, const double y, const double r, const double tol)
    const int ir = r;
    const int itol = tol;
    
-   if (PenState == PEN_DOWN) {
+   if (PenState == IN_PA)
+      fprintf(Plt, ";\nPU;");
+   else if (PenState == PEN_DOWN)
       fprintf(Plt, "PU;");
-      PenState = PEN_UP;
-   }
       
    fprintf(Plt, "PA%d,%d;CI%d,%d;\n", ix, iy, ir, itol);
    PenState = PEN_DOWN;
@@ -770,12 +778,13 @@ void arc(const double x, const double y, const double a)
    const int ix = (int)(x + Minx);
    const int iy = (int)(y + Miny);
 
-   if (PenState == PEN_UP) {
+   if (PenState == IN_PA)
+      fprintf(Plt, ";\n");
+   else if (PenState == PEN_UP)
       fprintf(Plt, "PD;");
-      PenState = PEN_DOWN;
-   }
       
    fprintf(Plt, "AA%d,%d,%2.1f;\n", ix, iy, a);
+   PenState = PEN_DOWN;
 }
 
 
@@ -873,10 +882,10 @@ void vlabel(const double x, const double y, const double siz, const char *const 
    const int ix = (int)(x + Minx);
    const int iy = (int)(y + Miny);
 
-   if (PenState == PEN_DOWN) {
+   if (PenState == IN_PA)
+      fprintf(Plt, ";\nPU;");
+   else if (PenState == PEN_DOWN)
       fprintf(Plt, "PU;");
-      PenState = PEN_UP;
-   }
       
    fprintf(Plt, "PA%d,%d;SI%1.2f,%1.2f;DI0,1;LB%s%c;\n", ix, iy, siz/10.0, siz/10.0, str, 0x03);
    PenState = PEN_DOWN;
@@ -896,10 +905,10 @@ void hlabel(const double x, const double y, const double siz, const char *const 
    const int ix = (int)(x + Minx);
    const int iy = (int)(y + Miny);
 
-   if (PenState == PEN_DOWN) {
+   if (PenState == IN_PA)
+      fprintf(Plt, ";\nPU;");
+   else if (PenState == PEN_DOWN)
       fprintf(Plt, "PU;");
-      PenState = PEN_UP;
-   }
       
    fprintf(Plt, "PA%d,%d;SI%1.2f,%1.2f;DI1,0;LB%s%c;\n", ix, iy, siz/10.0, siz/10.0, str, 0x03);
    PenState = PEN_DOWN;

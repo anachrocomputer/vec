@@ -27,9 +27,9 @@ would benefit from this feature.
 function that will reverse a line end-for-end to speed up drawing. That function
 is useful in many situations and would eliminate explicit logic to plot
 lines in reverse directions.
-* Optimise 'moveto()'/'lineto()' so that they don't generate
-unnecessary 'PD;' and 'PA;' commands. Keep a state variable that
-represents PEN_UP, PEN_DOWN, IN_PA, etc.
+* Remove 'openlinesequence()', 'linesegmentto()' and 'closelinesequence()'
+from the library. They were a bit of a kludge anyway, and inconvenient
+for the user.
 * Draw circles using Arc Absolute 'AA;' and choose arc starting-point
 that's closest to current pen position.
 * Add support for the front-panel LCD on the HP 7550A. Use the 'WD'
@@ -80,6 +80,9 @@ some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
 label. Plot directly onto a CD-R or DVD-RW.
 * Write a library test plot that exercises all the drawing commands.
 Useful if/when we add support for BMC or other non-HPGL plotters.
+* Remove all uses of 'openlinesequence()' from the drawing programs.
+Just use 'moveto()' and 'lineto()', which now optimise the HPGL that
+they generate.
 * Convert some of the older drawings to fully use the HPGL library.
 E.g. op, pconic, hconic.
 * Finish off some of the incomplete plots. E.g. hexagon, fraserspiral,
