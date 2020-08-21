@@ -68,12 +68,12 @@ int main(int argc, char * const argv[])
 
    /* Draw inner squares */
    for (i = 0; i <= n; i++) {
-      openlinesequence(pt[0].x + xoff, pt[0].y);
+      moveto(pt[0].x + xoff, pt[0].y);
       
       for (j = 1; j < 4; j++)
-         linesegmentto(pt[j].x + xoff, pt[j].y);
+         lineto(pt[j].x + xoff, pt[j].y);
       
-      closelinesequence(1);
+      lineto(pt[0].x + xoff, pt[0].y);
 
       for (j = 0; j < 4; j++) { 
          nextj = (j + 1) % 4;

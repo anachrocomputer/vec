@@ -71,16 +71,15 @@ void spiral(const double xc, const double yc, const double r1, const double r2, 
    int i;
    const double dr = (r2 - r1) / (72.0 * n);
    
-   openlinesequence((r1 * cos(ang)) + xc, (r1 * sin(ang)) + yc);
-   
-   for (i = 0; i < (72 * n); i++) {
+   for (i = 0; i <= (72 * n); i++) {
       const double theta = ang + (delta * i);
       const double r = r1 + (dr * i);
       const double x = (r * cos(theta)) + xc;
       const double y = (r * sin(theta)) + yc;
       
-      linesegmentto(x, y);
+      if (i == 0)
+         moveto(x, y);
+      else
+         lineto(x, y);
    }
-   
-   closelinesequence(0);
 }
