@@ -75,6 +75,9 @@ plotter (using shell I/O redirection) when plotting Turtle programs.
 * Add drawings that can be folded like Origami.
 * Add drawings that can be cut out and assembled, e.g. geodesic dome.
 * Plot the Utah Teapot in wire-frame.
+* Plot a cassette inlay, and/or a CD inlay or a floppy disk label or
+some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
+label. Plot directly onto a CD-R or DVD-RW.
 * Write a library test plot that exercises all the drawing commands.
 Useful if/when we add support for BMC or other non-HPGL plotters.
 * Convert some of the older drawings to fully use the HPGL library.
