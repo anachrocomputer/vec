@@ -24,6 +24,12 @@ enum InterfaceType {
    PLOT_USB       //!< Writing to USB
 };
 
+enum PenStatus {
+   PEN_UP,        //!< Pen is up, moveto
+   PEN_DOWN,      //!< Pen is down, lineto
+   IN_PA          //!< Unused at present @todo Implement this
+};
+
 static int openPlotter(const char *const port);
 static int openPlotterPort(const char *const port);
 
@@ -48,6 +54,7 @@ static char Title[128] = "";
 static char Velocity[16] = "";
 static int Penx;
 static int Peny;
+static int PenState = PEN_UP;
 static double PenUpDist;
 static double PenDownDist;
 static int PlotType = PLOT_UNKNOWN;
@@ -292,6 +299,8 @@ int plotbegin(const int border)
       fprintf(Plt, "VS%d;\n", v);  /* Slow down for shite pens */
    }
 
+   PenState = PEN_UP;
+   
    /* Select first pen */
    pencolr(pen - 1);
 
@@ -299,7 +308,7 @@ int plotbegin(const int border)
    if (Title[0] != '\0') {
       fprintf(Plt, "PU;PA%d,%d\n", (int)(Minx + (10.0 * 40.0)), (int)(Miny + (10.0 * 40.0)));
       fprintf(Plt, "DR0,1;\n");
-      fprintf(Plt, "LB%s%c;\n", Title, 3);
+      fprintf(Plt, "LB%s%c;PU;\n", Title, 3);
    }
 
    /* Plot border of drawing area */
@@ -313,6 +322,8 @@ int plotbegin(const int border)
 
 /**
  * @brief Finalise the plot
+ *
+ * @todo Take pen speed into account when calculating plot time
  */
 void plotend(void)
 {
@@ -337,7 +348,6 @@ void plotend(void)
    printf("PenUpDist = %.1f (%.1fmm)\n", PenUpDist, PenUpDist / 40.0);
    printf("PenDownDist = %.1f (%.1fmm)\n", PenDownDist, PenDownDist / 40.0);
    
-   /* TODO: take pen speed into account when calculating plot time */
    sec = ((PenUpDist + PenDownDist) / 40.0) / 250.0;
    
    printf("Estimated time to plot: %.1fs\n", sec);
@@ -511,7 +521,12 @@ void moveto(const double x, const double y)
    const int iy = (int)(y + Miny);
    double dx, dy;
 
-   fprintf(Plt, "PU;PA%d,%d;\n", ix, iy);
+   if (PenState == PEN_DOWN) {
+      fprintf(Plt, "PU;");
+      PenState = PEN_UP;
+   }
+      
+   fprintf(Plt, "PA%d,%d;\n", ix, iy);
    
    dx = ix - Penx;
    dy = iy - Peny;
@@ -538,7 +553,12 @@ void lineto(const double x, const double y)
    const int iy = (int)(y + Miny);
    double dx, dy;
 
-   fprintf(Plt, "PD;PA%d,%d;\n", ix, iy);
+   if (PenState == PEN_UP) {
+      fprintf(Plt, "PD;");
+      PenState = PEN_DOWN;
+   }
+
+   fprintf(Plt, "PA%d,%d;\n", ix, iy);
    
    dx = ix - Penx;
    dy = iy - Peny;
@@ -562,7 +582,12 @@ void openlinesequence(const double x, const double y)
    
    FirstSeg = 1;
 
-   fprintf(Plt, "PU;PA%d,%d;", ix, iy);
+   if (PenState == PEN_DOWN) {
+      fprintf(Plt, "PU;");
+      PenState = PEN_UP;
+   }
+      
+   fprintf(Plt, "PA%d,%d;", ix, iy);
    
    dx = ix - Penx;
    dy = iy - Peny;
@@ -584,7 +609,12 @@ void linesegmentto(const double x, const double y)
    double dx, dy;
 
    if (FirstSeg) {
-      fprintf(Plt, "PD;PA%d,%d", ix, iy);
+      if (PenState == PEN_UP) {
+         fprintf(Plt, "PD;");
+         PenState = PEN_DOWN;
+      }
+         
+      fprintf(Plt, "PA%d,%d", ix, iy);
       FirstSeg = 0;
    }
    else
@@ -639,8 +669,14 @@ void rectangle(const double x1, const double y1, const double x2, const double y
    const int ix2 = (int)(x2 + Minx);
    const int iy2 = (int)(y2 + Miny);
 
-   fprintf(Plt, "PU%d,%d;PD;PA%d,%d,%d,%d,%d,%d,%d,%d;\n", ix1, iy1,
+   if (PenState == PEN_DOWN) {
+      fprintf(Plt, "PU;");
+      PenState = PEN_UP;
+   }
+      
+   fprintf(Plt, "PA%d,%d;PD;PA%d,%d,%d,%d,%d,%d,%d,%d;\n", ix1, iy1,
                 ix1, iy2, ix2, iy2, ix2, iy1, ix1, iy1);
+   PenState = PEN_DOWN;
 }
 
 
@@ -665,6 +701,7 @@ void fillrectangle(const double x1, const double y1, const double x2, const doub
    const int iy2 = (int)(y2 + Miny);
 
    fprintf(Plt, "PU%d,%d;RA%d,%d;\n", ix1, iy1, ix2, iy2);
+   PenState = PEN_DOWN;
 }
 
 
@@ -684,7 +721,13 @@ void circle(const double x, const double y, const double r)
    const int iy = (int)(y + Miny);
    const int ir = r;
 
-   fprintf(Plt, "PU;PA%d,%d;CI%d;\n", ix, iy, ir);
+   if (PenState == PEN_DOWN) {
+      fprintf(Plt, "PU;");
+      PenState = PEN_UP;
+   }
+      
+   fprintf(Plt, "PA%d,%d;CI%d;\n", ix, iy, ir);
+   PenState = PEN_DOWN;
 }
 
 
@@ -705,7 +748,13 @@ void circle2(const double x, const double y, const double r, const double tol)
    const int ir = r;
    const int itol = tol;
    
-   fprintf(Plt, "PU;PA%d,%d;CI%d,%d;\n", ix, iy, ir, itol);
+   if (PenState == PEN_DOWN) {
+      fprintf(Plt, "PU;");
+      PenState = PEN_UP;
+   }
+      
+   fprintf(Plt, "PA%d,%d;CI%d,%d;\n", ix, iy, ir, itol);
+   PenState = PEN_DOWN;
 }
 
 
@@ -721,7 +770,12 @@ void arc(const double x, const double y, const double a)
    const int ix = (int)(x + Minx);
    const int iy = (int)(y + Miny);
 
-   fprintf(Plt, "PD;AA%d,%d,%2.1f;\n", ix, iy, a);
+   if (PenState == PEN_UP) {
+      fprintf(Plt, "PD;");
+      PenState = PEN_DOWN;
+   }
+      
+   fprintf(Plt, "AA%d,%d,%2.1f;\n", ix, iy, a);
 }
 
 
@@ -819,7 +873,13 @@ void vlabel(const double x, const double y, const double siz, const char *const 
    const int ix = (int)(x + Minx);
    const int iy = (int)(y + Miny);
 
-   fprintf(Plt, "PU;PA%d,%d;SI%1.2f,%1.2f;DI0,1;LB%s%c;", ix, iy, siz/10.0, siz/10.0, str, 0x03);
+   if (PenState == PEN_DOWN) {
+      fprintf(Plt, "PU;");
+      PenState = PEN_UP;
+   }
+      
+   fprintf(Plt, "PA%d,%d;SI%1.2f,%1.2f;DI0,1;LB%s%c;\n", ix, iy, siz/10.0, siz/10.0, str, 0x03);
+   PenState = PEN_DOWN;
 }
 
 
@@ -836,7 +896,13 @@ void hlabel(const double x, const double y, const double siz, const char *const 
    const int ix = (int)(x + Minx);
    const int iy = (int)(y + Miny);
 
-   fprintf(Plt, "PU;PA%d,%d;SI%1.2f,%1.2f;DI1,0;LB%s%c;", ix, iy, siz/10.0, siz/10.0, str, 0x03);
+   if (PenState == PEN_DOWN) {
+      fprintf(Plt, "PU;");
+      PenState = PEN_UP;
+   }
+      
+   fprintf(Plt, "PA%d,%d;SI%1.2f,%1.2f;DI1,0;LB%s%c;\n", ix, iy, siz/10.0, siz/10.0, str, 0x03);
+   PenState = PEN_DOWN;
 }
 
 
