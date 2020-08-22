@@ -1,7 +1,8 @@
 # Things To Do
 
 ## HPGL library
-* Add support for non-ISO paper sizes (i.e. U.S. paper sizes, origami square paper)
+* Add support for non-ISO paper sizes (i.e. U.S. paper sizes,
+origami square paper, postcard sizes, photographic sizes).
 * Add support for plot scaling. We should be able to plot directly
 in millimetres (and possibly in inches) as well as in device
 coordinates and maybe in other units.
@@ -30,6 +31,11 @@ lines in reverse directions.
 * Remove 'openlinesequence()', 'linesegmentto()' and 'closelinesequence()'
 from the library. They were a bit of a kludge anyway, and inconvenient
 for the user.
+* Optimise HPGL by not emitting 'PU;PA' in response to a 'moveto()'
+if the pen is already at that location. Will probably reduce the number
+of zero line segments that we get in 'hp2xx'.
+* Change 'rectangle()' to call 'moveto()'/'lineto()'. Let those
+functions handle optimisation.
 * Draw circles using Arc Absolute 'AA;' and choose arc starting-point
 that's closest to current pen position.
 * Add support for the front-panel LCD on the HP 7550A. Use the 'WD'
@@ -45,6 +51,9 @@ arc tolerance of 72 chords. Make this a settable parameter somehow.
 comma-separated list of pens. Plot programs could then call for the
 next (or previous) pen and make simple multi-colour plots.
 Plots that might benefit from that: dala2, morphpoly, sutpent.
+* Can we tell 'hp2xx' about pen width via the HPGL? If we can, we'd
+be able to get previews with bold or fine pens.
+* Should we set pen speeds separately for each pen?
 * Eliminate 'hpglout()' if at all possible. It breaks the abstraction
 that the library tries to maintain.
 * Support non-HPGL output. Maybe PostScript, BMC plotter commands,

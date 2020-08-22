@@ -84,12 +84,21 @@ int main(int argc, char * const argv[])
 void lineTest(const double xc, const double yc, const double wd, const double ht, const PlotInfo_t *const info)
 {
    const double len = wd / 16.0;
+   double hside = wd * 0.8;
+   double vside = ht * 0.8;
    
    moveto(xc - len, yc);
    lineto(xc + len, yc);
    
    moveto(xc, yc - len);
    lineto(xc, yc + len);
+   
+   rectangle(xc - hside, yc - vside, xc + hside, yc + vside);
+   
+   hside = wd * 0.7;
+   vside = ht * 0.7;
+   
+   roundrect(xc - hside, yc - vside, xc + hside, yc + vside, wd / 8);
    
    hlabel(xc - (wd / 2.0), yc - (ht / 2.0), 5.0, info->plotterName);
    hlabel(xc + (wd / 2.0), yc - (ht / 2.0), 5.0, info->paperName);
@@ -116,10 +125,18 @@ void arcTest(const double xc, const double yc, const double wd, const double ht,
    double angle;
    int i;
    
-   moveto(xc - (wd / 2.0), yc);
-   lineto(xc, yc);
-   lineto(xc, yc + (wd / 2.0));
+   moveto(xc - radius, yc);
+   lineto(xc + radius, yc);
+
+   moveto(xc + radius, yc - radius);
+   lineto(xc - radius, yc + radius);
+
+   moveto(xc, yc + radius);
+   lineto(xc, yc - radius);
    
+   moveto(xc - radius, yc - radius);
+   lineto(xc + radius, yc + radius);
+
    for (i = 0; i < 7; i++) {
       radius = (wd / 16.0) * (i + 1);
       angle = 45.0 * (i + 1);
