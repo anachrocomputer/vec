@@ -5,7 +5,8 @@ CC=gcc
 CFLAGS=-c -Wall
 LD=gcc
 HP2XX=hp2xx
-HPFLAGS=-c 12345 -m png -f $@
+PNGFLAGS=-c 12345 -m png -f $@
+SVGFLAGS=-c 12345 -m svg -f $@
 
 TITLE=-t "Bristol Hackspace"
 BOLDPEN=-p 1
@@ -23,12 +24,17 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl poly_oval.hpgl \
      libtest.hpgl linetiles.hpgl
 
+SVG=$(HPGL:.hpgl=.svg)
+
 PNG=$(HPGL:.hpgl=.png)
 
-%.png : %.hpgl
-	$(HP2XX) $(HPFLAGS) $<
+%.svg : %.hpgl
+	$(HP2XX) $(SVGFLAGS) $<
 
-all: $(HPGL) $(PNG) plottext
+%.png : %.hpgl
+	$(HP2XX) $(PNGFLAGS) $<
+
+all: $(HPGL) $(PNG) $(SVG) plottext
 
 # Tarim's C++ code
 

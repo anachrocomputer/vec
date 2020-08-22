@@ -94,6 +94,7 @@ Just use 'moveto()' and 'lineto()', which now optimise the HPGL that
 they generate.
 * Convert some of the older drawings to fully use the HPGL library.
 E.g. op, pconic, hconic.
+* Convert Tarim's C++ 'spiro' to C and make it use the library too.
 * Finish off some of the incomplete plots. E.g. hexagon, fraserspiral,
 flake, arches, piscis, qrplot, spiralsq, superellipse,
 twist, zigzag.
