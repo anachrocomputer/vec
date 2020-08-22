@@ -977,16 +977,15 @@ void superellipse(const double x0, const double y0, const double a, const double
 
 void spiral(const double cx, const double cy, const double radius, const double ang, const int n)
 {
-   double theta = ang;
-   double thinc = 2.0 * M_PI / 72.0;
+   double delta = 2.0 * M_PI / 72.0;
    int i;
-   int ptnumber = 72 * n;
+   int npts = 72 * n;
 
    moveto(cx, cy);
 
-   for (i = 0; i < ptnumber; i++) {
-      theta += thinc;
-      const double r = (radius * i) / (double)ptnumber;
+   for (i = 1; i <= npts; i++) {
+      const double theta = ang + (delta * (double)i);
+      const double r = (radius * i) / (double)npts;
       const double x = (r * cos(theta)) + cx;
       const double y = (r * sin(theta)) + cy;
 

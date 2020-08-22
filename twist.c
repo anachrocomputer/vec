@@ -71,7 +71,7 @@ void spiral(const double xc, const double yc, const double r1, const double r2, 
    int i;
    const double dr = (r2 - r1) / (72.0 * n);
    
-   for (i = 0; i < (72 * n); i++) {
+   for (i = 0; i <= (72 * n); i++) {
       const double theta = ang + (delta * i);
       const double r = r1 + (dr * i);
       const double x = (r * cos(theta)) + xc;

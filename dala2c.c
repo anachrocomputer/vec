@@ -126,18 +126,17 @@ int main (int argc, char * const argv[])
 
 void spiral (double cx, double cy, double radius, double ang, int n)
 {
-   double theta = ang;
-   double thinc = 2.0 * M_PI / 72.0;
+   double delta = 2.0 * M_PI / 72.0;
    double r;
    int i;
-   int ptnumber = 72 * n;
+   int npts = 72 * n;
    double x, y;
    
    moveto (cx, cy);
    
-   for (i = 0; i < ptnumber; i++) {
-      theta += thinc;
-      r = (radius * i) / (double)ptnumber;
+   for (i = 1; i <= npts; i++) {
+      const double theta = ang + (delta * (double)i);
+      r = (radius * i) / (double)npts;
       x = (r * cos (theta)) + cx;
       y = (r * sin (theta)) + cy;
       
