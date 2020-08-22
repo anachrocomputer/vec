@@ -14,6 +14,8 @@
 #include <errno.h>
 #include "hpgllib.h"
 
+#define ETX (0x03)
+
 enum InterfaceType {
    PLOT_UNKNOWN,  //!< Type of interface unknown
    PLOT_FILE,     //!< Writing to a file
@@ -306,9 +308,8 @@ int plotbegin(const int border)
 
    /* Draw page title */
    if (Title[0] != '\0') {
-      fprintf(Plt, "PU;PA%d,%d\n", (int)(Minx + (10.0 * 40.0)), (int)(Miny + (10.0 * 40.0)));
-      fprintf(Plt, "DR0,1;\n");
-      fprintf(Plt, "LB%s%c;PU;\n", Title, 3);
+      fprintf(Plt, "PU;PA%d,%d;", (int)(Minx + (10.0 * 40.0)), (int)(Miny + (10.0 * 40.0)));
+      fprintf(Plt, "DR0,1;LB%s%c;PU;\n", Title, ETX);
    }
 
    /* Plot border of drawing area */
@@ -887,7 +888,7 @@ void vlabel(const double x, const double y, const double siz, const char *const 
    else if (PenState == PEN_DOWN)
       fprintf(Plt, "PU;");
       
-   fprintf(Plt, "PA%d,%d;SI%1.2f,%1.2f;DI0,1;LB%s%c;\n", ix, iy, siz/10.0, siz/10.0, str, 0x03);
+   fprintf(Plt, "PA%d,%d;SI%1.2f,%1.2f;DI0,1;LB%s%c;\n", ix, iy, siz/10.0, siz/10.0, str, ETX);
    PenState = PEN_DOWN;
 }
 
@@ -910,7 +911,7 @@ void hlabel(const double x, const double y, const double siz, const char *const 
    else if (PenState == PEN_DOWN)
       fprintf(Plt, "PU;");
       
-   fprintf(Plt, "PA%d,%d;SI%1.2f,%1.2f;DI1,0;LB%s%c;\n", ix, iy, siz/10.0, siz/10.0, str, 0x03);
+   fprintf(Plt, "PA%d,%d;SI%1.2f,%1.2f;DI1,0;LB%s%c;\n", ix, iy, siz/10.0, siz/10.0, str, ETX);
    PenState = PEN_DOWN;
 }
 
@@ -930,7 +931,7 @@ int writedisplay(const char *const str)
 {
    switch (PlotterModel) {
    case HP_7550A:
-      fprintf(Plt, "WD%s%c;", str, 0x03);
+      fprintf(Plt, "WD%s%c;", str, ETX);
       break;
    default:
       return (-1);
