@@ -504,6 +504,11 @@ int getdevr(const double r)
  */
 int hpglout(const char *const buf)
 {
+   if (PenState == IN_PA) {
+      fprintf(Plt, ";\n");
+      PenState = PEN_DOWN;
+   }
+
    fputs(buf, Plt);
    
    return (0);
@@ -859,6 +864,11 @@ void roundrect(const double x1, const double y1, const double x2, const double y
  */
 void pencolr(int c)
 {
+   if (PenState == IN_PA) {
+      fprintf(Plt, ";\n");
+      PenState = PEN_DOWN;
+   }
+   
    if (c < 0) {
       fprintf(Plt, "SP0;\n");
    }
