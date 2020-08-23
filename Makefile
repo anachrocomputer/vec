@@ -22,7 +22,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl sutpent.hpgl \
      morphpoly.hpgl pin_circle.hpgl isogrid.hpgl circle_lines.hpgl \
      star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl poly_oval.hpgl \
-     libtest.hpgl linetiles.hpgl
+     libtest.hpgl linetiles.hpgl a6cardlabels.hpgl
 
 SVG=$(HPGL:.hpgl=.svg)
 
@@ -56,6 +56,15 @@ op.o: op.c
 	$(CC) $(CFLAGS) -o $@ op.c
 
 # HPGL library programs
+
+a6cardlabels.hpgl: a6cardlabels Makefile
+	./a6cardlabels $(TITLE) $(BOLDPEN) -o $@
+
+a6cardlabels: a6cardlabels.o hpgllib.o
+	$(LD) -o $@ a6cardlabels.o hpgllib.o -lm
+
+a6cardlabels.o: a6cardlabels.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ a6cardlabels.c
 
 piscis.hpgl: piscis Makefile
 	./piscis $(TITLE) $(BOLDPEN) -o $@
