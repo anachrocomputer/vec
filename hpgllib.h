@@ -37,6 +37,7 @@ struct PlotInfo {
    char *paperCapacityANSI;   //!< Biggest ANSI paper size that will fit on the plotter
    int plotterInterface;      //!< Type of interface
    int plotterLanguage;       //!< Plotter command language
+   int paperSize;             //!< Paper size code
    int orientation;           //!< Orientation of plot, landscape or portrait
    int nPenStalls;            //!< Number of pen stalls in the plotter
    int nPens;                 //!< Number of pens to be used in this plot

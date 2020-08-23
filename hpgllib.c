@@ -187,6 +187,8 @@ int plotbegin(const int border)
       PaperSize = ISO_A4;
    else if ((strcmp(PaperName, "A5") == 0) || (strcmp(PaperName, "a5") == 0))
       PaperSize = ISO_A5;
+   else if ((strcmp(PaperName, "A6") == 0) || (strcmp(PaperName, "a6") == 0))
+      PaperSize = ISO_A6;
    else {
       fprintf(stderr, "%s: unrecognised paper size\n", PaperName);
       return (-1);
@@ -234,6 +236,13 @@ int plotbegin(const int border)
       Maxx = 7985.0;
       Maxy = 5435.0;
       Scale = 20.0;
+      break;
+   case ISO_A6:
+      Minx = 0.0;
+      Miny = 0.0;
+      Maxx = 5435.0;
+      Maxy = 3992.0;
+      Scale = 14.14;
       break;
    }
    
@@ -412,6 +421,7 @@ int getplotinfo(struct PlotInfo *const p, unsigned int size)
       p->plotterName = PlotterFullName;
       p->portName = OutputFile;
       p->paperName = PaperName;
+      p->paperSize = PaperSize;
       p->plotTitle = Title;
       p->paperCapacityISO = "A3";
       p->paperCapacityANSI = "B";
