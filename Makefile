@@ -22,7 +22,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl sutpent.hpgl \
      morphpoly.hpgl pin_circle.hpgl isogrid.hpgl circle_lines.hpgl \
      star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl poly_oval.hpgl \
-     libtest.hpgl linetiles.hpgl a6cardlabels.hpgl
+     libtest.hpgl linetiles.hpgl a6cardlabels.hpgl octoflower.hpgl
 
 SVG=$(HPGL:.hpgl=.svg)
 
@@ -281,6 +281,15 @@ celticstep: celticstep.o hpgllib.o
 
 celticstep.o: celticstep.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ celticstep.c
+
+octoflower.hpgl: octoflower Makefile
+	./octoflower $(TITLE) $(BOLDPEN) -o $@
+
+octoflower: octoflower.o hpgllib.o
+	$(LD) -o $@ octoflower.o hpgllib.o -lm
+
+octoflower.o: octoflower.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ octoflower.c
 
 op_moire.hpgl: op_moire Makefile
 	./op_moire $(TITLE) $(BOLDPEN) -o $@

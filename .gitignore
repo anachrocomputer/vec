@@ -37,6 +37,7 @@ lissajous
 lobe
 lotus
 morphpoly
+octoflower
 op
 op_moire
 pappus
@@ -46,6 +47,7 @@ piscis
 pin_and_cotton
 pin_circle
 plottext
+poly_oval
 qrplot
 rtree
 spiralsq
@@ -56,6 +58,5 @@ superellipse
 sutpent
 ternary_arcs
 tree
-poly_oval
 twist
 zigzag
