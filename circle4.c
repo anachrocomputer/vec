@@ -19,7 +19,6 @@ int main(int argc, char * const argv[])
    double xc, yc;
    double h4, w4;
    double maxx, maxy;
-   double side;
    
    while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
@@ -52,15 +51,13 @@ int main(int argc, char * const argv[])
    h4 = maxy / 4.0;
    w4 = maxx / 4.0;
    
-   side = maxy / 3.0;
-   
    /* Split page into quarters */
    moveto(0.0, yc);
    lineto(maxx, yc);
    moveto(xc, 0.0);
    lineto(xc, maxy);
    
-   /* Draw four simple Lissajous curves */
+   /* Draw four circle and arc plots */
    circle4(w4, h4, maxy / 2.0);
    circlearcs(xc + w4, h4, maxy / 2.0);
    yinyang(w4, yc + h4, maxy / 2.0, 3);
@@ -149,5 +146,4 @@ void yinyang(const double x0, const double y0, const double ht, const int n)
       arc(x0 + x, y0 + y, 180.0 + (interior / 2.0));
       circle(x0 + x, y0 + y, r2 / 3.0);
    }
-   
 }
