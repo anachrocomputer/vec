@@ -22,7 +22,8 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      qrplot.hpgl lotus.hpgl celticstep.hpgl op_moire.hpgl sutpent.hpgl \
      morphpoly.hpgl pin_circle.hpgl isogrid.hpgl circle_lines.hpgl \
      star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl poly_oval.hpgl \
-     libtest.hpgl linetiles.hpgl a6cardlabels.hpgl octoflower.hpgl
+     libtest.hpgl linetiles.hpgl a6cardlabels.hpgl octoflower.hpgl \
+     circle4.hpgl
 
 SVG=$(HPGL:.hpgl=.svg)
 
@@ -66,14 +67,23 @@ a6cardlabels: a6cardlabels.o hpgllib.o
 a6cardlabels.o: a6cardlabels.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ a6cardlabels.c
 
-piscis.hpgl: piscis Makefile
-	./piscis $(TITLE) $(BOLDPEN) -o $@
+circle4.hpgl: circle4 Makefile
+	./circle4 $(TITLE) $(BOLDPEN) -o $@
 
-piscis: piscis.o hpgllib.o
-	$(LD) -o $@ piscis.o hpgllib.o -lm
+circle4: circle4.o hpgllib.o
+	$(LD) -o $@ circle4.o hpgllib.o -lm
 
-piscis.o: piscis.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ piscis.c
+circle4.o: circle4.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ circle4.c
+
+circle_lines.hpgl: circle_lines Makefile
+	./circle_lines $(TITLE) $(BOLDPEN) -o $@
+
+circle_lines: circle_lines.o hpgllib.o
+	$(LD) -o $@ circle_lines.o hpgllib.o -lm
+
+circle_lines.o: circle_lines.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ circle_lines.c
 
 ellipse.hpgl: ellipse Makefile
 	./ellipse $(TITLE) $(BOLDPEN) -o $@
@@ -83,6 +93,15 @@ ellipse: ellipse.o hpgllib.o
 
 ellipse.o: ellipse.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ ellipse.c
+
+piscis.hpgl: piscis Makefile
+	./piscis $(TITLE) $(BOLDPEN) -o $@
+
+piscis: piscis.o hpgllib.o
+	$(LD) -o $@ piscis.o hpgllib.o -lm
+
+piscis.o: piscis.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ piscis.c
 
 superellipse.hpgl: superellipse Makefile
 	./superellipse $(TITLE) $(BOLDPEN) -o $@
@@ -110,15 +129,6 @@ isogrid: isogrid.o hpgllib.o
 
 isogrid.o: isogrid.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ isogrid.c
-
-circle_lines.hpgl: circle_lines Makefile
-	./circle_lines $(TITLE) $(BOLDPEN) -o $@
-
-circle_lines: circle_lines.o hpgllib.o
-	$(LD) -o $@ circle_lines.o hpgllib.o -lm
-
-circle_lines.o: circle_lines.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ circle_lines.c
 
 star_grid.hpgl: star_grid Makefile
 	./star_grid $(TITLE) $(BOLDPEN) -o $@
