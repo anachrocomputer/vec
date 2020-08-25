@@ -62,7 +62,7 @@ void getplotsize(double *const xp, double *const yp);
 int getdevx(const double x);
 int getdevy(const double y);
 int getdevr(const double r);
-int hpglout(const char *const buf);
+int __attribute__ ((deprecated("use library abstractions instead."))) hpglout(const char *const buf);
 void moveto(const double x, const double y);
 void lineto(const double x, const double y);
 void __attribute__ ((deprecated("use moveto/lineto instead."))) openlinesequence(const double x, const double y);
