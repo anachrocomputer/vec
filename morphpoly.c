@@ -183,12 +183,12 @@ void drawpoly(const int nsides, const double xc, const double yc, const struct V
 {
    int i;
    
-   openlinesequence(xc + vertex[0].x, yc + vertex[0].y);
+   moveto(xc + vertex[0].x, yc + vertex[0].y);
 
    for (i = 1; i < nsides; i++) {
-      linesegmentto(xc + vertex[i].x, yc + vertex[i].y);
+      lineto(xc + vertex[i].x, yc + vertex[i].y);
 //    circle(xc + vertex[i].x, yc + vertex[i].y, 20.0);
    }
 
-   closelinesequence(1);
+   lineto(xc + vertex[0].x, yc + vertex[0].y);
 }
