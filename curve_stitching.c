@@ -113,7 +113,6 @@ void draw_quad(const double x1, const double y1, const double x2, const double y
 void draw_curve(const double x1, const double y1, const double x2, const double y2, const double x3, const double y3)
 {
    int i;
-   double alpha;
    double dx, dy;
    double xpt1[NPTS];
    double ypt1[NPTS];
@@ -128,7 +127,7 @@ void draw_curve(const double x1, const double y1, const double x2, const double 
    dy = y2 - y1;
 
    for (i = 1; i < NPTS; i++) {
-      alpha = (1.0 / (double)NPTS) * (double)i;
+      const double alpha = (1.0 / (double)NPTS) * (double)i;
       
       xpt1[i] = x1 + (dx * alpha);
       ypt1[i] = y1 + (dy * alpha);
@@ -138,7 +137,7 @@ void draw_curve(const double x1, const double y1, const double x2, const double 
    dy = y3 - y2;
    
    for (i = 1; i < NPTS; i++) {
-      alpha = (1.0 / (double)NPTS) * (double)i;
+      const double alpha = (1.0 / (double)NPTS) * (double)i;
       
       xpt2[i] = x2 + (dx * alpha);
       ypt2[i] = y2 + (dy * alpha);
