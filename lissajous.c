@@ -58,10 +58,10 @@ int main(int argc, char * const argv[])
    lineto(xc, maxy);
    
    /* Draw four simple Lissajous curves */
-   lissajous(w4, h4, side, 1.0, 3.0, 0.0, 144);
-   lissajous(xc + w4, h4, side, 5.0, 6.0, 0.0, 144);
-   lissajous(w4, yc + h4, side, 3.0, 5.0, 0.0, 144);
-   lissajous(xc + w4, yc + h4, side, 7.0, 9.0, 0.0, 144);
+   lissajous(w4, h4, side, 1.0, 3.0, 0.0, 3 * 72);
+   lissajous(xc + w4, h4, side, 5.0, 6.0, 0.0, 5 * 6 * 72);
+   lissajous(w4, yc + h4, side, 3.0, 5.0, 0.0, 3 * 5 * 72);
+   lissajous(xc + w4, yc + h4, side, 7.0, 9.0, 0.0, 7 * 9 * 72);
    
    plotend();
    
