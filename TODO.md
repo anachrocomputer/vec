@@ -34,8 +34,6 @@ for the user.
 * Optimise HPGL by not emitting 'PU;PA' in response to a 'moveto()'
 if the pen is already at that location. Will probably reduce the number
 of zero line segments that we get in 'hp2xx'.
-* Change 'rectangle()' to call 'moveto()'/'lineto()'. Let those
-functions handle optimisation.
 * Draw circles using Arc Absolute 'AA;' and choose arc starting-point
 that's closest to current pen position.
 * Add support for the front-panel LCD on the HP 7550A. Use the 'WD'
@@ -89,9 +87,6 @@ some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
 label. Plot directly onto a CD-R or DVD-RW.
 * Write a library test plot that exercises all the drawing commands.
 Useful if/when we add support for BMC or other non-HPGL plotters.
-* Remove all uses of 'openlinesequence()' from the drawing programs.
-Just use 'moveto()' and 'lineto()', which now optimise the HPGL that
-they generate.
 * Convert some of the older drawings to fully use the HPGL library.
 E.g. op, pconic, hconic.
 * Convert Tarim's C++ 'spiro' to C and make it use the library too.

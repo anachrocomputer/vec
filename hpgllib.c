@@ -672,9 +672,8 @@ void closelinesequence(const int closePoly)
 /**
  * @brief Draw a rectangle aligned with the X and Y axes
  *
- * @details Use 'PA' here instead of 'EA' (available in HPGL-2) because
- * some conversion programs (notably HPGL-to-PostScript) fail
- * to recognise 'EA'.
+ * @details Simply use ::moveto and ::lineto here, and
+ *  let them optimise the HPGL by combining 'PA' commands.
  *
  * @param x1 X co-ordinate of first corner
  * @param y1 Y co-ordinate of first corner
@@ -683,19 +682,11 @@ void closelinesequence(const int closePoly)
  */
 void rectangle(const double x1, const double y1, const double x2, const double y2)
 {
-   const int ix1 = (int)(x1 + Minx);
-   const int iy1 = (int)(y1 + Miny);
-   const int ix2 = (int)(x2 + Minx);
-   const int iy2 = (int)(y2 + Miny);
-
-   if (PenState == IN_PA)
-      fprintf(Plt, ";\nPU;");
-   else if (PenState == PEN_DOWN)
-      fprintf(Plt, "PU;");
-      
-   fprintf(Plt, "PA%d,%d;PD;PA%d,%d,%d,%d,%d,%d,%d,%d;\n", ix1, iy1,
-                ix1, iy2, ix2, iy2, ix2, iy1, ix1, iy1);
-   PenState = PEN_DOWN;
+   moveto(x1, y1);
+   lineto(x1, y2);
+   lineto(x2, y2);
+   lineto(x2, y1);
+   lineto(x1, y1);
 }
 
 
