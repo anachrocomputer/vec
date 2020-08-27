@@ -23,7 +23,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      morphpoly.hpgl pin_circle.hpgl isogrid.hpgl circle_lines.hpgl \
      star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl poly_oval.hpgl \
      libtest.hpgl linetiles.hpgl a6cardlabels.hpgl octoflower.hpgl \
-     circle4.hpgl truchet1.hpgl
+     circle4.hpgl truchet1.hpgl cutout_hex.hpgl
 
 SVG=$(HPGL:.hpgl=.svg)
 
@@ -84,6 +84,15 @@ circle_lines: circle_lines.o hpgllib.o
 
 circle_lines.o: circle_lines.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ circle_lines.c
+
+cutout_hex.hpgl: cutout_hex Makefile
+	./cutout_hex $(TITLE) $(BOLDPEN) -o $@
+
+cutout_hex: cutout_hex.o hpgllib.o
+	$(LD) -o $@ cutout_hex.o hpgllib.o -lm
+
+cutout_hex.o: cutout_hex.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ cutout_hex.c
 
 ellipse.hpgl: ellipse Makefile
 	./ellipse $(TITLE) $(BOLDPEN) -o $@
