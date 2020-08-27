@@ -1,4 +1,4 @@
-/* superellipse --- plot a super ellipse                    2011-10-17 */
+/* superellipse --- plot a superellipse                     2011-10-17 */
 /* Copyright (c) 2011 John Honniball, Froods Software Development      */
 
 #include <stdio.h>
@@ -8,6 +8,10 @@
 #include "hpgllib.h"
 
 
+void plot_ll(const double xc, const double yc, const double r1, const double r2);
+void plot_lr(const double xc, const double yc, const double r1, const double r2);
+void plot_ul(const double xc, const double yc, const double r1, const double r2);
+void plot_ur(const double xc, const double yc, const double r1, const double r2);
 void superellipse(const double x0, const double y0, const double a, const double b, const double theta, const double d);
 
 
@@ -15,23 +19,9 @@ int main(int argc, char * const argv[])
 {
    int opt;
    double xc, yc;
+   double w4, h4;
+   double r1, r2;
    double maxx, maxy;
-   double a, b;
-   /* Table of powers of sqrt(2.0), could be calculated; like f-stops */
-   static double sq[17] = {
-   /*  -4    -3     -2     -1    0     1 */
-      0.25, 0.354, 0.500, 0.707, 1.0,  1.4,
-   /*   2    3    4    5    6    7 */
-       2.0,   2.8,   4.0,   5.6, 8.0, 11.0,
-   /*   8    9      10      11    12 */
-      16.0,  22.6,  32.0,  45.0, 64.0
-   };
-   double theta = M_PI / 4.0;
-#ifdef DEVELOPMENT
-   double delta;
-   double twroot2;   /* 12th root of 2.0 */
-#endif
-   int i;
 
    while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
@@ -61,29 +51,62 @@ int main(int argc, char * const argv[])
    xc = maxx / 2.0;
    yc = maxy / 2.0;
    
-   /* Draw axes */
+   h4 = maxy / 4.0;
+   w4 = maxx / 4.0;
+   
+   r1 = maxx / 5.0;
+   r2 = maxy / 5.0;
+   
+   /* Split page into quarters */
    moveto(0.0, yc);
    lineto(maxx, yc);
    moveto(xc, 0.0);
    lineto(xc, maxy);
    
-   pencolr(1);
+   /* Draw four superellipse plots */
+   plot_ll(w4, h4, r1, r2);
+   plot_lr(xc + w4, h4, r1, r2);
+   plot_ul(w4, yc + h4, r1, r2);
+   plot_ur(xc + w4, yc + h4, r1, r2);
+
+   plotend();
    
-#ifndef DEVELOPMENT
-   theta = 0.0;
+   return (0);
+}
+
+
+void plot_ll(const double xc, const double yc, const double r1, const double r2)
+{
+   double a, b;
+   /* Table of powers of sqrt(2.0), could be calculated; like f-stops */
+   static double sq[17] = {
+   /*  -4    -3     -2     -1    0     1 */
+      0.25, 0.354, 0.500, 0.707, 1.0,  1.4,
+   /*   2    3    4    5    6    7 */
+       2.0,   2.8,   4.0,   5.6, 8.0, 11.0,
+   /*   8    9      10      11    12 */
+      16.0,  22.6,  32.0,  45.0, 64.0
+   };
+   double theta = 0.0;
+#if 0
+   double delta;
+   double twroot2;   /* 12th root of 2.0 */
+#endif
+   int i;
    
    /* Draw bunch of nested superellipses */
    for (i = 6; i < 13; i++) {
       /* if a==b, we'll get squares and circles */
-      a = (45.0 + (5.0 * i)) * 40.0;
-      b = (45.0 + (5.0 * i)) * 40.0;
+      a = (20.0 + (4.0 * i)) * 40.0;
+      b = (20.0 + (2.5 * i)) * 40.0;
       superellipse(xc, yc, a, b, theta, sq[i]);
    }
    
-   a = (45.0 + (5.0 * i)) * 40.0;
-   b = (45.0 + (5.0 * i)) * 40.0;
+   a = (20.0 + (4.0 * i)) * 40.0;
+   b = (20.0 + (2.5 * i)) * 40.0;
    rectangle(xc - a, yc - b, xc + a, yc + b);
-#else
+
+#if 0
    delta = (M_PI * 2.0) / 5.0;
    
    for (i = 0; i < 5; i++) {
@@ -103,10 +126,24 @@ int main(int argc, char * const argv[])
       superellipse(X0, Y0, a, b, theta, pow(twroot2, (double)(12 - i)));
    }
 #endif
+}
 
-   plotend();
-   
-   return (0);
+
+void plot_lr(const double xc, const double yc, const double r1, const double r2)
+{
+   ellipse(xc, yc, r1, r2, 0.0);
+}
+
+
+void plot_ul(const double xc, const double yc, const double r1, const double r2)
+{
+   ellipse(xc, yc, r1, r2, 0.0);
+}
+
+
+void plot_ur(const double xc, const double yc, const double r1, const double r2)
+{
+   ellipse(xc, yc, r1, r2, 0.0);
 }
 
 

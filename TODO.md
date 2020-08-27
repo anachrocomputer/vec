@@ -25,9 +25,9 @@ that have it. 7550A has 'PG' and 'NR' commands.
 * Add automatic square and circular drawing boundaries. Several plots
 would benefit from this feature.
 * Move 'drawline()' into the library. It's a generalised line-drawing
-function that will reverse a line end-for-end to speed up drawing. That function
-is useful in many situations and would eliminate explicit logic to plot
-lines in reverse directions.
+function that will reverse a line end-for-end to speed up drawing.
+That function is useful in many situations and would eliminate
+explicit logic to plot lines in reverse directions.
 * Remove 'openlinesequence()', 'linesegmentto()' and 'closelinesequence()'
 from the library. They were a bit of a kludge anyway, and inconvenient
 for the user.
@@ -84,6 +84,7 @@ plotter (using shell I/O redirection) when plotting Turtle programs.
 * Plot the Utah Teapot in wire-frame.
 * Write some Truchet Tile plots. Maybe a generalised tile-drawing
 program which could be driven by a text file.
+* Draw some Bezier curves.
 * Plot a cassette inlay, and/or a CD inlay or a floppy disk label or
 some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
 label. Plot directly onto a CD-R or DVD-RW.
@@ -93,11 +94,11 @@ Useful if/when we add support for BMC or other non-HPGL plotters.
 E.g. op, pconic, hconic.
 * Convert Tarim's C++ 'spiro' to C and make it use the library too.
 * Finish off some of the incomplete plots. E.g. hexagon, fraserspiral,
-flake, arches, piscis, qrplot, spiralsq, superellipse,
-twist, zigzag.
+flake, arches, piscis, qrplot, spiralsq, twist, zigzag.
+* Fill the empty sub-plots in 'ellipse' and 'superellipse'.
 * Clean up the various 'dala' drawings. Eliminate the 'dala2c' variant
 by adding colour to 'dala2.c'.
 * Add run-time variation to 'dala2.c'.
 * Consider using Doxygen to document the programs.
-* Sort out 'hconic2.c' and 'pconic.c'. Do we need both of them? Also, they're not
-ANSI C, they're K&R style.
+* Sort out 'hconic2.c' and 'pconic.c'. Do we need both of them?
+Also, they're not ANSI C, they're K&R style.
