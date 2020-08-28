@@ -62,7 +62,7 @@ int main(int argc, char * const argv[])
 
    xoff = (maxx - maxy) / 2.0;
    
-   q = tan (t * M_PI / (4.0 * n));
+   q = tan(t * M_PI / (4.0 * n));
    mu = q / (q + 1.0);
    um = 1.0 - mu;
 
