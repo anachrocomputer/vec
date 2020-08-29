@@ -127,6 +127,7 @@ int main(int argc, char * const argv[])
 
 void postcard_port(const double x, const double y, const double wd, const double ht, const double maxx, const double maxy)
 {
+   int i;
    bool right = true;
    bool bottom = true;
    double yc = y + (ht / 2.0);
@@ -136,6 +137,9 @@ void postcard_port(const double x, const double y, const double wd, const double
    double sy2 = y + (5.0 * 40.0);
    double sx1 = sx2 - (22.0 * 40.0);
    double sy1 = sy2 + (19.0 * 40.0);
+   double ax = sx1 - (12.0 * 40.0);
+   double ay1 = yc - (5.0 * 40.0);
+   double ay2 = y + (5.0 * 40.0);
    
    if (x1 < 0.0)
       x1 = 0.0;
@@ -156,6 +160,9 @@ void postcard_port(const double x, const double y, const double wd, const double
       bottom = false;
    }
    
+   if (ay2 < 0.0)
+      ay2 = 0.0;
+
    moveto(x1, yc);
    lineto(x2, yc);
    
@@ -173,6 +180,11 @@ void postcard_port(const double x, const double y, const double wd, const double
       moveto(sx2, sy1);
    
    lineto(sx1, sy1); // Top
+   
+   for (i = 0; i < 5; i++) {
+      moveto(ax - (12.0 * 40.0) * (double)i, ay1);
+      lineto(ax - (12.0 * 40.0) * (double)i, ay2);
+   }
 }
 
 
