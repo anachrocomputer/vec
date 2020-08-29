@@ -85,6 +85,8 @@ plotter (using shell I/O redirection) when plotting Turtle programs.
 * Write some Truchet Tile plots. Maybe a generalised tile-drawing
 program which could be driven by a text file.
 * Draw some Bezier curves.
+* Draw some Voronoi diagrams.
+* Draw some Travelling Salesman Problem plots.
 * Plot a cassette inlay, and/or a CD inlay or a floppy disk label or
 some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
 label. Plot directly onto a CD-R or DVD-RW.

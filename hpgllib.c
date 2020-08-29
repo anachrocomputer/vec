@@ -435,11 +435,11 @@ int getplotinfo(struct PlotInfo *const p, unsigned int size)
       p->widthInUnits = Maxx - Minx;
       p->heightInUnits = Maxy - Miny;
       
-      p->widthInmm = p->widthInUnits * p->unitsPermm;
-      p->heightInmm = p->heightInUnits * p->unitsPermm;
+      p->widthInmm = p->widthInUnits / p->unitsPermm;
+      p->heightInmm = p->heightInUnits / p->unitsPermm;
    
-      p->widthInInches = p->widthInUnits * p->unitsPerInch;
-      p->heightInInches = p->heightInUnits * p->unitsPerInch;
+      p->widthInInches = p->widthInUnits / p->unitsPerInch;
+      p->heightInInches = p->heightInUnits / p->unitsPerInch;
    
       return (0);
    }
