@@ -23,7 +23,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      morphpoly.hpgl pin_circle.hpgl isogrid.hpgl circle_lines.hpgl \
      star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl poly_oval.hpgl \
      libtest.hpgl linetiles.hpgl a6cardlabels.hpgl octoflower.hpgl \
-     circle4.hpgl truchet1.hpgl cutout_hex.hpgl
+     circle4.hpgl truchet1.hpgl cutout_hex.hpgl truchet2.hpgl
 
 SVG=$(HPGL:.hpgl=.svg)
 
@@ -165,6 +165,15 @@ truchet1: truchet1.o hpgllib.o
 
 truchet1.o: truchet1.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ truchet1.c
+
+truchet2.hpgl: truchet2 Makefile
+	./truchet2 $(TITLE) $(BOLDPEN) -o $@
+
+truchet2: truchet2.o hpgllib.o
+	$(LD) -o $@ truchet2.o hpgllib.o -lm
+
+truchet2.o: truchet2.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ truchet2.c
 
 poly_oval.hpgl: poly_oval Makefile
 	./poly_oval $(TITLE) $(BOLDPEN) -o $@
