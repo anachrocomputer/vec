@@ -28,7 +28,7 @@ int main(int argc, char * const argv[])
    int ngridx = 12;
    int ngridy = 12;
    int tile_type;
-   int grid[12][12];
+   int grid[32][32];
    double x, y;
    double xc;
    double maxx, maxy;
@@ -52,6 +52,15 @@ int main(int argc, char * const argv[])
          }
          else if (strchr(optarg, '2')) {
             ngridx = ngridy = 14; // If A1 is 32, A2 should be 22, but that's too slow
+         }
+         else if (strchr(optarg, '4')) {
+            ngridx = ngridy = 8;
+         }
+         else if (strchr(optarg, '5')) {
+            ngridx = ngridy = 6;
+         }
+         else if (strchr(optarg, '6')) {
+            ngridx = ngridy = 4;
          }
             
       case 'n':
@@ -97,7 +106,7 @@ int main(int argc, char * const argv[])
    for (i = 0; i < ngridx; i++) {
       x = gridx0 + (i * gridw);
       
-      switch (grid[11][i]) {
+      switch (grid[ngridy - 1][i]) {
       case 2:
       case 3:
       case 4:
@@ -137,7 +146,7 @@ int main(int argc, char * const argv[])
    for (i = 0; i < ngridy; i++) {
       y = i * gridh;
       
-      switch (grid[i][11]) {
+      switch (grid[i][ngridx - 1]) {
       case 1:
       case 3:
       case 4:
