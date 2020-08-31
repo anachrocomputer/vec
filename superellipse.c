@@ -131,19 +131,52 @@ void plot_ll(const double xc, const double yc, const double r1, const double r2)
 
 void plot_lr(const double xc, const double yc, const double r1, const double r2)
 {
-   ellipse(xc, yc, r1, r2, 0.0);
+   int i;
+   const double dr1 = r1 / 10.0;
+   const double dr2 = r2 / 10.0;
+   
+   for (i = 0; i < 5; i++) {
+      const double a = (r1 / 2.0) + (dr1 * (double)i);
+      const double b = (r2 / 2.0) + (dr2 * (double)i);
+      const double theta = 0.0;
+      
+      superellipse(xc, yc, a, b, theta, 4.0);
+   }
 }
 
 
 void plot_ul(const double xc, const double yc, const double r1, const double r2)
 {
-   ellipse(xc, yc, r1, r2, 0.0);
+   const double r3 = r1 / 2.0;
+   const double r4 = r2 / 2.0;
+// const double scale = sqrt(2.0);
+   const double scale = 1.19;
+   
+   superellipse(xc, yc, r3 * scale, r4 * scale, 0.0, 4.0);
+   superellipse(xc, yc, r1, r2, 0.0, 4.0);
+   superellipse(xc - r3, yc, r3, r4, 0.0, 4.0);
+   superellipse(xc, yc + r4, r3, r4, 0.0, 4.0);
+   superellipse(xc, yc - r4, r3, r4, 0.0, 4.0);
+   superellipse(xc + r3, yc, r3, r4, 0.0, 4.0);
 }
 
 
 void plot_ur(const double xc, const double yc, const double r1, const double r2)
 {
-   ellipse(xc, yc, r1, r2, 0.0);
+   /* Inspired by "Japanese Optical and Geometrical Art" by
+      Hajime Ouchi, ISBN 0-486-23553-X, page 23, bottom */
+   int i;
+   const double delta = (2.0 * M_PI) / 8.0;
+   const double radius = r2 / 2.0;
+   
+   for (i = 0; i < 8; i++) {
+      const double theta = delta * (double)i;
+      
+      const double x = xc + (radius * cos(theta));
+      const double y = yc + (radius * sin(theta));
+      
+      superellipse(x, y, r1 / 2.0, r2 / 2.0, theta, 2.8);
+   }
 }
 
 

@@ -13,6 +13,8 @@ A4 paper in an A0 plotter. The big plotters have the origin in the
 centre of the bed, whereas the smaller ones have the origin in the
 lower left corner.
 * Fully implement and test serial plotter support, e.g. on HP 7550.
+Handshaking now works, but we have no way to set a baud rate from
+the library and/or command line (we just use 9600 baud).
 * Fully implement and test signal-handling and clean-up after a
 SIGINT has stopped a plot.
 * Make 'plotcancel()' work properly. Install a signal handler in 'plotbegin()'
@@ -97,7 +99,7 @@ E.g. op, pconic, hconic.
 * Convert Tarim's C++ 'spiro' to C and make it use the library too.
 * Finish off some of the incomplete plots. E.g. hexagon, fraserspiral,
 flake, arches, piscis, qrplot, spiralsq, twist, zigzag.
-* Fill the empty sub-plots in 'ellipse' and 'superellipse'.
+* Fill the empty sub-plot in 'ellipse'.
 * Clean up the various 'dala' drawings. Eliminate the 'dala2c' variant
 by adding colour to 'dala2.c'.
 * Add run-time variation to 'dala2.c'.
