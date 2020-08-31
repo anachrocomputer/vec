@@ -1,4 +1,4 @@
-/* truchet2 --- draw Truchet tiles with arcs on them        2020-08-30 */
+/* truchet2 --- draw Truchet tiles with arcs and stripes    2020-08-30 */
 /* Copyright (c) 2020 John Honniball, Froods Software Development      */
 
 #include <stdio.h>
@@ -48,10 +48,13 @@ int main(int argc, char * const argv[])
       switch (opt) {
       case 's':
          if (strchr(optarg, '1')) {
-            ngridx = ngridy = 32;
+            ngridx = ngridy = 24;
          }
          else if (strchr(optarg, '2')) {
-            ngridx = ngridy = 14; // If A1 is 32, A2 should be 22, but that's too slow
+            ngridx = ngridy = 16;
+         }
+         else if (strchr(optarg, '3')) {
+            ngridx = ngridy = 12;
          }
          else if (strchr(optarg, '4')) {
             ngridx = ngridy = 8;
@@ -95,14 +98,16 @@ int main(int argc, char * const argv[])
    gridw = maxy / ngridx;
    gridh = maxy / ngridy;
    
+   // Generate the grid
    for (i = 0; i < ngridy; i++) {
       for (j = 0; j < ngridx; j++) {
-//       tile_type = (i + j) % 4;
-         tile_type = rand() / (RAND_MAX / 4);
+//       tile_type = (i + j) % 6;
+         tile_type = rand() / (RAND_MAX / 6);
          grid[i][j] = tile_type;
       }
    }
 
+   // Draw the top edge
    for (i = 0; i < ngridx; i++) {
       x = gridx0 + (i * gridw);
       
@@ -116,6 +121,7 @@ int main(int argc, char * const argv[])
       }
    }
    
+   // Draw the left-hand edge
    for (i = 0; i < ngridy; i++) {
       y = i * gridh;
       
@@ -129,6 +135,7 @@ int main(int argc, char * const argv[])
       }
    }
    
+   // Draw the bottom edge
    for (i = 0; i < ngridx; i++) {
       x = gridx0 + (i * gridw);
       
@@ -171,9 +178,8 @@ int main(int argc, char * const argv[])
          const int lower = grid[i][j];
          const int upper = grid[i + 1][j];
          
-         if (connect[lower].top == connect[upper].bottom)
-            ;
-         else {
+         if ((connect[lower].top != connect[upper].bottom) ||
+             (upper == 5) || (lower == 5)) {
             x = gridx0 + (j * gridw);
             y = (i + 1) * gridh;
 
@@ -189,9 +195,8 @@ int main(int argc, char * const argv[])
          const int left  = grid[i][j];
          const int right = grid[i][j + 1];
          
-         if (connect[left].right == connect[right].left)
-            ;
-         else {
+         if ((connect[left].right != connect[right].left) ||
+             (left == 4) || (right == 4)) {
             x = gridx0 + ((j + 1) * gridw);
             y = i * gridh;
 
