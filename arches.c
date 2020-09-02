@@ -7,18 +7,22 @@
 #include <math.h>
 #include "hpgllib.h"
 
-void circulararch(const double x0, const double y0, const double width, const double height, const double r);
-void threecentredarch(const double x0, const double y0, const double width, const double height, const double d, const double r1);
-void ellipticalarch(const double x0, const double y0, const double width, const double height, const double a, const double b);
+void plot_ur(const double x0, const double y0, const double width, const double height, const double r1, const double r2);
+void circulararch(const double xc, const double y0, const double yc, const double r);
+void plot_ll(const double x0, const double y0, const double width, const double height, const double r1, const double r2);
+void ellipticalarch(const double xc, const double y0, const double yc, const double a, const double b);
+void plot_ul(const double x0, const double y0, const double width, const double height, const double r1, const double r2);
+void threecentredarch(const double xc, const double y0, const double yc, const double d, const double r);
 void half_ellipse(const double x0, const double y0, const double a, const double b, const double theta);
+void plot_lr(const double x0, const double y0, const double width, const double height, const double r1, const double r2);
 
 
 int main(int argc, char * const argv[])
 {
    int opt;
    double maxx, maxy;
-   double xcell;
-   double ycell;
+   double xc, yc;
+   double r1, r2;
    
    while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
       switch (opt) {
@@ -45,34 +49,31 @@ int main(int argc, char * const argv[])
 
    getplotsize(&maxx, &maxy);
    
-   xcell = maxx / 3.0;
-   ycell = maxy / 2.0;
+   xc = maxx / 2.0;
+   yc = maxy / 2.0;
    
-   /* Divide page into six boxes */
-   moveto(0.0, ycell);
-   lineto(maxx, ycell);
+   r1 = maxx / 5.0;
+   r2 = maxy / 5.0;
    
-   moveto(xcell, 0.0);
-   lineto(xcell, maxy);
+   /* Split page into quarters */
+   moveto(0.0, yc);
+   lineto(maxx, yc);
+   moveto(xc, 0.0);
+   lineto(xc, maxy);
    
-   moveto(xcell * 2.0, maxy);
-   lineto(xcell * 2.0, 0.0);
+   /* Draw four arch plots */
+   plot_ll(0.0, 0.0, xc, yc, r1, r2);
+   plot_lr(xc,  0.0, xc, yc, r1, r2);
+   plot_ul(0.0, yc,  xc, yc, r1, r2);
+   plot_ur(xc,  yc,  xc, yc, r1, r2);
    
-   circulararch(xcell, ycell, xcell, ycell, 50.0);
-   
-   ellipticalarch(0.0, 0.0, xcell, ycell, 50.0, 35.0);
-   
-   threecentredarch(0.0, ycell, xcell, ycell, 30.0, 20.0);
-   
-// threecentredarch(xcell, 0.0, xcell, ycell, 33.0, 22.0);
-
    plotend();
    
    return (0);
 }
 
 
-void circulararch(const double x0, const double y0, const double width, const double height, const double r)
+void plot_ur(const double x0, const double y0, const double width, const double height, const double r1, const double r2)
 {
    const double xc = x0 + (width / 2.0);
    const double yc = y0 + (height / 2.0);
@@ -84,27 +85,36 @@ void circulararch(const double x0, const double y0, const double width, const do
    lineto(xc, y0 + height);
    
    /* Circle forming arch, drawn as full circle */
-   circle(xc, yc, r * 40.0);
+   circle(xc, yc, r2);
 
    /* Thicker pen for outline of arch */
 // pencolr(1);
 // printf("VS5;\n");
 
-   moveto(xc - (r * 40.0), y0);
-   lineto(xc - (r * 40.0), yc);
+   circulararch(xc, y0, yc, r2);
+   circulararch(xc, y0, yc, r2 * 1.15);
+}
+
+
+void circulararch(const double xc, const double y0, const double yc, const double r)
+{
+   moveto(xc - r, y0);
+   lineto(xc - r, yc);
 
    /* The arch itself, a half circle */
    arc(xc, yc, -180.0);
    
-   lineto(xc + (r * 40.0), y0);
+   lineto(xc + r, y0);
 }
 
 
-void threecentredarch(const double x0, const double y0, const double width, const double height, const double d, const double r1)
+void plot_ul(const double x0, const double y0, const double width, const double height, const double r1, const double r2)
 {
-   /* d: Distance from central axis to centre of smaller arcs */
-   /* r1: Radius of smaller arcs */
-   const double r2 = sqrt((d * d) + (d * d)) + r1; /* Radius of larger arc */
+   /* r3: Distance from central axis to centre of smaller arcs */
+   /* r4: Radius of smaller arcs */
+   const double r3 = r1 / 2.0;
+   const double r4 = r2 / 2.0;
+   const double r5 = sqrt((r3 * r3) + (r3 * r3)) + r4; /* Radius of larger arc */
    const double xc = x0 + (width / 2.0);
    const double yc = y0 + (height / 2.0);
    
@@ -115,51 +125,59 @@ void threecentredarch(const double x0, const double y0, const double width, cons
    lineto(xc, y0 + height);
 
    /* LH centre mark */
-   moveto(xc - (d * 40.0), yc + (3.0 * 40.0));
-   lineto(xc - (d * 40.0), yc - (3.0 * 40.0));
+   moveto(xc - r3, yc + (3.0 * 40.0));
+   lineto(xc - r3, yc - (3.0 * 40.0));
    
    /* LH small circle */
-   circle(xc - (d * 40.0), yc, r1 * 40.0);
+   circle(xc - r3, yc, r4);
 
    /* RH centre mark */
-   moveto(xc + (d * 40.0), yc + (3.0 * 40.0));
-   lineto(xc + (d * 40.0), yc - (3.0 * 40.0));
+   moveto(xc + r3, yc + (3.0 * 40.0));
+   lineto(xc + r3, yc - (3.0 * 40.0));
 
    /* RH small circle */
-   circle(xc + (d * 40.0), yc, r1 * 40.0);
+   circle(xc + r3, yc, r4);
 
    /* 45 degree construction lines */
-   moveto(xc - (2.0 * d * 40.0), yc + (d * 40.0));
-   lineto(xc, yc - (d * 40.0));
-   lineto(xc + (2.0 * d * 40.0), yc + (d * 40.0));
+   moveto(xc - (2.0 * r3), yc + r3);
+   lineto(xc, yc - r3);
+   lineto(xc + (2.0 * r3), yc + r3);
 
    /* Bottom centre mark */
-   moveto(xc - (3.0 * 40.0), yc - (d * 40.0));
-   lineto(xc + (3.0 * 40.0), yc - (d * 40.0));
+   moveto(xc - (3.0 * 40.0), yc - r3);
+   lineto(xc + (3.0 * 40.0), yc - r3);
 
    /* Upper large circle, only drawn as half-circle */
-   moveto(xc + (r2 * 40.0), yc - (d * 40.0));
-   arc(xc, yc - (d * 40.0), 180.0);
+   moveto(xc + r5, yc - r3);
+   arc(xc, yc - r3, 180.0);
    
    /* Thicker pen for outline of arch */
 // pencolr(1);
 // printf("VS5;\n");
 
-   moveto(xc - ((d + r1) * 40.0), y0);
-   lineto(xc - ((d + r1) * 40.0), yc);
-
-   arc(xc - (d * 40.0), yc, -45.0);
-   arc(xc, yc - (d * 40.0), -90.0);
-   arc(xc + (d * 40.0), yc, -45.0);
-
-   lineto(xc + ((d + r1) * 40.0), y0);
+   threecentredarch(xc, y0, yc, r3, r4);
+   threecentredarch(xc, y0, yc, r3, r4 * 1.3);
 }
 
 
-void ellipticalarch(const double x0, const double y0, const double width, const double height, const double a, const double b)
+void threecentredarch(const double xc, const double y0, const double yc, const double d, const double r)
+{
+   moveto(xc - (d + r), y0);
+   lineto(xc - (d + r), yc);
+
+   arc(xc - d, yc, -45.0);
+   arc(xc, yc - d, -90.0);
+   arc(xc + d, yc, -45.0);
+
+   lineto(xc + (d + r), y0);
+}
+
+
+void plot_ll(const double x0, const double y0, const double width, const double height, const double r1, const double r2)
 {
    const double xc = x0 + (width / 2.0);
    const double yc = y0 + (height / 2.0);
+   const double thickness = r1 / 10.0;
 
    /* Centre lines */
    moveto(x0, yc);
@@ -168,41 +186,51 @@ void ellipticalarch(const double x0, const double y0, const double width, const 
    lineto(xc, y0 + height);
    
    /* Ellipse forming arch, drawn in full */
-   ellipse(xc, yc, a * 40.0, b * 40.0, 0.0);
+   ellipse(xc, yc, r1, r2, 0.0);
 
    /* Thicker pen for outline of arch */
 // pencolr(1);
 // printf("VS5;\n");
 
-   moveto(xc + (a * 40.0), y0);
-   lineto(xc + (a * 40.0), yc);
+   ellipticalarch(xc, y0, yc, r1, r2);
+   ellipticalarch(xc, y0, yc, r1 + thickness, r2 + thickness);
+}
+
+
+void ellipticalarch(const double xc, const double y0, const double yc, const double a, const double b)
+{
+   moveto(xc + a, y0);
+   lineto(xc + a, yc);
 
    /* The arch itself, a half ellipse */
-   half_ellipse(xc, yc, a * 40.0, b * 40.0, 0.0);
+   half_ellipse(xc, yc, a, b, 0.0);
    
-   lineto(xc - (a * 40.0), y0);
+   lineto(xc - a, y0);
 }
 
 
 void half_ellipse(const double x0, const double y0, const double a, const double b, const double theta)
 {
    const int npts = 36;
-   double t;
    const double delta = M_PI / (double)npts;
    const double sintheta = sin(theta);
    const double costheta = cos(theta);
-   double x, y;
    int i;
    
    for (i = 0; i <= npts; i++) {
-      t = (double)i * delta;
+      const double t = (double)i * delta;
       
-      x = (a * cos(t) * costheta) - (b * sin(t) * sintheta);
-      y = (a * cos(t) * sintheta) + (b * sin(t) * costheta);
+      const double x = (a * cos(t) * costheta) - (b * sin(t) * sintheta);
+      const double y = (a * cos(t) * sintheta) + (b * sin(t) * costheta);
       
       if (i == 0)
          moveto(x0 + x, y0 + y);
       else
          lineto(x0 + x, y0 + y);
    }
+}
+
+
+void plot_lr(const double x0, const double y0, const double width, const double height, const double r1, const double r2)
+{
 }
