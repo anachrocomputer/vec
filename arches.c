@@ -15,6 +15,7 @@ void plot_ul(const double x0, const double y0, const double width, const double 
 void threecentredarch(const double xc, const double y0, const double yc, const double d, const double r);
 void half_ellipse(const double x0, const double y0, const double a, const double b, const double theta);
 void plot_lr(const double x0, const double y0, const double width, const double height, const double r1, const double r2);
+void pointedarch(const double xc, const double y0, const double yc, const double d1, const double d2);
 
 
 int main(int argc, char * const argv[])
@@ -89,7 +90,6 @@ void plot_ur(const double x0, const double y0, const double width, const double 
 
    /* Thicker pen for outline of arch */
 // pencolr(1);
-// printf("VS5;\n");
 
    circulararch(xc, y0, yc, r2);
    circulararch(xc, y0, yc, r2 * 1.15);
@@ -153,7 +153,6 @@ void plot_ul(const double x0, const double y0, const double width, const double 
    
    /* Thicker pen for outline of arch */
 // pencolr(1);
-// printf("VS5;\n");
 
    threecentredarch(xc, y0, yc, r3, r4);
    threecentredarch(xc, y0, yc, r3, r4 * 1.3);
@@ -190,7 +189,6 @@ void plot_ll(const double x0, const double y0, const double width, const double 
 
    /* Thicker pen for outline of arch */
 // pencolr(1);
-// printf("VS5;\n");
 
    ellipticalarch(xc, y0, yc, r1, r2);
    ellipticalarch(xc, y0, yc, r1 + thickness, r2 + thickness);
@@ -233,4 +231,40 @@ void half_ellipse(const double x0, const double y0, const double a, const double
 
 void plot_lr(const double x0, const double y0, const double width, const double height, const double r1, const double r2)
 {
+   const double xc = x0 + (width / 2.0);
+   const double yc = y0 + (height / 2.0);
+   const double d = r2 / 2.0;
+   const double thickness = r2 / 10.0;
+
+   /* Centre lines */
+   moveto(x0, yc);
+   lineto(x0 + width, yc);
+   moveto(xc, y0);
+   lineto(xc, y0 + height);
+   
+   /* Left-hand quarter-circle */
+   moveto(xc - d, yc);
+   arc(xc + d, yc, -90.0);
+   
+   /* Right-hand quarter-circle */
+   moveto(xc + d, yc);
+   arc(xc - d, yc, 90.0);
+   
+   /* Thicker pen for outline of arch */
+// pencolr(1);
+
+   pointedarch(xc, y0, yc, d, d);
+   pointedarch(xc, y0, yc, d + thickness, d + thickness);
+}
+
+
+void pointedarch(const double xc, const double y0, const double yc, const double d1, const double d2)
+{
+   const double degrees = acos(d2 / (d1 + d2)) * (180.0 / M_PI);
+   
+   moveto(xc - d1, y0);
+   lineto(xc - d1, yc);
+   arc(xc + d2, yc, -degrees);
+   arc(xc - d2, yc, -degrees);
+   lineto(xc + d1, y0);
 }
