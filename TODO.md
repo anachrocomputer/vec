@@ -89,6 +89,7 @@ program which could be driven by a text file.
 * Draw some Bezier curves.
 * Draw some Voronoi diagrams.
 * Draw some Travelling Salesman Problem plots.
+* Geometrical plots: deltoid curve, Reuleaux polygons.
 * Plot a cassette inlay, and/or a CD inlay or a floppy disk label or
 some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
 label. Plot directly onto a CD-R or DVD-RW.
@@ -98,8 +99,8 @@ Useful if/when we add support for BMC or other non-HPGL plotters.
 E.g. op, pconic, hconic.
 * Convert Tarim's C++ 'spiro' to C and make it use the library too.
 * Finish off some of the incomplete plots. E.g. hexagon, fraserspiral,
-flake, arches, piscis, qrplot, spiralsq, twist, zigzag.
-* Fill the empty sub-plot in 'ellipse'.
+flake, qrplot, spiralsq, twist, zigzag.
+* Fill the empty sub-plots in 'ellipse' and 'piscis'.
 * Clean up the various 'dala' drawings. Eliminate the 'dala2c' variant
 by adding colour to 'dala2.c'.
 * Add run-time variation to 'dala2.c'.
