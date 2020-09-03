@@ -92,11 +92,60 @@ void plot_ul(const double x0, const double y0, const double width, const double 
 
 void plot_ur(const double x0, const double y0, const double width, const double height, const double r1, const double r2)
 {
+   /* https://en.wikipedia.org/wiki/Reuleaux_triangle */
+   int i;
+   const double delta = (2.0 * M_PI) / 3.0;
+   const double xc = x0 + (width / 2.0);
+   const double yc = y0 + (height / 2.0);
+   const double d = r2 / 2.0;
+   const double r = 2.0 * d * sin(delta / 2.0);
+   double x[4];
+   double y[4];
+   
+   for (i = 0; i <= 3; i++) {
+      const double theta = (delta * (double)i) - (delta / 4.0);
+      x[i] = xc + (r2 * cos(theta));
+      y[i] = yc + (r2 * sin(theta));
+   }
+      
+   for (i = 0; i < 3; i++) {
+      moveto(x[i], y[i]);
+      arc(x[i + 1], y[i + 1], -60.0);
+   }
+
+   for (i = 0; i <= 3; i++) {
+      if (i == 0)
+         moveto(x[i], y[i]);
+      else
+         lineto(x[i], y[i]);
+   }
 }
 
 
 void plot_ll(const double x0, const double y0, const double width, const double height, const double r1, const double r2)
 {
+   /* https://en.wikipedia.org/wiki/Six-petal_rosette */
+   int i;
+   const double delta = (2.0 * M_PI) / 6.0;
+   const double xc = x0 + (width / 2.0);
+   const double yc = y0 + (height / 2.0);
+   const double d = r2 / 2.0;
+   const double r = 1.0 * d * sin(delta / 2.0);
+   double x[7];
+   double y[7];
+   
+   circle(xc, yc, r2);
+   
+   for (i = 0; i <= 6; i++) {
+      const double theta = delta * (double)i;
+      x[i] = xc + (r2 * cos(theta));
+      y[i] = yc + (r2 * sin(theta));
+   }
+      
+   for (i = 0; i < 6; i++) {
+      moveto(x[i], y[i]);
+      arc(x[i + 1], y[i + 1], -120.0);
+   }
 }
 
 
