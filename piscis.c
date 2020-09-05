@@ -97,8 +97,6 @@ void plot_ur(const double x0, const double y0, const double width, const double 
    const double delta = (2.0 * M_PI) / 3.0;
    const double xc = x0 + (width / 2.0);
    const double yc = y0 + (height / 2.0);
-   const double d = r2 / 2.0;
-   const double r = 2.0 * d * sin(delta / 2.0);
    double x[4];
    double y[4];
    
@@ -129,8 +127,6 @@ void plot_ll(const double x0, const double y0, const double width, const double 
    const double delta = (2.0 * M_PI) / 6.0;
    const double xc = x0 + (width / 2.0);
    const double yc = y0 + (height / 2.0);
-   const double d = r2 / 2.0;
-   const double r = 1.0 * d * sin(delta / 2.0);
    double x[7];
    double y[7];
    
