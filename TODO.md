@@ -75,6 +75,9 @@ direct HPGL programs and Turtle programs.
 * Make Turtle library drive the plotter directly, as the HPGL library
 does. This would eliminate the need to redirect the output to the
 plotter (using shell I/O redirection) when plotting Turtle programs.
+* Should the Turtle library call 'moveto()'/'lineto()' in the main
+HPGL library? That would allow it to use all of the HPGL library's
+command-line arguments and low-level driver code.
 * Write complete Doxygen comments in the library source.
 
 ## Plotting programs
@@ -89,6 +92,7 @@ program which could be driven by a text file.
 * Draw some Bezier curves.
 * Draw some Voronoi diagrams.
 * Draw some Travelling Salesman Problem plots.
+* Generate and draw Hamiltonian paths.
 * Geometrical plots: deltoid curve, Reuleaux polygons.
 * Plot a cassette inlay, and/or a CD inlay or a floppy disk label or
 some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
@@ -100,7 +104,7 @@ E.g. op, pconic, hconic.
 * Convert Tarim's C++ 'spiro' to C and make it use the library too.
 * Finish off some of the incomplete plots. E.g. hexagon, fraserspiral,
 flake, qrplot, spiralsq, twist, zigzag.
-* Fill the empty sub-plots in 'ellipse' and 'piscis'.
+* Fill the empty sub-plots in 'circle4', 'ellipse' and 'piscis'.
 * Clean up the various 'dala' drawings. Eliminate the 'dala2c' variant
 by adding colour to 'dala2.c'.
 * Add run-time variation to 'dala2.c'.
