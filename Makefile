@@ -23,7 +23,8 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      morphpoly.hpgl pin_circle.hpgl isogrid.hpgl circle_lines.hpgl \
      star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl poly_oval.hpgl \
      libtest.hpgl linetiles.hpgl a6cardlabels.hpgl octoflower.hpgl \
-     circle4.hpgl truchet1.hpgl cutout_hex.hpgl truchet2.hpgl
+     circle4.hpgl truchet1.hpgl cutout_hex.hpgl truchet2.hpgl \
+     reuleaux.hpgl
 
 SVG=$(HPGL:.hpgl=.svg)
 
@@ -67,6 +68,15 @@ a6cardlabels: a6cardlabels.o hpgllib.o
 a6cardlabels.o: a6cardlabels.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ a6cardlabels.c
 
+arches.hpgl: arches Makefile
+	./arches $(TITLE) $(BOLDPEN) -o $@
+
+arches: arches.o hpgllib.o
+	$(LD) -o $@ arches.o hpgllib.o -lm
+
+arches.o: arches.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ arches.c
+
 circle4.hpgl: circle4 Makefile
 	./circle4 $(TITLE) $(BOLDPEN) -o $@
 
@@ -103,6 +113,15 @@ ellipse: ellipse.o hpgllib.o
 ellipse.o: ellipse.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ ellipse.c
 
+isogrid.hpgl: isogrid Makefile
+	./isogrid $(TITLE) $(BOLDPEN) -o $@
+
+isogrid: isogrid.o hpgllib.o
+	$(LD) -o $@ isogrid.o hpgllib.o -lm
+
+isogrid.o: isogrid.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ isogrid.c
+
 piscis.hpgl: piscis Makefile
 	./piscis $(TITLE) $(BOLDPEN) -o $@
 
@@ -111,6 +130,33 @@ piscis: piscis.o hpgllib.o
 
 piscis.o: piscis.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ piscis.c
+
+poly_oval.hpgl: poly_oval Makefile
+	./poly_oval $(TITLE) $(BOLDPEN) -o $@
+
+poly_oval: poly_oval.o hpgllib.o
+	$(LD) -o $@ poly_oval.o hpgllib.o -lm
+
+poly_oval.o: poly_oval.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ poly_oval.c
+
+qrplot.hpgl: qrplot Makefile
+	./qrplot $(TITLE) $(BOLDPEN) -o $@
+
+qrplot: qrplot.o hpgllib.o
+	$(LD) -o $@ qrplot.o hpgllib.o -lm
+
+qrplot.o: qrplot.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ qrplot.c
+
+reuleaux.hpgl: reuleaux Makefile
+	./reuleaux $(TITLE) $(BOLDPEN) -o $@
+
+reuleaux: reuleaux.o hpgllib.o
+	$(LD) -o $@ reuleaux.o hpgllib.o -lm
+
+reuleaux.o: reuleaux.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ reuleaux.c
 
 superellipse.hpgl: superellipse Makefile
 	./superellipse $(TITLE) $(BOLDPEN) -o $@
@@ -129,15 +175,6 @@ sutpent: sutpent.o hpgllib.o
 
 sutpent.o: sutpent.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ sutpent.c
-
-isogrid.hpgl: isogrid Makefile
-	./isogrid $(TITLE) $(BOLDPEN) -o $@
-
-isogrid: isogrid.o hpgllib.o
-	$(LD) -o $@ isogrid.o hpgllib.o -lm
-
-isogrid.o: isogrid.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ isogrid.c
 
 star_grid.hpgl: star_grid Makefile
 	./star_grid $(TITLE) $(BOLDPEN) -o $@
@@ -174,15 +211,6 @@ truchet2: truchet2.o hpgllib.o
 
 truchet2.o: truchet2.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ truchet2.c
-
-poly_oval.hpgl: poly_oval Makefile
-	./poly_oval $(TITLE) $(BOLDPEN) -o $@
-
-poly_oval: poly_oval.o hpgllib.o
-	$(LD) -o $@ poly_oval.o hpgllib.o -lm
-
-poly_oval.o: poly_oval.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ poly_oval.c
 
 morphpoly.hpgl: morphpoly Makefile
 	./morphpoly $(TITLE) $(BOLDPEN) -o $@
@@ -228,15 +256,6 @@ lobe: lobe.o hpgllib.o
 
 lobe.o: lobe.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ lobe.c
-
-arches.hpgl: arches Makefile
-	./arches $(TITLE) $(BOLDPEN) -o $@
-
-arches: arches.o hpgllib.o
-	$(LD) -o $@ arches.o hpgllib.o -lm
-
-arches.o: arches.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ arches.c
 
 hyp.hpgl: hyp
 	./hyp $(TITLE) $(BOLDPEN) -o $@
@@ -336,15 +355,6 @@ op_moire: op_moire.o hpgllib.o
 
 op_moire.o: op_moire.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ op_moire.c
-
-qrplot.hpgl: qrplot Makefile
-	./qrplot $(TITLE) $(BOLDPEN) -o $@
-
-qrplot: qrplot.o hpgllib.o
-	$(LD) -o $@ qrplot.o hpgllib.o -lm
-
-qrplot.o: qrplot.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ qrplot.c
 
 pconic.hpgl: pconic Makefile
 	./pconic $(TITLE) $(BOLDPEN) -o $@

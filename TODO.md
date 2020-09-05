@@ -93,7 +93,7 @@ program which could be driven by a text file.
 * Draw some Voronoi diagrams.
 * Draw some Travelling Salesman Problem plots.
 * Generate and draw Hamiltonian paths.
-* Geometrical plots: deltoid curve, Reuleaux polygons.
+* Geometrical plots: deltoid curve.
 * Plot a cassette inlay, and/or a CD inlay or a floppy disk label or
 some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
 label. Plot directly onto a CD-R or DVD-RW.
