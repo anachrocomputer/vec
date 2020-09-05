@@ -95,6 +95,15 @@ circle_lines: circle_lines.o hpgllib.o
 circle_lines.o: circle_lines.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ circle_lines.c
 
+coords.hpgl: coords Makefile
+	./coords $(BOLDPEN) -o $@
+
+coords: coords.o hpgllib.o
+	$(LD) -o $@ coords.o hpgllib.o -lm
+
+coords.o: coords.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ coords.c
+
 cutout_hex.hpgl: cutout_hex Makefile
 	./cutout_hex $(TITLE) $(BOLDPEN) -o $@
 
@@ -103,6 +112,42 @@ cutout_hex: cutout_hex.o hpgllib.o
 
 cutout_hex.o: cutout_hex.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ cutout_hex.c
+
+dala1.hpgl: dala1 Makefile
+	./dala1 $(TITLE) $(BOLDPEN) -o $@
+
+dala1: dala1.o hpgllib.o
+	$(LD) -o $@ dala1.o hpgllib.o -lm
+
+dala1.o: dala1.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ dala1.c
+
+dala2.hpgl: dala2
+	./dala2 $(TITLE) $(BOLDPEN) -o $@
+
+dala2: dala2.o hpgllib.o
+	$(LD) -o $@ dala2.o hpgllib.o -lm
+
+dala2.o: dala2.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ dala2.c
+
+dala2c.hpgl: dala2c
+	./dala2c $(TITLE) $(BOLDPEN) -o $@
+
+dala2c: dala2c.o hpgllib.o
+	$(LD) -o $@ dala2c.o hpgllib.o -lm
+
+dala2c.o: dala2c.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ dala2c.c
+
+dala3.hpgl: dala3 Makefile
+	./dala3 $(TITLE) $(BOLDPEN) -o $@
+
+dala3: dala3.o hpgllib.o
+	$(LD) -o $@ dala3.o hpgllib.o -lm
+
+dala3.o: dala3.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ dala3.c
 
 ellipse.hpgl: ellipse Makefile
 	./ellipse $(TITLE) $(BOLDPEN) -o $@
@@ -113,6 +158,15 @@ ellipse: ellipse.o hpgllib.o
 ellipse.o: ellipse.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ ellipse.c
 
+hyp.hpgl: hyp
+	./hyp $(TITLE) $(BOLDPEN) -o $@
+
+hyp: hyp.o
+	$(LD) -o $@ hyp.o hpgllib.o -lm
+
+hyp.o: hyp.c
+	$(CC) $(CFLAGS) -o $@ hyp.c
+
 isogrid.hpgl: isogrid Makefile
 	./isogrid $(TITLE) $(BOLDPEN) -o $@
 
@@ -121,6 +175,60 @@ isogrid: isogrid.o hpgllib.o
 
 isogrid.o: isogrid.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ isogrid.c
+
+libtest.hpgl: libtest Makefile
+	./libtest $(TITLE) $(BOLDPEN) -o $@
+
+libtest: libtest.o hpgllib.o
+	$(LD) -o $@ libtest.o hpgllib.o -lm
+
+libtest.o: libtest.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ libtest.c
+
+linetiles.hpgl: linetiles Makefile
+	./linetiles $(TITLE) $(BOLDPEN) -o $@
+
+linetiles: linetiles.o hpgllib.o
+	$(LD) -o $@ linetiles.o hpgllib.o -lm
+
+linetiles.o: linetiles.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ linetiles.c
+
+lissajous.hpgl: lissajous Makefile
+	./lissajous $(TITLE) $(BOLDPEN) -o $@
+
+lissajous: lissajous.o hpgllib.o
+	$(LD) -o $@ lissajous.o hpgllib.o -lm
+
+lissajous.o: lissajous.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ lissajous.c
+
+lobe.hpgl: lobe
+	./lobe $(TITLE) $(BOLDPEN) -o $@
+
+lobe: lobe.o hpgllib.o
+	$(LD) -o $@ lobe.o hpgllib.o -lm
+
+lobe.o: lobe.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ lobe.c
+
+morphpoly.hpgl: morphpoly Makefile
+	./morphpoly $(TITLE) $(BOLDPEN) -o $@
+
+morphpoly: morphpoly.o hpgllib.o
+	$(LD) -o $@ morphpoly.o hpgllib.o -lm
+
+morphpoly.o: morphpoly.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ morphpoly.c
+
+pappus.hpgl: pappus Makefile
+	./pappus $(TITLE) $(BOLDPEN) -o $@
+
+pappus: pappus.o hpgllib.o
+	$(LD) -o $@ pappus.o hpgllib.o -lm
+
+pappus.o: pappus.c
+	$(CC) $(CFLAGS) -o $@ pappus.c
 
 piscis.hpgl: piscis Makefile
 	./piscis $(TITLE) $(BOLDPEN) -o $@
@@ -211,105 +319,6 @@ truchet2: truchet2.o hpgllib.o
 
 truchet2.o: truchet2.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ truchet2.c
-
-morphpoly.hpgl: morphpoly Makefile
-	./morphpoly $(TITLE) $(BOLDPEN) -o $@
-
-morphpoly: morphpoly.o hpgllib.o
-	$(LD) -o $@ morphpoly.o hpgllib.o -lm
-
-morphpoly.o: morphpoly.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ morphpoly.c
-
-libtest.hpgl: libtest Makefile
-	./libtest $(TITLE) $(BOLDPEN) -o $@
-
-libtest: libtest.o hpgllib.o
-	$(LD) -o $@ libtest.o hpgllib.o -lm
-
-libtest.o: libtest.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ libtest.c
-
-linetiles.hpgl: linetiles Makefile
-	./linetiles $(TITLE) $(BOLDPEN) -o $@
-
-linetiles: linetiles.o hpgllib.o
-	$(LD) -o $@ linetiles.o hpgllib.o -lm
-
-linetiles.o: linetiles.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ linetiles.c
-
-lissajous.hpgl: lissajous Makefile
-	./lissajous $(TITLE) $(BOLDPEN) -o $@
-
-lissajous: lissajous.o hpgllib.o
-	$(LD) -o $@ lissajous.o hpgllib.o -lm
-
-lissajous.o: lissajous.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ lissajous.c
-
-lobe.hpgl: lobe
-	./lobe $(TITLE) $(BOLDPEN) -o $@
-
-lobe: lobe.o hpgllib.o
-	$(LD) -o $@ lobe.o hpgllib.o -lm
-
-lobe.o: lobe.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ lobe.c
-
-hyp.hpgl: hyp
-	./hyp $(TITLE) $(BOLDPEN) -o $@
-
-hyp: hyp.o
-	$(LD) -o $@ hyp.o hpgllib.o -lm
-
-hyp.o: hyp.c
-	$(CC) $(CFLAGS) -o $@ hyp.c
-
-pappus.hpgl: pappus Makefile
-	./pappus $(TITLE) $(BOLDPEN) -o $@
-
-pappus: pappus.o hpgllib.o
-	$(LD) -o $@ pappus.o hpgllib.o -lm
-
-pappus.o: pappus.c
-	$(CC) $(CFLAGS) -o $@ pappus.c
-
-dala1.hpgl: dala1 Makefile
-	./dala1 $(TITLE) $(BOLDPEN) -o $@
-
-dala1: dala1.o hpgllib.o
-	$(LD) -o $@ dala1.o hpgllib.o -lm
-
-dala1.o: dala1.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ dala1.c
-
-dala2.hpgl: dala2
-	./dala2 $(TITLE) $(BOLDPEN) -o $@
-
-dala2: dala2.o hpgllib.o
-	$(LD) -o $@ dala2.o hpgllib.o -lm
-
-dala2.o: dala2.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ dala2.c
-
-dala2c.hpgl: dala2c
-	./dala2c $(TITLE) $(BOLDPEN) -o $@
-
-dala2c: dala2c.o hpgllib.o
-	$(LD) -o $@ dala2c.o hpgllib.o -lm
-
-dala2c.o: dala2c.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ dala2c.c
-
-dala3.hpgl: dala3 Makefile
-	./dala3 $(TITLE) $(BOLDPEN) -o $@
-
-dala3: dala3.o hpgllib.o
-	$(LD) -o $@ dala3.o hpgllib.o -lm
-
-dala3.o: dala3.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ dala3.c
 
 twist.hpgl: twist Makefile
 	./twist $(TITLE) $(BOLDPEN) -o $@
@@ -463,15 +472,6 @@ hconic2: hconic2.o
 
 hconic2.o: hconic2.c
 	$(CC) $(CFLAGS) -o $@ hconic2.c
-
-coords.hpgl: coords Makefile
-	./coords $(BOLDPEN) -o $@
-
-coords: coords.o hpgllib.o
-	$(LD) -o $@ coords.o hpgllib.o -lm
-
-coords.o: coords.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ coords.c
 
 # Turtle graphics programs
 
