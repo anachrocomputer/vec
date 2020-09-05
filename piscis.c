@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include <math.h>
 #include "hpgllib.h"
@@ -11,6 +12,7 @@ void plot_ul(const double x0, const double y0, const double width, const double 
 void plot_ur(const double x0, const double y0, const double width, const double height, const double r1, const double r2);
 void plot_ll(const double x0, const double y0, const double width, const double height, const double r1, const double r2);
 void plot_lr(const double x0, const double y0, const double width, const double height, const double r1, const double r2);
+void reuleaux(const double xc, const double yc, const double r, const int n, const bool drawSides);
 
 int main(int argc, char * const argv[])
 {
@@ -92,31 +94,11 @@ void plot_ul(const double x0, const double y0, const double width, const double 
 
 void plot_ur(const double x0, const double y0, const double width, const double height, const double r1, const double r2)
 {
-   /* https://en.wikipedia.org/wiki/Reuleaux_triangle */
-   int i;
-   const double delta = (2.0 * M_PI) / 3.0;
    const double xc = x0 + (width / 2.0);
    const double yc = y0 + (height / 2.0);
-   double x[4];
-   double y[4];
    
-   for (i = 0; i <= 3; i++) {
-      const double theta = (delta * (double)i) - (delta / 4.0);
-      x[i] = xc + (r2 * cos(theta));
-      y[i] = yc + (r2 * sin(theta));
-   }
-      
-   for (i = 0; i < 3; i++) {
-      moveto(x[i], y[i]);
-      arc(x[i + 1], y[i + 1], -60.0);
-   }
-
-   for (i = 0; i <= 3; i++) {
-      if (i == 0)
-         moveto(x[i], y[i]);
-      else
-         lineto(x[i], y[i]);
-   }
+   reuleaux(xc, yc, r2, 3, true);
+   reuleaux(xc, yc, r2 * 1.1, 3, false);
 }
 
 
@@ -134,6 +116,7 @@ void plot_ll(const double x0, const double y0, const double width, const double 
    
    for (i = 0; i <= 6; i++) {
       const double theta = delta * (double)i;
+
       x[i] = xc + (r2 * cos(theta));
       y[i] = yc + (r2 * sin(theta));
    }
@@ -142,9 +125,44 @@ void plot_ll(const double x0, const double y0, const double width, const double 
       moveto(x[i], y[i]);
       arc(x[i + 1], y[i + 1], -120.0);
    }
+
+   circle(xc, yc, r2 * 1.1);
 }
 
 
 void plot_lr(const double x0, const double y0, const double width, const double height, const double r1, const double r2)
 {
+}
+
+
+void reuleaux(const double xc, const double yc, const double r, const int n, const bool drawSides)
+{
+   /* https://en.wikipedia.org/wiki/Reuleaux_triangle */
+   int i;
+   const double delta = (2.0 * M_PI) / (double)n;
+   const double degrees = 180.0 / (double)n;
+   double x[32];
+   double y[32];
+   
+   for (i = 0; i <= n; i++) {
+      const double theta = (delta * (double)i) + (M_PI / 2.0);
+      x[i] = xc + (r * cos(theta));
+      y[i] = yc + (r * sin(theta));
+   }
+      
+   for (i = 0; i < n; i++) {
+      const int j = (i + (n / 2)) % n;
+
+      moveto(x[i], y[i]);
+      arc(x[j], y[j], -degrees);
+   }
+
+   if (drawSides) {
+      for (i = 0; i <= n; i++) {
+         if (i == 0)
+            moveto(x[i], y[i]);
+         else
+            lineto(x[i], y[i]);
+      }
+   }
 }
