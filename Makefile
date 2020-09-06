@@ -24,7 +24,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl poly_oval.hpgl \
      libtest.hpgl linetiles.hpgl a6cardlabels.hpgl octoflower.hpgl \
      circle4.hpgl truchet1.hpgl cutout_hex.hpgl truchet2.hpgl \
-     reuleaux.hpgl
+     reuleaux.hpgl frustum.hpgl
 
 SVG=$(HPGL:.hpgl=.svg)
 
@@ -157,6 +157,15 @@ ellipse: ellipse.o hpgllib.o
 
 ellipse.o: ellipse.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ ellipse.c
+
+frustum.hpgl: frustum Makefile
+	./frustum $(TITLE) $(BOLDPEN) -o $@
+
+frustum: frustum.o hpgllib.o
+	$(LD) -o $@ frustum.o hpgllib.o -lm
+
+frustum.o: frustum.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ frustum.c
 
 hyp.hpgl: hyp
 	./hyp $(TITLE) $(BOLDPEN) -o $@
