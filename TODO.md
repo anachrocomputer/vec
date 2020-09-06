@@ -19,6 +19,8 @@ the library and/or command line (we just use 9600 baud).
 SIGINT has stopped a plot.
 * Make 'plotcancel()' work properly. Install a signal handler in 'plotbegin()'
 to call it if/when we get a signal.
+* Add support for line styles. We could use dotted and dashed lines
+for some of the plots, e.g. fold lines, centre lines.
 * Add support for read-back commands when the interface allows them.
 E.g. 'OS', 'OA' and 'OI'.
 * Add support for automatic paper feed on HP 7550 and any other plotters
@@ -85,7 +87,8 @@ command-line arguments and low-level driver code.
 3D perspective drawings, maps and even slow-to-draw drawings!
 * Add colour (pen changes) to drawings.
 * Add drawings that can be folded like Origami.
-* Add drawings that can be cut out and assembled, e.g. geodesic dome.
+* Add drawings that can be cut out and assembled, e.g. geodesic dome,
+packaging such as cake boxes, decorations such as snowflakes.
 * Plot the Utah Teapot in wire-frame.
 * Write some Truchet Tile plots. Maybe a generalised tile-drawing
 program which could be driven by a text file.
@@ -97,6 +100,7 @@ program which could be driven by a text file.
 * Plot a cassette inlay, and/or a CD inlay or a floppy disk label or
 some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
 label. Plot directly onto a CD-R or DVD-RW.
+* Draw some Art Deco motifs and patterns.
 * Write a library test plot that exercises all the drawing commands.
 Useful if/when we add support for BMC or other non-HPGL plotters.
 * Convert some of the older drawings to fully use the HPGL library.
