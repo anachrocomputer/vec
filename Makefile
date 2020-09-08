@@ -68,6 +68,24 @@ a6cardlabels: a6cardlabels.o hpgllib.o
 a6cardlabels.o: a6cardlabels.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ a6cardlabels.c
 
+allover12.hpgl: allover12 Makefile
+	./allover12 $(TITLE) $(BOLDPEN) -o $@
+
+allover12: allover12.o hpgllib.o
+	$(LD) -o $@ allover12.o hpgllib.o -lm
+
+allover12.o: allover12.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ allover12.c
+
+allover13.hpgl: allover13 Makefile
+	./allover13 $(TITLE) $(BOLDPEN) -o $@
+
+allover13: allover13.o hpgllib.o
+	$(LD) -o $@ allover13.o hpgllib.o -lm
+
+allover13.o: allover13.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ allover13.c
+
 arches.hpgl: arches Makefile
 	./arches $(TITLE) $(BOLDPEN) -o $@
 
@@ -76,6 +94,15 @@ arches: arches.o hpgllib.o
 
 arches.o: arches.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ arches.c
+
+celticstep.hpgl: celticstep Makefile
+	./celticstep $(TITLE) $(BOLDPEN) -o $@
+
+celticstep: celticstep.o hpgllib.o
+	$(LD) -o $@ celticstep.o hpgllib.o -lm
+
+celticstep.o: celticstep.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ celticstep.c
 
 circle4.hpgl: circle4 Makefile
 	./circle4 $(TITLE) $(BOLDPEN) -o $@
@@ -103,6 +130,15 @@ coords: coords.o hpgllib.o
 
 coords.o: coords.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ coords.c
+
+curve_stitching.hpgl: curve_stitching Makefile
+	./curve_stitching $(TITLE) $(BOLDPEN) -o $@
+
+curve_stitching: curve_stitching.o hpgllib.o
+	$(LD) -o $@ curve_stitching.o hpgllib.o -lm
+
+curve_stitching.o: curve_stitching.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ curve_stitching.c
 
 cutout_hex.hpgl: cutout_hex Makefile
 	./cutout_hex $(TITLE) $(BOLDPEN) -o $@
@@ -221,6 +257,15 @@ lobe: lobe.o hpgllib.o
 lobe.o: lobe.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ lobe.c
 
+lotus.hpgl: lotus Makefile
+	./lotus $(TITLE) $(BOLDPEN) -o $@
+
+lotus: lotus.o hpgllib.o
+	$(LD) -o $@ lotus.o hpgllib.o -lm
+
+lotus.o: lotus.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ lotus.c
+
 morphpoly.hpgl: morphpoly Makefile
 	./morphpoly $(TITLE) $(BOLDPEN) -o $@
 
@@ -230,6 +275,24 @@ morphpoly: morphpoly.o hpgllib.o
 morphpoly.o: morphpoly.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ morphpoly.c
 
+octoflower.hpgl: octoflower Makefile
+	./octoflower $(TITLE) $(BOLDPEN) -o $@
+
+octoflower: octoflower.o hpgllib.o
+	$(LD) -o $@ octoflower.o hpgllib.o -lm
+
+octoflower.o: octoflower.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ octoflower.c
+
+op_moire.hpgl: op_moire Makefile
+	./op_moire $(TITLE) $(BOLDPEN) -o $@
+
+op_moire: op_moire.o hpgllib.o
+	$(LD) -o $@ op_moire.o hpgllib.o -lm
+
+op_moire.o: op_moire.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ op_moire.c
+
 pappus.hpgl: pappus Makefile
 	./pappus $(TITLE) $(BOLDPEN) -o $@
 
@@ -238,6 +301,15 @@ pappus: pappus.o hpgllib.o
 
 pappus.o: pappus.c
 	$(CC) $(CFLAGS) -o $@ pappus.c
+
+pconic.hpgl: pconic Makefile
+	./pconic $(TITLE) $(BOLDPEN) -o $@
+
+pconic: pconic.o hpgllib.o
+	$(LD) -o $@ pconic.o hpgllib.o -lm
+
+pconic.o: pconic.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ pconic.c
 
 piscis.hpgl: piscis Makefile
 	./piscis $(TITLE) $(BOLDPEN) -o $@
@@ -338,51 +410,6 @@ twist: twist.o hpgllib.o
 twist.o: twist.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ twist.c
 
-lotus.hpgl: lotus Makefile
-	./lotus $(TITLE) $(BOLDPEN) -o $@
-
-lotus: lotus.o hpgllib.o
-	$(LD) -o $@ lotus.o hpgllib.o -lm
-
-lotus.o: lotus.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ lotus.c
-
-celticstep.hpgl: celticstep Makefile
-	./celticstep $(TITLE) $(BOLDPEN) -o $@
-
-celticstep: celticstep.o hpgllib.o
-	$(LD) -o $@ celticstep.o hpgllib.o -lm
-
-celticstep.o: celticstep.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ celticstep.c
-
-octoflower.hpgl: octoflower Makefile
-	./octoflower $(TITLE) $(BOLDPEN) -o $@
-
-octoflower: octoflower.o hpgllib.o
-	$(LD) -o $@ octoflower.o hpgllib.o -lm
-
-octoflower.o: octoflower.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ octoflower.c
-
-op_moire.hpgl: op_moire Makefile
-	./op_moire $(TITLE) $(BOLDPEN) -o $@
-
-op_moire: op_moire.o hpgllib.o
-	$(LD) -o $@ op_moire.o hpgllib.o -lm
-
-op_moire.o: op_moire.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ op_moire.c
-
-pconic.hpgl: pconic Makefile
-	./pconic $(TITLE) $(BOLDPEN) -o $@
-
-pconic: pconic.o hpgllib.o
-	$(LD) -o $@ pconic.o hpgllib.o -lm
-
-pconic.o: pconic.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ pconic.c
-
 sqinsq.hpgl: sqinsq Makefile
 	./sqinsq $(TITLE) $(BOLDPEN) -o $@
 
@@ -410,15 +437,6 @@ fraserspiral: fraserspiral.o hpgllib.o
 fraserspiral.o: fraserspiral.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ fraserspiral.c
 
-curve_stitching.hpgl: curve_stitching Makefile
-	./curve_stitching $(TITLE) $(BOLDPEN) -o $@
-
-curve_stitching: curve_stitching.o hpgllib.o
-	$(LD) -o $@ curve_stitching.o hpgllib.o -lm
-
-curve_stitching.o: curve_stitching.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ curve_stitching.c
-
 cs_rosette.hpgl: cs_rosette Makefile
 	./cs_rosette $(TITLE) $(BOLDPEN) -o $@
 
@@ -427,24 +445,6 @@ cs_rosette: cs_rosette.o hpgllib.o
 
 cs_rosette.o: cs_rosette.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ cs_rosette.c
-
-allover12.hpgl: allover12 Makefile
-	./allover12 $(TITLE) $(BOLDPEN) -o $@
-
-allover12: allover12.o hpgllib.o
-	$(LD) -o $@ allover12.o hpgllib.o -lm
-
-allover12.o: allover12.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ allover12.c
-
-allover13.hpgl: allover13 Makefile
-	./allover13 $(TITLE) $(BOLDPEN) -o $@
-
-allover13: allover13.o hpgllib.o
-	$(LD) -o $@ allover13.o hpgllib.o -lm
-
-allover13.o: allover13.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ allover13.c
 
 zigzag.hpgl: zigzag Makefile
 	./zigzag $(TITLE) $(BOLDPEN) -o $@
