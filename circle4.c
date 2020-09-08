@@ -97,7 +97,7 @@ void circlearcs(const double x0, const double y0, const double ht)
    for (i = 0; i < 22; i++) {
       const double x1 = x0 - radius - (8.0 * 40.0 * (double)i);
       const double y1 = y0;
-      const r = 10.0 * 40.0 * (double)(i + 1);
+      const double r = 10.0 * 40.0 * (double)(i + 1);
       
       //circle(x1, y1, r);
       
