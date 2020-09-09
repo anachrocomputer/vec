@@ -131,6 +131,15 @@ coords: coords.o hpgllib.o
 coords.o: coords.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ coords.c
 
+cs_rosette.hpgl: cs_rosette Makefile
+	./cs_rosette $(TITLE) $(BOLDPEN) -o $@
+
+cs_rosette: cs_rosette.o hpgllib.o
+	$(LD) -o $@ cs_rosette.o hpgllib.o -lm
+
+cs_rosette.o: cs_rosette.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ cs_rosette.c
+
 curve_stitching.hpgl: curve_stitching Makefile
 	./curve_stitching $(TITLE) $(BOLDPEN) -o $@
 
@@ -194,6 +203,15 @@ ellipse: ellipse.o hpgllib.o
 ellipse.o: ellipse.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ ellipse.c
 
+fraserspiral.hpgl: fraserspiral Makefile
+	./fraserspiral $(TITLE) $(BOLDPEN) -o $@
+
+fraserspiral: fraserspiral.o hpgllib.o
+	$(LD) -o $@ fraserspiral.o hpgllib.o -lm
+
+fraserspiral.o: fraserspiral.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ fraserspiral.c
+
 frustum.hpgl: frustum Makefile
 	./frustum $(TITLE) $(BOLDPEN) -o $@
 
@@ -202,6 +220,15 @@ frustum: frustum.o hpgllib.o
 
 frustum.o: frustum.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ frustum.c
+
+hconic2.hpgl: hconic2
+	./hconic2 >hconic2.hpgl
+
+hconic2: hconic2.o
+	$(LD) -o $@ hconic2.o -lm
+
+hconic2.o: hconic2.c
+	$(CC) $(CFLAGS) -o $@ hconic2.c
 
 hyp.hpgl: hyp
 	./hyp $(TITLE) $(BOLDPEN) -o $@
@@ -311,6 +338,24 @@ pconic: pconic.o hpgllib.o
 pconic.o: pconic.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ pconic.c
 
+pin_and_cotton.hpgl: pin_and_cotton Makefile
+	./pin_and_cotton $(TITLE) $(BOLDPEN) -o $@
+
+pin_and_cotton: pin_and_cotton.o hpgllib.o
+	$(LD) -o $@ pin_and_cotton.o hpgllib.o -lm
+
+pin_and_cotton.o: pin_and_cotton.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ pin_and_cotton.c
+
+pin_circle.hpgl: pin_circle Makefile
+	./pin_circle $(TITLE) $(BOLDPEN) -o $@
+
+pin_circle: pin_circle.o hpgllib.o
+	$(LD) -o $@ pin_circle.o hpgllib.o -lm
+
+pin_circle.o: pin_circle.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ pin_circle.c
+
 piscis.hpgl: piscis Makefile
 	./piscis $(TITLE) $(BOLDPEN) -o $@
 
@@ -346,6 +391,24 @@ reuleaux: reuleaux.o hpgllib.o
 
 reuleaux.o: reuleaux.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ reuleaux.c
+
+spiralsq.hpgl: spiralsq Makefile
+	./spiralsq $(TITLE) $(BOLDPEN) -o $@
+
+spiralsq: spiralsq.o hpgllib.o
+	$(LD) -o $@ spiralsq.o hpgllib.o -lm
+
+spiralsq.o: spiralsq.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ spiralsq.c
+
+sqinsq.hpgl: sqinsq Makefile
+	./sqinsq $(TITLE) $(BOLDPEN) -o $@
+
+sqinsq: sqinsq.o hpgllib.o
+	$(LD) -o $@ sqinsq.o hpgllib.o -lm
+
+sqinsq.o: sqinsq.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ sqinsq.c
 
 superellipse.hpgl: superellipse Makefile
 	./superellipse $(TITLE) $(BOLDPEN) -o $@
@@ -410,42 +473,6 @@ twist: twist.o hpgllib.o
 twist.o: twist.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ twist.c
 
-sqinsq.hpgl: sqinsq Makefile
-	./sqinsq $(TITLE) $(BOLDPEN) -o $@
-
-sqinsq: sqinsq.o hpgllib.o
-	$(LD) -o $@ sqinsq.o hpgllib.o -lm
-
-sqinsq.o: sqinsq.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ sqinsq.c
-
-spiralsq.hpgl: spiralsq Makefile
-	./spiralsq $(TITLE) $(BOLDPEN) -o $@
-
-spiralsq: spiralsq.o hpgllib.o
-	$(LD) -o $@ spiralsq.o hpgllib.o -lm
-
-spiralsq.o: spiralsq.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ spiralsq.c
-
-fraserspiral.hpgl: fraserspiral Makefile
-	./fraserspiral $(TITLE) $(BOLDPEN) -o $@
-
-fraserspiral: fraserspiral.o hpgllib.o
-	$(LD) -o $@ fraserspiral.o hpgllib.o -lm
-
-fraserspiral.o: fraserspiral.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ fraserspiral.c
-
-cs_rosette.hpgl: cs_rosette Makefile
-	./cs_rosette $(TITLE) $(BOLDPEN) -o $@
-
-cs_rosette: cs_rosette.o hpgllib.o
-	$(LD) -o $@ cs_rosette.o hpgllib.o -lm
-
-cs_rosette.o: cs_rosette.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ cs_rosette.c
-
 zigzag.hpgl: zigzag Makefile
 	./zigzag $(TITLE) $(BOLDPEN) -o $@
 
@@ -454,33 +481,6 @@ zigzag: zigzag.o hpgllib.o
 
 zigzag.o: zigzag.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ zigzag.c
-
-pin_and_cotton.hpgl: pin_and_cotton Makefile
-	./pin_and_cotton $(TITLE) $(BOLDPEN) -o $@
-
-pin_and_cotton: pin_and_cotton.o hpgllib.o
-	$(LD) -o $@ pin_and_cotton.o hpgllib.o -lm
-
-pin_and_cotton.o: pin_and_cotton.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ pin_and_cotton.c
-
-pin_circle.hpgl: pin_circle Makefile
-	./pin_circle $(TITLE) $(BOLDPEN) -o $@
-
-pin_circle: pin_circle.o hpgllib.o
-	$(LD) -o $@ pin_circle.o hpgllib.o -lm
-
-pin_circle.o: pin_circle.c hpgllib.h
-	$(CC) $(CFLAGS) -o $@ pin_circle.c
-
-hconic2.hpgl: hconic2
-	./hconic2 >hconic2.hpgl
-
-hconic2: hconic2.o
-	$(LD) -o $@ hconic2.o -lm
-
-hconic2.o: hconic2.c
-	$(CC) $(CFLAGS) -o $@ hconic2.c
 
 # Turtle graphics programs
 
