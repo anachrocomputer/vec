@@ -11,6 +11,8 @@
 void circle4(const double x0, const double y0, const double ht);
 void circlearcs(const double x0, const double y0, const double ht);
 void yinyang(const double x0, const double y0, const double ht, const int n);
+void plot_ur(const double xc, const double yc, const double r1, const double r2);
+void rotate(double *x, double *y, const double st, const double ct);
 
 
 int main(int argc, char * const argv[])
@@ -61,7 +63,7 @@ int main(int argc, char * const argv[])
    circle4(w4, h4, maxy / 2.0);
    circlearcs(xc + w4, h4, maxy / 2.0);
    yinyang(w4, yc + h4, maxy / 2.0, 3);
-   //lissajous(xc + w4, yc + h4, side, 7.0, 9.0, 0.0, 144);
+   plot_ur(xc + w4, yc + h4, maxx / 5.0, maxy / 5.0);
    
    plotend();
    
@@ -146,4 +148,56 @@ void yinyang(const double x0, const double y0, const double ht, const int n)
       arc(x0 + x, y0 + y, 180.0 + (interior / 2.0));
       circle(x0 + x, y0 + y, r2 / 3.0);
    }
+}
+
+
+void plot_ur(const double xc, const double yc, const double r1, const double r2)
+{
+   /* Inspired by "Japanese Optical and Geometrical Art" by
+      Hajime Ouchi, ISBN 0-486-23553-X, page 24, top and
+      page 89, middle right */
+   const int n = 16;
+   const double delta = (2.0 * M_PI) / (double)n;
+   const double r = r2 * sin(delta / 2.0);
+   const double d = sqrt(3.0 * r * r);
+   int i;
+
+// circle(xc, yc, r2 - d);
+// circle(xc, yc, r2 + r);
+   
+   for (i = 0; i < n; i++) {
+      const double theta = delta * (double)i;
+      const double st = sin(theta);
+      const double ct = cos(theta);
+      
+      const double x = r2 * ct;
+      const double y = r2 * st;
+      const double x1 = (r2 - d) * ct;
+      const double y1 = (r2 - d) * st;
+      double x2 = r2 - d;
+      double y2 = -r;
+      double x3 = r2 - d;
+      double y3 = r;
+      
+      rotate(&x2, &y2, st, ct);
+      rotate(&x3, &y3, st, ct);
+      
+      moveto(xc, yc);
+      lineto(xc + x1, yc + y1);
+//    moveto(xc + x1, yc + y1);
+      arc(xc + x2, yc + y2, -60.0);
+      arc(xc + x, yc + y, 300.0);
+      arc(xc + x3, yc + y3, -60.0);
+   }
+}
+
+
+
+void rotate(double *x, double *y, const double st, const double ct)
+{
+   const double newx = (*x * ct) - (*y * st);
+   const double newy = (*x * st) + (*y * ct);
+   
+   *x = newx;
+   *y = newy;
 }
