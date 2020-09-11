@@ -108,7 +108,7 @@ E.g. op, pconic, hconic.
 * Convert Tarim's C++ 'spiro' to C and make it use the library too.
 * Finish off some of the incomplete plots. E.g. hexagon, fraserspiral,
 flake, qrplot, spiralsq, twist, zigzag.
-* Fill the empty sub-plots in 'circle4', 'ellipse' and 'piscis'.
+* Fill the empty sub-plots in 'circle4' and 'piscis'.
 * Clean up the various 'dala' drawings. Eliminate the 'dala2c' variant
 by adding colour to 'dala2.c'.
 * Add run-time variation to 'dala2.c'.
