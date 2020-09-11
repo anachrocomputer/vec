@@ -1,5 +1,5 @@
 /* reuleaux --- draw some Reuleaux polygons                 2020-09-05 */
-/* Copyright (c) 2011 John Honniball, Froods Software Development      */
+/* Copyright (c) 2020 John Honniball, Froods Software Development      */
 
 #include <stdio.h>
 #include <stdlib.h>
