@@ -58,17 +58,21 @@ be able to get previews with bold or fine pens.
 * Should we set pen speeds separately for each pen?
 * Eliminate 'hpglout()' if at all possible. It breaks the abstraction
 that the library tries to maintain.
-* Support non-HPGL output. Maybe PostScript, BMC plotter commands,
-G-code or SVG. This would be a big change to the library and would
-introduce a lot of new code. It would also be a big testing issue.
+* Support non-HPGL output.
+Maybe PostScript, G-code or SVG.
+Support BMC B-1000, Tandy/Radio Shack CGP-115 and/or Commodore 1520.
+Maybe also the rarer ones like the Astron/Astar MCP-40.
+This would be a big change to the library and would introduce a lot
+of new code.
+It would also be a big testing issue.
 * Add circles and arcs to the PenDownDistance and plot time calculations.
 * Make plot time take into account pen speed if '-v' is used.
 * Add Doxygen comments to the library source and add a Makefile rule for Doxygen.
-* Make printout of time-to-plot optional. Maybe add a command-line argument
-to enable it?
-* Add a means to derive the 'getopt()' string from the library. Maybe
-using a #define? In case we add a new argument that 'plotopt()' will
-recognise.
+* Make printout of time-to-plot optional.
+Maybe add a command-line argument to enable it?
+* Add a means to derive the 'getopt()' string from the library.
+Maybe using a #define?
+In case we add a new argument that 'plotopt()' will recognise.
 
 ## Turtle library
 * Implement run-time option setting in all Turtle plots, and in the
@@ -101,6 +105,7 @@ program which could be driven by a text file.
 some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
 label. Plot directly onto a CD-R or DVD-RW.
 * Draw some Art Deco motifs and patterns.
+* Can we draw barcodes on a pen plotter?
 * Write a library test plot that exercises all the drawing commands.
 Useful if/when we add support for BMC or other non-HPGL plotters.
 * Convert some of the older drawings to fully use the HPGL library.
