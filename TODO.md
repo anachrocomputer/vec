@@ -61,7 +61,8 @@ that the library tries to maintain.
 * Support non-HPGL output.
 Maybe PostScript, G-code or SVG.
 Support BMC B-1000, Tandy/Radio Shack CGP-115 and/or Commodore 1520.
-Maybe also the rarer ones like the Astron/Astar MCP-40.
+Maybe also the rarer ones like the Astron/Astar MCP-40 or the Apple
+410 Color Plotter (Yokogawa PL-1000).
 This would be a big change to the library and would introduce a lot
 of new code.
 It would also be a big testing issue.
