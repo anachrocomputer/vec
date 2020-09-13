@@ -11,6 +11,7 @@
 void circle4(const double x0, const double y0, const double ht);
 void circlearcs(const double x0, const double y0, const double ht);
 void yinyang(const double x0, const double y0, const double ht, const int n);
+void plot_lr(const double xc, const double yc, const double r1, const double r2);
 void plot_ur(const double xc, const double yc, const double r1, const double r2);
 void rotate(double *x, double *y, const double st, const double ct);
 
@@ -61,7 +62,8 @@ int main(int argc, char * const argv[])
    
    /* Draw four circle and arc plots */
    circle4(w4, h4, maxy / 2.0);
-   circlearcs(xc + w4, h4, maxy / 2.0);
+// circlearcs(xc + w4, h4, maxy / 2.0);
+   plot_lr(xc + w4, h4, maxx / 5.0, maxy / 5.0);
    yinyang(w4, yc + h4, maxy / 2.0, 3);
    plot_ur(xc + w4, yc + h4, maxx / 5.0, maxy / 5.0);
    
@@ -81,6 +83,41 @@ void circle4(const double x0, const double y0, const double ht)
    circle(x0, y0 + radius, radius); 
    circle(x0, y0 - radius, radius);
    circle(x0 + radius, y0, radius);
+}
+
+
+void plot_lr(const double xc, const double yc, const double r1, const double r2)
+{
+   /* Inspired by "Handbook of Designs and Devices" by
+      Clarence P. Hornung, ISBN 0-486-20125-2, page 22,
+      The Ringed Interlacement, fig. 190 */
+   const int n = 9;
+   const double delta = (2.0 * M_PI) / (double)n;
+   const double degrees = 180.0 + (delta * (180.0 / M_PI));
+   const double r = r2 * 0.8;
+   int i;
+
+   for (i = 0; i < n; i++) {
+      const double theta = delta * (double)i;
+      
+      const double x = r * cos(theta);
+      const double y = r * sin(theta);
+      const double xn = r * cos(theta + delta);
+      const double yn = r * sin(theta + delta);
+      const double xp = r * cos(theta - delta);
+      const double yp = r * sin(theta - delta);
+      const double x1 = (x + xn) / 2.0;
+      const double y1 = (y + yn) / 2.0;
+      const double x2 = (x * 0.4) + (xp * 0.6);
+      const double y2 = (y * 0.4) + (yp * 0.6);
+      
+//    moveto(xc, yc);
+//    lineto(xc + x1, yc + y1);
+
+      moveto(xc + x2, yc + y2);
+      arc(xc + x, yc + y, degrees);
+      arc(xc + x1, yc + y1, 180.0);
+   }
 }
 
 
