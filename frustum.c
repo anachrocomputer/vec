@@ -24,6 +24,7 @@ void decorate(const int side, const double xc, const double yc, const double wd,
 void rotate(double *x, double *y, const double st, const double ct);
 void half_ellipse(const double x0, const double y0, const double a, const double b, const double theta);
 void half_superellipse(const double x0, const double y0, const double a, const double b, const double theta, const double d);
+void flower(const double xc, const double yc, const double r2, const double angle, const int n);
 
 int main(int argc, char * const argv[])
 {
@@ -191,7 +192,7 @@ void decorate(const int side, const double xc, const double yc, const double wd,
    if ((side % 2) == 0)
       ellipse(xc, yc, wd, ht, angle);
    else
-      circle(xc, yc, ht);
+      flower(xc, yc, wd / 2.0, angle, 5);
 }
 
 
@@ -259,5 +260,28 @@ void half_superellipse(const double x0, const double y0, const double a, const d
          moveto(x0 + x, y0 + y);
       else
          lineto(x0 + x, y0 + y);
+   }
+}
+
+
+void flower(const double xc, const double yc, const double r2, const double angle, const int n)
+{
+   const double delta = (2.0 * M_PI) / (double)n;
+   const double degrees = 180.0 + (delta * (180.0 / M_PI));
+   int i;
+
+   for (i = 0; i < n; i++) {
+      const double theta = angle + (delta * (double)i);
+      
+      const double x = r2 * cos(theta);
+      const double y = r2 * sin(theta);
+      const double x1 = r2 * cos(theta + delta);
+      const double y1 = r2 * sin(theta + delta);
+      const double x2 = (x + x1) / 2.0;
+      const double y2 = (y + y1) / 2.0;
+      
+      moveto(xc, yc);
+      lineto(xc + x2, yc + y2);
+      arc(xc + x, yc + y, -degrees);
    }
 }
