@@ -66,6 +66,12 @@ Maybe also the rarer ones like the Astron/Astar MCP-40 or the Apple
 This would be a big change to the library and would introduce a lot
 of new code.
 It would also be a big testing issue.
+* Port to other operating systems than Linux.
+Could the code run on MacOS X with only minimal changes?
+How does Windows (Win32) handle things like serial port configuration?
+Would the HPGL library encapsulate all the changes,
+leaving the drawing programs unmodified?
+What about 'getopt()'?
 * Add circles and arcs to the PenDownDistance and plot time calculations.
 * Make plot time take into account pen speed if '-v' is used.
 * Add Doxygen comments to the library source and add a Makefile rule for Doxygen.
