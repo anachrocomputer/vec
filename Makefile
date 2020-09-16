@@ -24,7 +24,7 @@ HPGL=flake.hpgl op.hpgl dala1.hpgl hconic2.hpgl tree.hpgl dome.hpgl \
      star_grid.hpgl ternary_arcs.hpgl hexspiral.hpgl poly_oval.hpgl \
      libtest.hpgl linetiles.hpgl a6cardlabels.hpgl octoflower.hpgl \
      circle4.hpgl truchet1.hpgl cutout_hex.hpgl truchet2.hpgl \
-     reuleaux.hpgl frustum.hpgl
+     reuleaux.hpgl frustum.hpgl truchet_hex.hpgl
 
 SVG=$(HPGL:.hpgl=.svg)
 
@@ -463,6 +463,15 @@ truchet2: truchet2.o hpgllib.o
 
 truchet2.o: truchet2.c hpgllib.h
 	$(CC) $(CFLAGS) -o $@ truchet2.c
+
+truchet_hex.hpgl: truchet_hex Makefile
+	./truchet_hex $(TITLE) $(BOLDPEN) -o $@
+
+truchet_hex: truchet_hex.o hpgllib.o
+	$(LD) -o $@ truchet_hex.o hpgllib.o -lm
+
+truchet_hex.o: truchet_hex.c hpgllib.h
+	$(CC) $(CFLAGS) -o $@ truchet_hex.c
 
 twist.hpgl: twist Makefile
 	./twist $(TITLE) $(BOLDPEN) -o $@
