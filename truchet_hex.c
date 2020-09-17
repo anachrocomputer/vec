@@ -23,8 +23,13 @@ struct HexRec {
 };
 
 void drawtile(const double x, const double y, const struct HexRec *const hex, const int tile_type);
+void drawTileB(const double x, const double y, const struct HexRec *const hex, const int i);
+void drawTileC(const double x, const double y, const struct HexRec *const hex, const int i);
 void drawTileD(const double x, const double y, const struct HexRec *const hex, const int i);
 void drawTileE(const double x, const double y, const struct HexRec *const hex, const int i);
+void lineFaceFace(const double x, const double y, const struct HexRec *const hex, const int f1, const int f2);
+void arcFaceApex(const double x, const double y, const struct HexRec *const hex, const int f, const int a);
+void arcFaceVertex(const double x, const double y, const struct HexRec *const hex, const int f, const int v);
 
 
 int main(int argc, char * const argv[])
@@ -154,68 +159,35 @@ void drawtile(const double x, const double y, const struct HexRec *const hex, co
 {
    switch (tile_type) {
    case 0:  // Tile A: only one kind
-      moveto(x + hex->xface[0], y + hex->yface[0]);
-      lineto(x + hex->xface[3], y + hex->yface[3]);
-      moveto(x + hex->xface[1], y + hex->yface[1]);
-      lineto(x + hex->xface[4], y + hex->yface[4]);
-      moveto(x + hex->xface[2], y + hex->yface[2]);
-      lineto(x + hex->xface[5], y + hex->yface[5]);
+      lineFaceFace(x, y, hex, 0, 3);
+      lineFaceFace(x, y, hex, 1, 4);
+      lineFaceFace(x, y, hex, 2, 5);
       break;
    case 1:  // Tile B: three orientations
-      moveto(x + hex->xface[0], y + hex->yface[0]);
-      lineto(x + hex->xface[3], y + hex->yface[3]);
-      moveto(x + hex->xface[1], y + hex->yface[1]);
-      arc(x + hex->xapex[0], y + hex->yapex[0], 60.0);
-      moveto(x + hex->xface[4], y + hex->yface[4]);
-      arc(x + hex->xapex[3], y + hex->yapex[3], 60.0);
+      drawTileB(x, y, hex, 0);
       break;
    case 2:
-      moveto(x + hex->xface[1], y + hex->yface[1]);
-      lineto(x + hex->xface[4], y + hex->yface[4]);
-      moveto(x + hex->xface[2], y + hex->yface[2]);
-      arc(x + hex->xapex[1], y + hex->yapex[1], 60.0);
-      moveto(x + hex->xface[5], y + hex->yface[5]);
-      arc(x + hex->xapex[4], y + hex->yapex[4], 60.0);
+      drawTileB(x, y, hex, 1);
       break;
    case 3:
-      moveto(x + hex->xface[2], y + hex->yface[2]);
-      lineto(x + hex->xface[5], y + hex->yface[5]);
-      moveto(x + hex->xface[3], y + hex->yface[3]);
-      arc(x + hex->xapex[2], y + hex->yapex[2], 60.0);
-      moveto(x + hex->xface[0], y + hex->yface[0]);
-      arc(x + hex->xapex[5], y + hex->yapex[5], 60.0);
+      drawTileB(x, y, hex, 2);
       break;
    case 4:  // Tile C: three orientations
-      moveto(x + hex->xface[0], y + hex->yface[0]);
-      lineto(x + hex->xface[3], y + hex->yface[3]);
-      moveto(x + hex->xface[2], y + hex->yface[2]);
-      arc(x + hex->xvert[1], y + hex->yvert[1], 120.0);
-      moveto(x + hex->xface[5], y + hex->yface[5]);
-      arc(x + hex->xvert[4], y + hex->yvert[4], 120.0);
+      drawTileC(x, y, hex, 0);
       break;
    case 5:
-      moveto(x + hex->xface[1], y + hex->yface[1]);
-      lineto(x + hex->xface[4], y + hex->yface[4]);
-      moveto(x + hex->xface[3], y + hex->yface[3]);
-      arc(x + hex->xvert[2], y + hex->yvert[2], 120.0);
-      moveto(x + hex->xface[0], y + hex->yface[0]);
-      arc(x + hex->xvert[5], y + hex->yvert[5], 120.0);
+      drawTileC(x, y, hex, 1);
       break;
    case 6:
-      moveto(x + hex->xface[2], y + hex->yface[2]);
-      lineto(x + hex->xface[5], y + hex->yface[5]);
-      moveto(x + hex->xface[4], y + hex->yface[4]);
-      arc(x + hex->xvert[3], y + hex->yvert[3], 120.0);
-      moveto(x + hex->xface[1], y + hex->yface[1]);
-      arc(x + hex->xvert[0], y + hex->yvert[0], 120.0);
+      drawTileC(x, y, hex, 2);
       break;
-   case 7:
+   case 7:  // Tile D: two orientations
       drawTileD(x, y, hex, 0);
       break;
    case 8:
       drawTileD(x, y, hex, 1);
       break;
-   case 9:
+   case 9:  // Tile E: six orientations
       drawTileE(x, y, hex, 0);
       break;
    case 10:
@@ -237,27 +209,62 @@ void drawtile(const double x, const double y, const struct HexRec *const hex, co
 }
 
 
+void drawTileB(const double x, const double y, const struct HexRec *const hex, const int i)
+{
+   lineFaceFace(x, y, hex, i + 0, i + 3);
+
+   arcFaceApex(x, y, hex, i + 1, i + 0);
+
+   arcFaceApex(x, y, hex, i + 4, i + 3);
+}
+
+
+void drawTileC(const double x, const double y, const struct HexRec *const hex, const int i)
+{
+   lineFaceFace(x, y, hex, i + 0, i + 3);
+
+   arcFaceVertex(x, y, hex, i + 2, i + 1);
+
+   arcFaceVertex(x, y, hex, i + 5, i + 4);
+}
+
+
 void drawTileD(const double x, const double y, const struct HexRec *const hex, const int i)
 {
-   moveto(x + hex->xface[(i + 0) % 6], y + hex->yface[(i + 0) % 6]);
-   arc(x + hex->xvert[(i + 5) % 6], y + hex->yvert[(i + 5) % 6], 120.0);
+   arcFaceVertex(x, y, hex, i + 0, i + 5);
 
-   moveto(x + hex->xface[(i + 4) % 6], y + hex->yface[(i + 4) % 6]);
-   arc(x + hex->xvert[(i + 3) % 6], y + hex->yvert[(i + 3) % 6], 120.0);
+   arcFaceVertex(x, y, hex, i + 4, i + 3);
 
-   moveto(x + hex->xface[(i + 2) % 6], y + hex->yface[(i + 2) % 6]);
-   arc(x + hex->xvert[(i + 1) % 6], y + hex->yvert[(i + 1) % 6], 120.0);
+   arcFaceVertex(x, y, hex, i + 2, i + 1);
 }
 
 
 void drawTileE(const double x, const double y, const struct HexRec *const hex, const int i)
 {
-   moveto(x + hex->xface[(i + 1) % 6], y + hex->yface[(i + 1) % 6]);
-   arc(x + hex->xvert[(i + 0) % 6], y + hex->yvert[(i + 0) % 6], 120.0);
+   arcFaceVertex(x, y, hex, i + 1, i + 0);
 
-   moveto(x + hex->xface[(i + 5) % 6], y + hex->yface[(i + 5) % 6]);
-   arc(x + hex->xapex[(i + 4) % 6], y + hex->yapex[(i + 4) % 6], 60.0);
+   arcFaceApex(x, y, hex, i + 5, i + 4);
 
-   moveto(x + hex->xface[(i + 4) % 6], y + hex->yface[(i + 4) % 6]);
-   arc(x + hex->xapex[(i + 3) % 6], y + hex->yapex[(i + 3) % 6], 60.0);
+   arcFaceApex(x, y, hex, i + 4, i + 3);
+}
+
+
+void lineFaceFace(const double x, const double y, const struct HexRec *const hex, const int f1, const int f2)
+{
+   moveto(x + hex->xface[f1 % 6], y + hex->yface[f1 % 6]);
+   lineto(x + hex->xface[f2 % 6], y + hex->yface[f2 % 6]);
+}
+
+
+void arcFaceApex(const double x, const double y, const struct HexRec *const hex, const int f, const int a)
+{
+   moveto(x + hex->xface[f % 6], y + hex->yface[f % 6]);
+   arc(x + hex->xapex[a % 6], y + hex->yapex[a % 6], 60.0);
+}
+
+
+void arcFaceVertex(const double x, const double y, const struct HexRec *const hex, const int f, const int v)
+{
+   moveto(x + hex->xface[f % 6], y + hex->yface[f % 6]);
+   arc(x + hex->xvert[v % 6], y + hex->yvert[v % 6], 120.0);
 }
