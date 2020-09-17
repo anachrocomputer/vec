@@ -23,6 +23,8 @@ struct HexRec {
 };
 
 void drawtile(const double x, const double y, const struct HexRec *const hex, const int tile_type);
+void drawTileD(const double x, const double y, const struct HexRec *const hex, const int i);
+void drawTileE(const double x, const double y, const struct HexRec *const hex, const int i);
 
 
 int main(int argc, char * const argv[])
@@ -117,8 +119,8 @@ int main(int argc, char * const argv[])
    // Generate the grid
    for (i = 0; i < ngridy; i++) {
       for (j = 0; j < ngridx; j++) {
-//       tile_type = (i + j) % 6;
-         tile_type = rand() / (RAND_MAX / 7);
+//       tile_type = (i + j) % 15;
+         tile_type = rand() / (RAND_MAX / 15);
          grid[i][j] = tile_type;
       }
    }
@@ -150,10 +152,8 @@ int main(int argc, char * const argv[])
 
 void drawtile(const double x, const double y, const struct HexRec *const hex, const int tile_type)
 {
-   int i;
-   
    switch (tile_type) {
-   case 0:
+   case 0:  // Tile A: only one kind
       moveto(x + hex->xface[0], y + hex->yface[0]);
       lineto(x + hex->xface[3], y + hex->yface[3]);
       moveto(x + hex->xface[1], y + hex->yface[1]);
@@ -161,7 +161,7 @@ void drawtile(const double x, const double y, const struct HexRec *const hex, co
       moveto(x + hex->xface[2], y + hex->yface[2]);
       lineto(x + hex->xface[5], y + hex->yface[5]);
       break;
-   case 1:
+   case 1:  // Tile B: three orientations
       moveto(x + hex->xface[0], y + hex->yface[0]);
       lineto(x + hex->xface[3], y + hex->yface[3]);
       moveto(x + hex->xface[1], y + hex->yface[1]);
@@ -185,7 +185,7 @@ void drawtile(const double x, const double y, const struct HexRec *const hex, co
       moveto(x + hex->xface[0], y + hex->yface[0]);
       arc(x + hex->xapex[5], y + hex->yapex[5], 60.0);
       break;
-   case 4:
+   case 4:  // Tile C: three orientations
       moveto(x + hex->xface[0], y + hex->yface[0]);
       lineto(x + hex->xface[3], y + hex->yface[3]);
       moveto(x + hex->xface[2], y + hex->yface[2]);
@@ -209,5 +209,55 @@ void drawtile(const double x, const double y, const struct HexRec *const hex, co
       moveto(x + hex->xface[1], y + hex->yface[1]);
       arc(x + hex->xvert[0], y + hex->yvert[0], 120.0);
       break;
+   case 7:
+      drawTileD(x, y, hex, 0);
+      break;
+   case 8:
+      drawTileD(x, y, hex, 1);
+      break;
+   case 9:
+      drawTileE(x, y, hex, 0);
+      break;
+   case 10:
+      drawTileE(x, y, hex, 1);
+      break;
+   case 11:
+      drawTileE(x, y, hex, 2);
+      break;
+   case 12:
+      drawTileE(x, y, hex, 3);
+      break;
+   case 13:
+      drawTileE(x, y, hex, 4);
+      break;
+   case 14:
+      drawTileE(x, y, hex, 5);
+      break;
    }
+}
+
+
+void drawTileD(const double x, const double y, const struct HexRec *const hex, const int i)
+{
+   moveto(x + hex->xface[(i + 0) % 6], y + hex->yface[(i + 0) % 6]);
+   arc(x + hex->xvert[(i + 5) % 6], y + hex->yvert[(i + 5) % 6], 120.0);
+
+   moveto(x + hex->xface[(i + 4) % 6], y + hex->yface[(i + 4) % 6]);
+   arc(x + hex->xvert[(i + 3) % 6], y + hex->yvert[(i + 3) % 6], 120.0);
+
+   moveto(x + hex->xface[(i + 2) % 6], y + hex->yface[(i + 2) % 6]);
+   arc(x + hex->xvert[(i + 1) % 6], y + hex->yvert[(i + 1) % 6], 120.0);
+}
+
+
+void drawTileE(const double x, const double y, const struct HexRec *const hex, const int i)
+{
+   moveto(x + hex->xface[(i + 1) % 6], y + hex->yface[(i + 1) % 6]);
+   arc(x + hex->xvert[(i + 0) % 6], y + hex->yvert[(i + 0) % 6], 120.0);
+
+   moveto(x + hex->xface[(i + 5) % 6], y + hex->yface[(i + 5) % 6]);
+   arc(x + hex->xapex[(i + 4) % 6], y + hex->yapex[(i + 4) % 6], 60.0);
+
+   moveto(x + hex->xface[(i + 4) % 6], y + hex->yface[(i + 4) % 6]);
+   arc(x + hex->xapex[(i + 3) % 6], y + hex->yapex[(i + 3) % 6], 60.0);
 }
