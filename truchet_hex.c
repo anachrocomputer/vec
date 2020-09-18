@@ -22,6 +22,7 @@ struct HexRec {
    double yapex[6];
 };
 
+void drawHexagon(const double x, const double y, const struct HexRec *const hex, const int first, const int last);
 void drawtile(const double x, const double y, const struct HexRec *const hex, const int tile_type);
 void drawTileB(const double x, const double y, const struct HexRec *const hex, const int i);
 void drawTileC(const double x, const double y, const struct HexRec *const hex, const int i);
@@ -47,6 +48,7 @@ int main(int argc, char * const argv[])
    double height;
    double gridw, gridh;
    double r;
+   double rowht;
    double gridx0;
    const double delta = (2.0 * M_PI) / 6.0;
    struct HexRec hex;
@@ -106,6 +108,7 @@ int main(int argc, char * const argv[])
    gridh = maxy / ngridy;
    
    r = gridw / 2.0;
+   rowht = 2.0 * r * sin(delta);
    
    // Generate the base hexagon
    for (i = 0; i < 6; i++) {
@@ -130,28 +133,81 @@ int main(int argc, char * const argv[])
       }
    }
 
+   pencolr(1);
+   
+   // Draw the hexagons
+   for (i = 0; i < ngridy; i++) {
+      y = rowht + (i * rowht);
+
+      if (i & 1) {
+         for (j = 0; j < (ngridx - 1) ; j++) {
+            x = r + gridx0 + (j * r * 2.0);
+//          circle(x, y, r);
+            if (j == (ngridx - 2))
+               drawHexagon(x, y, &hex, 0, 6);
+            else
+               drawHexagon(x, y, &hex, 0, 5);
+         }
+      }
+      else {
+
+         for (j = 0; j < ngridx; j++) {
+            x = gridx0 + (j * r * 2.0);
+//          circle(x, y, r);
+            if (i == 0) {
+               if (j == 0)
+                  drawHexagon(x, y, &hex, 1, 5);
+               else if (j == (ngridx - 1))
+                  drawHexagon(x, y, &hex, 2, 7);
+               else
+                  drawHexagon(x, y, &hex, 2, 5);
+            }
+            else {
+               if (j == 0)
+                  drawHexagon(x, y, &hex, 1, 4);
+               else if (j == (ngridx - 1)) {
+                  drawHexagon(x, y, &hex, 2, 3);
+                  drawHexagon(x, y, &hex, 4, 7);
+               }
+               else
+                  drawHexagon(x, y, &hex, 2, 3);
+            }
+         }
+      }
+   }
+
+   pencolr(0);
+   
    // Draw the main grid
    for (i = 0; i < ngridy; i++) {
+      y = rowht + (i * rowht);
+
       if (i & 1)
          for (j = 0; j < (ngridx - 1) ; j++) {
             x = r + gridx0 + (j * r * 2.0);
-            y = r + (i * (2.0 * r * sin(delta)));
-//          circle(x, y, r);
             drawtile(x, y, &hex, grid[i][j]);
          }
       else
          for (j = 0; j < ngridx; j++) {
             x = gridx0 + (j * r * 2.0);
-            y = r + (i * (2.0 * r * sin(delta)));
-//          circle(x, y, r);
             drawtile(x, y, &hex, grid[i][j]);
          }
    }
    
-   
    plotend();
    
    return (0);
+}
+
+
+void drawHexagon(const double x, const double y, const struct HexRec *const hex, const int first, const int last)
+{
+   int i;
+   
+   moveto(x + hex->xvert[first], y + hex->yvert[first]);
+   
+   for (i = first + 1; i < last + 1; i++)
+      lineto(x + hex->xvert[i % 6], y + hex->yvert[i % 6]);
 }
 
 
