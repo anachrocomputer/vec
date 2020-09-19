@@ -15,7 +15,7 @@
 void draw_module(const double x, const double y, const double side, const int firstx, const int lastx, const int firsty, const int lasty);
 void square_triangle(const double x, const double y, const double side, const double ht);
 
-double Scale;
+double Scale;  /* Plotter units per mm */
 
 int main(int argc, char * const argv[])
 {
@@ -80,6 +80,8 @@ int main(int argc, char * const argv[])
 }
 
 
+/* draw_module --- draw a single module of the pattern at (x, y) */
+
 void draw_module(const double x, const double y, const double side, const int firstx, const int lastx, const int firsty, const int lasty)
 {
    int i;
@@ -89,20 +91,20 @@ void draw_module(const double x, const double y, const double side, const int fi
    double hside = side / 2.0;
    double offset = 3.0 * step;
    
-   // Draw central cross
+   /* Draw central cross */
    moveto(x + offset,        y + hside);
    lineto(x + side - offset, y + hside);
    moveto(x + hside,         y + offset);
    lineto(x + hside,         y + side - offset);
    
-   // Draw squares surrounded by triangles
+   /* Draw squares surrounded by triangles */
    for (i = 0; i < 3; i++) {
       offset = (double)(i + 1) * step;
       trueside = side - (2.0 * step * (double)(i + 1));
       square_triangle(x + offset, y + offset, trueside, step);
    }
    
-   // Draw circles, allowing for special cases that draw arcs at the edges
+   /* Draw circles, allowing for special cases that draw arcs at the edges */
    if (firsty) {
       moveto(x + radius, y);
 
@@ -144,6 +146,8 @@ void draw_module(const double x, const double y, const double side, const int fi
    }
 }
 
+
+/* square_triangle --- draw a square with triangles on each side */
 
 void square_triangle(const double x, const double y, const double side, const double ht)
 {
