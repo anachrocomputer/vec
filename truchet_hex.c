@@ -13,13 +13,15 @@
 
 #define DEG_TO_RAD  (M_PI / 180.0)
 
+struct XY {
+   double x;
+   double y;
+};
+
 struct HexRec {
-   double xface[6];
-   double yface[6];
-   double xvert[6];
-   double yvert[6];
-   double xapex[6];
-   double yapex[6];
+   struct XY face[6];
+   struct XY vert[6];
+   struct XY apex[6];
 };
 
 void drawHexagon(const double x, const double y, const struct HexRec *const hex, const int first, const int last);
@@ -114,14 +116,14 @@ int main(int argc, char * const argv[])
    for (i = 0; i < 6; i++) {
       const double theta = delta * (double)i;
       
-      hex.xface[i] = r * cos(theta);
-      hex.yface[i] = r * sin(theta);
+      hex.face[i].x = r * cos(theta);
+      hex.face[i].y = r * sin(theta);
 
-      hex.xvert[i] = r * cos(theta + (delta / 2.0)) / sin(delta);
-      hex.yvert[i] = r * sin(theta + (delta / 2.0)) / sin(delta);
+      hex.vert[i].x = r * cos(theta + (delta / 2.0)) / sin(delta);
+      hex.vert[i].y = r * sin(theta + (delta / 2.0)) / sin(delta);
 
-      hex.xapex[i] = r * cos(theta) * 2.0;
-      hex.yapex[i] = r * sin(theta) * 2.0;
+      hex.apex[i].x = r * cos(theta) * 2.0;
+      hex.apex[i].y = r * sin(theta) * 2.0;
    }
    
    // Generate the grid
@@ -204,10 +206,10 @@ void drawHexagon(const double x, const double y, const struct HexRec *const hex,
 {
    int i;
    
-   moveto(x + hex->xvert[first], y + hex->yvert[first]);
+   moveto(x + hex->vert[first].x, y + hex->vert[first].y);
    
    for (i = first + 1; i < last + 1; i++)
-      lineto(x + hex->xvert[i % 6], y + hex->yvert[i % 6]);
+      lineto(x + hex->vert[i % 6].x, y + hex->vert[i % 6].y);
 }
 
 
@@ -310,8 +312,8 @@ void lineFace(const double x, const double y, const struct HexRec *const hex, co
    const int f1 = f % 6;
    const int f2 = (f + 3) % 6;
    
-   moveto(x + hex->xface[f1], y + hex->yface[f1]);
-   lineto(x + hex->xface[f2], y + hex->yface[f2]);
+   moveto(x + hex->face[f1].x, y + hex->face[f1].y);
+   lineto(x + hex->face[f2].x, y + hex->face[f2].y);
 }
 
 
@@ -319,8 +321,8 @@ void arcApex(const double x, const double y, const struct HexRec *const hex, con
 {
    const int f = (a + 1) % 6;
 
-   moveto(x + hex->xface[f], y + hex->yface[f]);
-   arc(x + hex->xapex[a % 6], y + hex->yapex[a % 6], 60.0);
+   moveto(x + hex->face[f].x, y + hex->face[f].y);
+   arc(x + hex->apex[a % 6].x, y + hex->apex[a % 6].y, 60.0);
 }
 
 
@@ -328,6 +330,6 @@ void arcVertex(const double x, const double y, const struct HexRec *const hex, c
 {
    const int f = (v + 1) % 6;
    
-   moveto(x + hex->xface[f], y + hex->yface[f]);
-   arc(x + hex->xvert[v % 6], y + hex->yvert[v % 6], 120.0);
+   moveto(x + hex->face[f].x, y + hex->face[f].y);
+   arc(x + hex->vert[v % 6].x, y + hex->vert[v % 6].y, 120.0);
 }
