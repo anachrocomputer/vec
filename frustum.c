@@ -156,7 +156,7 @@ int main(int argc, char * const argv[])
       /* Draw lid flaps */
       if ((i == 0) || (i == nsides / 2)) {
          half_superellipse(t[i].xt, t[i].yt, t[i].r, t[i].r * 1.5, t[i].angle - (M_PI / 2.0), 2.8);
-         moveto(t[i].sx1, t[i].sy1);   // Draw slot
+         moveto(t[i].sx1, t[i].sy1);   /* Draw slot */
          lineto(t[i].sx2, t[i].sy2);
       }
       else {
