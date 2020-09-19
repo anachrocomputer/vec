@@ -25,7 +25,7 @@ struct HexRec {
 };
 
 void drawHexagon(const double x, const double y, const struct HexRec *const hex, const int first, const int last);
-void drawtile(const double x, const double y, const struct HexRec *const hex, const int tile_type);
+void drawTile(const double x, const double y, const struct HexRec *const hex, const int tile_type);
 void drawTileB(const double x, const double y, const struct HexRec *const hex, const int i);
 void drawTileC(const double x, const double y, const struct HexRec *const hex, const int i);
 void drawTileD(const double x, const double y, const struct HexRec *const hex, const int i);
@@ -112,7 +112,7 @@ int main(int argc, char * const argv[])
    r = gridw / 2.0;
    rowht = 2.0 * r * sin(delta);
    
-   // Generate the base hexagon
+   /* Generate the base hexagon */
    for (i = 0; i < 6; i++) {
       const double theta = delta * (double)i;
       
@@ -126,7 +126,7 @@ int main(int argc, char * const argv[])
       hex.apex[i].y = r * sin(theta) * 2.0;
    }
    
-   // Generate the grid
+   /* Generate the grid */
    for (i = 0; i < ngridy; i++) {
       for (j = 0; j < ngridx; j++) {
 //       tile_type = (i + j) % 15;
@@ -137,7 +137,7 @@ int main(int argc, char * const argv[])
 
    pencolr(1);
    
-   // Draw the hexagons
+   /* Draw the hexagons */
    for (i = 0; i < ngridy; i++) {
       y = rowht + (i * rowht);
 
@@ -180,19 +180,19 @@ int main(int argc, char * const argv[])
 
    pencolr(0);
    
-   // Draw the main grid
+   /* Draw the main grid */
    for (i = 0; i < ngridy; i++) {
       y = rowht + (i * rowht);
 
       if (i & 1)
          for (j = 0; j < (ngridx - 1) ; j++) {
             x = r + gridx0 + (j * r * 2.0);
-            drawtile(x, y, &hex, grid[i][j]);
+            drawTile(x, y, &hex, grid[i][j]);
          }
       else
          for (j = 0; j < ngridx; j++) {
             x = gridx0 + (j * r * 2.0);
-            drawtile(x, y, &hex, grid[i][j]);
+            drawTile(x, y, &hex, grid[i][j]);
          }
    }
    
@@ -201,6 +201,8 @@ int main(int argc, char * const argv[])
    return (0);
 }
 
+
+/* drawHexagon --- draw the faces of the base hexagon */
 
 void drawHexagon(const double x, const double y, const struct HexRec *const hex, const int first, const int last)
 {
@@ -213,15 +215,18 @@ void drawHexagon(const double x, const double y, const struct HexRec *const hex,
 }
 
 
-void drawtile(const double x, const double y, const struct HexRec *const hex, const int tile_type)
+/* drawTile --- draw a single tile at (x, y) */
+
+void drawTile(const double x, const double y, const struct HexRec *const hex, const int tile_type)
 {
+   /* See: https://en.wikipedia.org/wiki/Serpentiles */
    switch (tile_type) {
-   case 0:  // Tile A: only one kind
+   case 0:  /* Tile A: only one kind (Serpentile 300) */
       lineFace(x, y, hex, 0);
       lineFace(x, y, hex, 1);
       lineFace(x, y, hex, 2);
       break;
-   case 1:  // Tile B: three orientations
+   case 1:  /* Tile B: three orientations (Serpentile 102) */
       drawTileB(x, y, hex, 0);
       break;
    case 2:
@@ -230,7 +235,7 @@ void drawtile(const double x, const double y, const struct HexRec *const hex, co
    case 3:
       drawTileB(x, y, hex, 2);
       break;
-   case 4:  // Tile C: three orientations
+   case 4:  /* Tile C: three orientations (Serpentile 120) */
       drawTileC(x, y, hex, 0);
       break;
    case 5:
@@ -239,13 +244,13 @@ void drawtile(const double x, const double y, const struct HexRec *const hex, co
    case 6:
       drawTileC(x, y, hex, 2);
       break;
-   case 7:  // Tile D: two orientations
+   case 7:  /* Tile D: two orientations (Serpentile 003) */
       drawTileD(x, y, hex, 0);
       break;
    case 8:
       drawTileD(x, y, hex, 1);
       break;
-   case 9:  // Tile E: six orientations
+   case 9:  /* Tile E: six orientations (Serpentile 021) */
       drawTileE(x, y, hex, 0);
       break;
    case 10:
@@ -307,6 +312,8 @@ void drawTileE(const double x, const double y, const struct HexRec *const hex, c
 }
 
 
+/* lineFace --- draw a straight line from face f to the opposite face */
+
 void lineFace(const double x, const double y, const struct HexRec *const hex, const int f)
 {
    const int f1 = f % 6;
@@ -317,6 +324,8 @@ void lineFace(const double x, const double y, const struct HexRec *const hex, co
 }
 
 
+/* arcApex --- draw an arc centred on apex a, anticlockwise */
+
 void arcApex(const double x, const double y, const struct HexRec *const hex, const int a)
 {
    const int f = (a + 1) % 6;
@@ -325,6 +334,8 @@ void arcApex(const double x, const double y, const struct HexRec *const hex, con
    arc(x + hex->apex[a % 6].x, y + hex->apex[a % 6].y, 60.0);
 }
 
+
+/* arcVertex --- draw an arc centred on vertex v, anticlockwise */
 
 void arcVertex(const double x, const double y, const struct HexRec *const hex, const int v)
 {
