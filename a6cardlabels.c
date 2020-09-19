@@ -37,7 +37,7 @@ int main(int argc, char * const argv[])
       case 'v':
          plotopt(opt, optarg);
          break;
-      case 't':   // Suppress title, which would spoil the lower-left postcard
+      case 't':   /* Suppress title, which would spoil the lower-left postcard */
          break;
       default: /* '?' */
          fprintf(stderr, "Usage: %s [-p pen] [-q plotter] [-s <size>] [-t title]\n", argv[0]);
@@ -125,6 +125,8 @@ int main(int argc, char * const argv[])
 }
 
 
+/* postcard_port --- draw a postcard label at (x, y) in portrait */
+
 void postcard_port(const double x, const double y, const double wd, const double ht, const double maxx, const double maxy)
 {
    int i;
@@ -167,19 +169,19 @@ void postcard_port(const double x, const double y, const double wd, const double
    lineto(x2, yc);
    
    moveto(sx1, sy1);
-   lineto(sx1, sy2); // Left side
+   lineto(sx1, sy2); /* Left side */
 
    if (bottom)
-      lineto(sx2, sy2); // Bottom
+      lineto(sx2, sy2); /* Bottom */
    else
       moveto(sx2, sy2);
       
    if (right)
-      lineto(sx2, sy1); // Right side
+      lineto(sx2, sy1); /* Right side */
    else
       moveto(sx2, sy1);
    
-   lineto(sx1, sy1); // Top
+   lineto(sx1, sy1); /* Top */
    
    for (i = 0; i < 5; i++) {
       moveto(ax - (12.0 * 40.0) * (double)i, ay1);
@@ -187,6 +189,8 @@ void postcard_port(const double x, const double y, const double wd, const double
    }
 }
 
+
+/* postcard_land --- draw a postcard label at (x, y) in landscape */
 
 void postcard_land(const double x, const double y, const double wd, const double ht, const double maxx, const double maxy)
 {
