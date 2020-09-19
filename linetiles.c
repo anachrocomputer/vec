@@ -10,7 +10,7 @@
 #include "hpgllib.h"
 
 
-void drawtile(const double x, const double y, const double wd, const double ht, const int tile_type);
+void drawTile(const double x, const double y, const double wd, const double ht, const int tile_type);
 
 
 int main(int argc, char * const argv[])
@@ -73,13 +73,14 @@ int main(int argc, char * const argv[])
    gridw = maxy / ngridx;
    gridh = maxy / ngridy;
    
+   /* Draw the main grid */
    for (i = 0; i < ngridy; i++) {
       for (j = 0; j < ngridx; j++) {
          x = gridx0 + (j * gridw);
          y = i * gridh;
 //       tile_type = (i + j) % 6;
          tile_type = rand() / (RAND_MAX / 6);
-         drawtile(x, y, gridw, gridh, tile_type);
+         drawTile(x, y, gridw, gridh, tile_type);
       }
    }
    
@@ -89,7 +90,9 @@ int main(int argc, char * const argv[])
 }
 
 
-void drawtile(const double x, const double y, const double wd, const double ht, const int tile_type)
+/* drawTile --- draw a single tile at (x, y) */
+
+void drawTile(const double x, const double y, const double wd, const double ht, const int tile_type)
 {
    int i;
    const double step = wd / 8.0;
