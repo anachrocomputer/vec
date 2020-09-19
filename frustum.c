@@ -14,10 +14,10 @@ struct Trapezoid {
    double x2, y2;
    double x3, y3;
    double x4, y4;
-   double xc, yc;    // Centre of decoration
-   double xt, yt, r; // Centre and radius of arc to form lid
-   double sx1, sy1;  // Edge of slot
-   double sx2, sy2;  // Centre of slot
+   double xc, yc;    /* Centre of decoration */
+   double xt, yt, r; /* Centre and radius of arc to form lid */
+   double sx1, sy1;  /* Edge of slot */
+   double sx2, sy2;  /* Centre of slot */
 };
 
 void decorate(const int side, const double xc, const double yc, const double wd, const double ht, const double angle);
@@ -80,7 +80,7 @@ int main(int argc, char * const argv[])
       
       t[i].angle = theta;
       
-      // Locate four corners of trapezoid
+      /* Locate four corners of trapezoid */
       t[i].x1 = ((base / 2.0) / tan(delta / 2.0));
       t[i].y1 = -(base / 2.0);
       
@@ -93,23 +93,23 @@ int main(int argc, char * const argv[])
       t[i].x4 = t[i].x1;
       t[i].y4 = base / 2.0;
       
-      // Locate the middle of the top
+      /* Locate the middle of the top */
       t[i].xt = t[i].x2;
       t[i].yt = 0.0;
       t[i].r = top / 2.0;
       
-      // Locate the centre of the trapezoid, for decoration
+      /* Locate the centre of the trapezoid, for decoration */
       t[i].xc = t[i].x1 + (height / 2.0);
       t[i].yc = 0.0;
       
-      // Locate the interlocking slots to hold the lid closed
+      /* Locate the interlocking slots to hold the lid closed */
       t[i].sx1 = t[i].x2 + (top / 2.0);
       t[i].sy1 = t[i].y3;
       
       t[i].sx2 = t[i].sx1;
       t[i].sy2 = 0.0;
       
-      // Rotate all the points about the origin
+      /* Rotate all the points about the origin */
       rotate(&t[i].x1, &t[i].y1, st, ct);
       rotate(&t[i].x2, &t[i].y2, st, ct);
       rotate(&t[i].x3, &t[i].y3, st, ct);
@@ -119,7 +119,7 @@ int main(int argc, char * const argv[])
       rotate(&t[i].sx1, &t[i].sy1, st, ct);
       rotate(&t[i].sx2, &t[i].sy2, st, ct);
       
-      // Translate entire trapezoid to centre of page
+      /* Translate entire trapezoid to centre of page */
       t[i].x1 += xc;
       t[i].y1 += yc;
       
@@ -145,7 +145,7 @@ int main(int argc, char * const argv[])
       t[i].sy2 += yc;
    }
    
-   // Draw trapezoids
+   /* Draw trapezoids */
    for (i = 0; i < nsides; i++) {
       moveto(t[i].x1, t[i].y1);
       lineto(t[i].x2, t[i].y2);
@@ -153,7 +153,7 @@ int main(int argc, char * const argv[])
       lineto(t[i].x4, t[i].y4);
       lineto(t[i].x1, t[i].y1);
       
-      // Draw lid flaps
+      /* Draw lid flaps */
       if ((i == 0) || (i == nsides / 2)) {
          half_superellipse(t[i].xt, t[i].yt, t[i].r, t[i].r * 1.5, t[i].angle - (M_PI / 2.0), 2.8);
          moveto(t[i].sx1, t[i].sy1);   // Draw slot
@@ -168,7 +168,7 @@ int main(int argc, char * const argv[])
       decorate(i, t[i].xc, t[i].yc, base / 1.6, base / 2.0, t[i].angle);
    }
    
-   // Draw fold lines
+   /* Draw fold lines */
    for (i = 0; i < nsides; i++) {
       const int j = (i + 1) % nsides;
       const double midx = (t[i].x3 + t[j].x2) / 2.0;
@@ -187,6 +187,8 @@ int main(int argc, char * const argv[])
 }
 
 
+/* decorate --- draw decorative pattern on the side of the box */
+
 void decorate(const int side, const double xc, const double yc, const double wd, const double ht, const double angle)
 {
    if ((side % 2) == 0)
@@ -195,6 +197,8 @@ void decorate(const int side, const double xc, const double yc, const double wd,
       flower(xc, yc, wd / 2.0, angle, 5);
 }
 
+
+/* rotate -- co-ordinate rotation through angle given by st and ct */
 
 void rotate(double *x, double *y, const double st, const double ct)
 {
@@ -205,6 +209,8 @@ void rotate(double *x, double *y, const double st, const double ct)
    *y = newy;
 }
 
+
+/* half_ellipse --- draw half of an ellipse at (x0, y0) */
 
 void half_ellipse(const double x0, const double y0, const double a, const double b, const double theta)
 {
@@ -227,6 +233,8 @@ void half_ellipse(const double x0, const double y0, const double a, const double
    }
 }
 
+
+/* half_superellipse --- draw half of a superellipse at (x0, y0) */
 
 void half_superellipse(const double x0, const double y0, const double a, const double b, const double theta, const double d)
 {
@@ -263,6 +271,8 @@ void half_superellipse(const double x0, const double y0, const double a, const d
    }
 }
 
+
+/* flower --- draw a decorative flower at (xc, yc) */
 
 void flower(const double xc, const double yc, const double r2, const double angle, const int n)
 {
