@@ -17,7 +17,7 @@ struct Tile {
    bool right;
 };
 
-void drawtile(const double x, const double y, const double wd, const double ht, const int tile_type);
+void drawTile(const double x, const double y, const double wd, const double ht, const int tile_type);
 
 
 int main(int argc, char * const argv[])
@@ -36,13 +36,13 @@ int main(int argc, char * const argv[])
    double gridw, gridh;
    double gridx0;
    static struct Tile connect[7] = {
-      {false,  true,  true, false}, // 0
-      {false,  true, false,  true}, // 1
-      {true,  false,  true, false}, // 2
-      {true,  false, false,  true}, // 3
-      {true,   true, false, false}, // 4
-      {false, false,  true,  true}, // 5
-      {false, false, false, false}  // 6
+      {false,  true,  true, false}, /* 0 */
+      {false,  true, false,  true}, /* 1 */
+      {true,  false,  true, false}, /* 2 */
+      {true,  false, false,  true}, /* 3 */
+      {true,   true, false, false}, /* 4 */
+      {false, false,  true,  true}, /* 5 */
+      {false, false, false, false}  /* 6 */
    };
 
    while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
@@ -99,7 +99,7 @@ int main(int argc, char * const argv[])
    gridw = maxy / ngridx;
    gridh = maxy / ngridy;
    
-   // Generate the grid
+   /* Generate the grid */
    for (i = 0; i < ngridy; i++) {
       for (j = 0; j < ngridx; j++) {
 //       tile_type = (i + j) % 6;
@@ -108,7 +108,7 @@ int main(int argc, char * const argv[])
       }
    }
 
-   // Draw the top edge
+   /* Draw the top edge */
    for (i = 0; i < ngridx; i++) {
       x = gridx0 + (i * gridw);
       
@@ -122,7 +122,7 @@ int main(int argc, char * const argv[])
       }
    }
    
-   // Draw the left-hand edge
+   /* Draw the left-hand edge */
    for (i = 0; i < ngridy; i++) {
       y = i * gridh;
       
@@ -136,7 +136,7 @@ int main(int argc, char * const argv[])
       }
    }
    
-   // Draw the bottom edge
+   /* Draw the bottom edge */
    for (i = 0; i < ngridx; i++) {
       x = gridx0 + (i * gridw);
       
@@ -150,7 +150,7 @@ int main(int argc, char * const argv[])
       }
    }
    
-   // Draw right-hand edge
+   /* Draw right-hand edge */
    for (i = 0; i < ngridy; i++) {
       y = i * gridh;
       
@@ -164,16 +164,16 @@ int main(int argc, char * const argv[])
       }
    }
 
-   // Draw the main grid
+   /* Draw the main grid */
    for (i = 0; i < ngridy; i++) {
       for (j = 0; j < ngridx; j++) {
          x = gridx0 + (j * gridw);
          y = i * gridh;
-         drawtile(x, y, gridw, gridh, grid[i][j]);
+         drawTile(x, y, gridw, gridh, grid[i][j]);
       }
    }
    
-   // Draw horizontal lines
+   /* Draw horizontal lines */
    for (i = 0; i < (ngridy - 1); i++) {
       for (j = 0; j < ngridx; j++) {
          const int lower = grid[i][j];
@@ -190,7 +190,7 @@ int main(int argc, char * const argv[])
       }
    }
    
-   // Draw vertical lines
+   /* Draw vertical lines */
    for (i = 0; i < ngridy; i++) {
       for (j = 0; j < (ngridx - 1); j++) {
          const int left  = grid[i][j];
@@ -213,7 +213,9 @@ int main(int argc, char * const argv[])
 }
 
 
-void drawtile(const double x, const double y, const double wd, const double ht, const int tile_type)
+/* drawTile --- draw a single tile at (x, y) */
+
+void drawTile(const double x, const double y, const double wd, const double ht, const int tile_type)
 {
    int i;
    const double dr = (wd / 5.0);
