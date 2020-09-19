@@ -35,13 +35,14 @@ int main(int argc, char * const argv[])
    double height;
    double gridw, gridh;
    double gridx0;
-   static struct Tile connect[6] = {
+   static struct Tile connect[7] = {
       {false,  true,  true, false}, // 0
       {false,  true, false,  true}, // 1
       {true,  false,  true, false}, // 2
       {true,  false, false,  true}, // 3
       {true,   true, false, false}, // 4
-      {false, false,  true,  true}  // 5
+      {false, false,  true,  true}, // 5
+      {false, false, false, false}  // 6
    };
 
    while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
@@ -102,7 +103,7 @@ int main(int argc, char * const argv[])
    for (i = 0; i < ngridy; i++) {
       for (j = 0; j < ngridx; j++) {
 //       tile_type = (i + j) % 6;
-         tile_type = rand() / (RAND_MAX / 6);
+         tile_type = rand() / (RAND_MAX / 7);
          grid[i][j] = tile_type;
       }
    }
