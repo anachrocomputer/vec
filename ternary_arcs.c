@@ -87,6 +87,8 @@ int main(int argc, char * const argv[])
 }
 
 
+/* draw_arcs --- draw arcs or lines at (x, y) */
+
 void draw_arcs(const double x, const double y, const double r, const char str[])
 {
    moveto(x, y + r);

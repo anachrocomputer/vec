@@ -180,6 +180,8 @@ void plot_ur(const double xc, const double yc, const double r1, const double r2)
 }
 
 
+/* superellipse --- draw a superellipse at (x0, y0) */
+
 void superellipse(const double x0, const double y0, const double a, const double b, const double theta, const double d)
 {
    const int npts = 72;

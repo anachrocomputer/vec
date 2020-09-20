@@ -101,6 +101,8 @@ int main(int argc, char * const argv[])
 }
 
 
+/* draw_star --- draw a single star at (x0, y0) */
+
 void draw_star(const double x0, const double y0, const double gridsz, const double xc, const double yc, const int n)
 {
    int i;

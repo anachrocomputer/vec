@@ -111,6 +111,8 @@ void plot_lr(const double x0, const double y0, const double width, const double 
 }
 
 
+/* reuleaux --- draw a Reuleaux polygon centred on (xc, yc) */
+
 void reuleaux(const double xc, const double yc, const double r, const int n, const bool drawSides)
 {
    /* https://en.wikipedia.org/wiki/Reuleaux_triangle */
