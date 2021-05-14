@@ -113,6 +113,7 @@ program which could be driven by a text file.
 some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
 label. Plot directly onto a CD-R or DVD-RW.
 * Draw some Art Deco motifs and patterns.
+* Make 'sqinsq' work for triangles, pentagons, etc. as well.
 * Can we draw barcodes on a pen plotter?
 * Write a library test plot that exercises all the drawing commands.
 Useful if/when we add support for BMC or other non-HPGL plotters.
