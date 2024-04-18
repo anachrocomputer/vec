@@ -1,4 +1,4 @@
-# vec
+# vec #
 
 Vector graphics demo software to run on an HPGL pen plotter.
 
@@ -11,7 +11,7 @@ or to a file.
 Most of the programs accept command-line arguments to scale the vector
 drawings up or down (default size is suitable for ISO A3 paper).
 
-## HPGL
+## HPGL ##
 
 HPGL stands for Hewlett-Packard Graphics Language.
 It is a simple text-based language to encode vector graphics and
@@ -21,27 +21,31 @@ Most pen plotters will accept it, not just those made by HP.
 The basic resolution of HPGL is 40 plotter units per millimetre.
 HPGL drawing primitives are straight lines, arcs, and text.
 
-## Useful Tools
+## Useful Tools ##
+
+To build the programs, we'll need the 'build-essential' package:
+
+`sudo apt install build-essential`
 
 To preview the HPGL files on a raster-scan display,
 use a package called 'hp2xx'.
 Install it with a command-line such as:
 
-sudo apt-get install hp2xx
+`sudo apt install hp2xx`
 
 The Makefile will use 'hp2xx' to generate low-resolution preview images
 in PNG format.
 It also converts the HPGL to SVG for previewing in a browser or for
 plotting on newer types of plotter such as the AxiDraw.
 
-## The Plotters
+## The Plotters ##
 
 Most of the programs here have been tested on a Roland DXY-990 A3
 flat-bed pen plotter.
 Some have also been used at A1 size on the much bigger Roland DPX-3300.
 A few have been tested on the fast HP 7550A A3 grit-wheel plotter.
 
-## The Pens
+## The Pens ##
 
 I use Pilot V-Ball pens on the Roland plotters, in modified pen-holders.
 For thicker lines, I use Staedtler Triplus pens, again with pen-holders
