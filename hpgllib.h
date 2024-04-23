@@ -76,6 +76,7 @@ void arc(const double x, const double y, const double a);
 void ellipse(const double x0, const double y0, const double a, const double b, const double theta);
 void roundrect(const double x1, const double y1, const double x2, const double y2, const double radius);
 void pencolr(int c);
+void linetype(const int t);
 void vlabel(const double x, const double y, const double siz, const char *const str);
 void hlabel(const double x, const double y, const double siz, const char *const str);
 int writedisplay(const char *const str);

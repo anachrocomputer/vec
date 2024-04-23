@@ -19,8 +19,6 @@ the library and/or command line (we just use 9600 baud).
 SIGINT has stopped a plot.
 * Make 'plotcancel()' work properly. Install a signal handler in 'plotbegin()'
 to call it if/when we get a signal.
-* Add support for line styles. We could use dotted and dashed lines
-for some of the plots, e.g. fold lines, centre lines.
 * Add support for read-back commands when the interface allows them.
 E.g. 'OS', 'OA' and 'OI'.
 * Add support for automatic paper feed on HP 7550 and any other plotters
@@ -97,6 +95,7 @@ command-line arguments and low-level driver code.
 * Add new drawings! Especially colouring-in drawings, all-over patterns,
 3D perspective drawings, maps and even slow-to-draw drawings!
 * Add colour (pen changes) to drawings.
+* Add line styles (dotted, dashed) to drawings.
 * Add drawings that can be folded like Origami.
 * Add drawings that can be cut out and assembled, e.g. geodesic dome,
 packaging such as cake boxes, decorations such as snowflakes.

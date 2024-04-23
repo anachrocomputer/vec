@@ -882,6 +882,17 @@ void pencolr(int c)
 
 
 /**
+ * @brief Set the line type
+ *
+ * @param t The line type to be set
+ */
+void linetype(const int t)
+{
+   fprintf(Plt, "LT%d;\n", t);
+}
+
+
+/**
  * @brief Draw a text label vertically
  *
  * @param x   X co-ordinate of start of text
