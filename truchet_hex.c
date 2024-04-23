@@ -13,15 +13,17 @@
 
 #define DEG_TO_RAD  (M_PI / 180.0)
 
+#define NSIDES      (6)           // Hexagons
+
 struct XY {
    double x;
    double y;
 };
 
 struct HexRec {
-   struct XY face[6];
-   struct XY vert[6];
-   struct XY apex[6];
+   struct XY face[NSIDES];
+   struct XY vert[NSIDES];
+   struct XY apex[NSIDES];
 };
 
 void drawHexagon(const double x, const double y, const struct HexRec *const hex, const int first, const int last);
@@ -35,7 +37,7 @@ void arcApex(const double x, const double y, const struct HexRec *const hex, con
 void arcVertex(const double x, const double y, const struct HexRec *const hex, const int v);
 
 
-int main(int argc, char * const argv[])
+int main(const int argc, char * const argv[])
 {
    /* Inspired by a tweet on #plottertwitter */
    int opt;
@@ -52,7 +54,7 @@ int main(int argc, char * const argv[])
    double r;
    double rowht;
    double gridx0;
-   const double delta = (2.0 * M_PI) / 6.0;
+   const double delta = (2.0 * M_PI) / (double)NSIDES;
    struct HexRec hex;
 
    while ((opt = getopt(argc, argv, "no:p:s:t:v:")) != -1) {
@@ -113,7 +115,7 @@ int main(int argc, char * const argv[])
    rowht = 2.0 * r * sin(delta);
    
    /* Generate the base hexagon */
-   for (i = 0; i < 6; i++) {
+   for (i = 0; i < NSIDES; i++) {
       const double theta = delta * (double)i;
       
       hex.face[i].x = r * cos(theta);
@@ -211,7 +213,7 @@ void drawHexagon(const double x, const double y, const struct HexRec *const hex,
    moveto(x + hex->vert[first].x, y + hex->vert[first].y);
    
    for (i = first + 1; i < last + 1; i++)
-      lineto(x + hex->vert[i % 6].x, y + hex->vert[i % 6].y);
+      lineto(x + hex->vert[i % NSIDES].x, y + hex->vert[i % NSIDES].y);
 }
 
 
@@ -316,8 +318,8 @@ void drawTileE(const double x, const double y, const struct HexRec *const hex, c
 
 void lineFace(const double x, const double y, const struct HexRec *const hex, const int f)
 {
-   const int f1 = f % 6;
-   const int f2 = (f + 3) % 6;
+   const int f1 = f % NSIDES;
+   const int f2 = (f + 3) % NSIDES;
    
    moveto(x + hex->face[f1].x, y + hex->face[f1].y);
    lineto(x + hex->face[f2].x, y + hex->face[f2].y);
@@ -328,10 +330,10 @@ void lineFace(const double x, const double y, const struct HexRec *const hex, co
 
 void arcApex(const double x, const double y, const struct HexRec *const hex, const int a)
 {
-   const int f = (a + 1) % 6;
+   const int f = (a + 1) % NSIDES;
 
    moveto(x + hex->face[f].x, y + hex->face[f].y);
-   arc(x + hex->apex[a % 6].x, y + hex->apex[a % 6].y, 60.0);
+   arc(x + hex->apex[a % NSIDES].x, y + hex->apex[a % NSIDES].y, 60.0);
 }
 
 
@@ -339,8 +341,8 @@ void arcApex(const double x, const double y, const struct HexRec *const hex, con
 
 void arcVertex(const double x, const double y, const struct HexRec *const hex, const int v)
 {
-   const int f = (v + 1) % 6;
+   const int f = (v + 1) % NSIDES;
    
    moveto(x + hex->face[f].x, y + hex->face[f].y);
-   arc(x + hex->vert[v % 6].x, y + hex->vert[v % 6].y, 120.0);
+   arc(x + hex->vert[v % NSIDES].x, y + hex->vert[v % NSIDES].y, 120.0);
 }
