@@ -1,7 +1,8 @@
 /* pconic --- plot Bezier curves */
 
-/* Note: this program does not yet work properly with the HPGL
- * library. It was originally written for a non-HPGL plotter.
+/* Note: this program was originally written for a non-HPGL plotter,
+   the BMC B-1000. It uses a slightly different command language from HPGL,
+   although the commands are still two ASCII letters.
  */
 
 #include <stdio.h>
@@ -22,15 +23,15 @@ struct Point {
    double x, y;
 };
 
-double quadfunc (struct Weights *wp, double x0, double x1, double x2,
-                 double u);
-void genconic ();
-void gencurve (struct Weights *wp, double x0, double x1, double x2,
-               double x[], int n);
-void showcurve (int colr, double xpts[], double ypts[], double wpts[], int n);
+double quadfunc(const struct Weights *const wp, const double x0, const double x1, const double x2,
+                const double u);
+void genconic(struct Point p0, struct Point p1, struct Point p2, const struct Weights *const wt, double x[], double y[], double w[], const int n);
+void gencurve(const struct Weights *const wp, const double x0, const double x1, const double x2,
+              double x[], const int n);
+void showcurve(const int colr, double xpts[], double ypts[], double wpts[], const int n);
 
 
-int main (int argc, char * const argv[])
+int main(const int argc, char *const argv[])
 {
    int opt;
    double maxx, maxy;
@@ -86,7 +87,7 @@ int main (int argc, char * const argv[])
    }
 // printf ("IP1;PS3;\n");
 
-   getplotsize (&maxx, &maxy);
+   getplotsize(&maxx, &maxy);
    
    wt.w0 = 1.0;
    wt.w1 = 3.0;
@@ -103,21 +104,21 @@ int main (int argc, char * const argv[])
       p1.y = p0.y;
       p7.y = p0.y;
       
-      genconic (p0, p1, p2, &wt, xpts, ypts, wpts, NPTS);
-      showcurve (1, xpts, ypts, wpts, NPTS);
+      genconic(p0, p1, p2, &wt, xpts, ypts, wpts, NPTS);
+      showcurve(1, xpts, ypts, wpts, NPTS);
 
-      genconic (p2, p3, p4, &wt, xpts, ypts, wpts, NPTS);
-      showcurve (1, xpts, ypts, wpts, NPTS);
+      genconic(p2, p3, p4, &wt, xpts, ypts, wpts, NPTS);
+      showcurve(1, xpts, ypts, wpts, NPTS);
       
-      genconic (p4, p5, p6, &wt, xpts, ypts, wpts, NPTS);
-      showcurve (1, xpts, ypts, wpts, NPTS);
+      genconic(p4, p5, p6, &wt, xpts, ypts, wpts, NPTS);
+      showcurve(1, xpts, ypts, wpts, NPTS);
 
-      genconic (p6, p7, p0, &wt, xpts, ypts, wpts, NPTS);
-      showcurve (1, xpts, ypts, wpts, NPTS);
+      genconic(p6, p7, p0, &wt, xpts, ypts, wpts, NPTS);
+      showcurve(1, xpts, ypts, wpts, NPTS);
    }
    
-// printf ("MA0,0;CH\n");
-   plotend ();
+// printf("MA0,0;CH\n");
+   plotend();
    
    return (0);
 }
@@ -125,8 +126,8 @@ int main (int argc, char * const argv[])
 
 /* quadfunc --- rational quadratic function */
 
-double quadfunc (struct Weights *wp, double x0, double x1, double x2,
-                 double u)
+double quadfunc(const struct Weights *const wp, const double x0, const double x1, const double x2,
+                const double u)
 {
    double t0, t1, t2;
    
@@ -147,57 +148,48 @@ double quadfunc (struct Weights *wp, double x0, double x1, double x2,
 
 /* gencurve --- generate 'n + 1' points on the curve */
 
-void gencurve (struct Weights *wp, double x0, double x1, double x2,
-               double x[], int n)
+void gencurve(const struct Weights *const wp, const double x0, const double x1, const double x2,
+              double x[], const int n)
 {
-   double t;      /* The parameter, 0..1 */
-   double step;   /* The increment in 't' for each step */
+   const double step = 1.0 / (double)n;   /* The increment in 't' for each step */
    int i;
    
-   step = 1.0 / (double)n;
-   
    for (i = 0; i <= n; i++) {
-      t = i * step;
-      x[i] = quadfunc (wp, x0, x1, x2, t);
+      const double t = i * step;    /* The parameter, 0..1 */
+      x[i] = quadfunc(wp, x0, x1, x2, t);
    }
 }
 
 
 /* genconic --- generate a conic section from 'p0' to 'p2' */
 
-void genconic (p0, p1, p2, wt, x, y, w, n)
-struct Point p0, p1, p2;
-struct Weights *wt;
-double x[], y[], w[];
-int n;
+void genconic(struct Point p0, struct Point p1, struct Point p2, const struct Weights *const wt, double x[], double y[], double w[], const int n)
 {
-   gencurve (wt, p0.x, p1.x, p2.x, x, n);
-   gencurve (wt, p0.y, p1.y, p2.y, y, n);
-   gencurve (wt, 1.0,  1.0,  1.0,  w, n);
+   gencurve(wt, p0.x, p1.x, p2.x, x, n);
+   gencurve(wt, p0.y, p1.y, p2.y, y, n);
+   gencurve(wt, 1.0,  1.0,  1.0,  w, n);
 }
 
 
-void showcurve (colr, xpts, ypts, wpts, n)
-int colr;
-double xpts[], ypts[], wpts[];
-int n;
+void showcurve(const int colr, double xpts[], double ypts[], double wpts[], const int n)
 {
    int i;
    int x, y;
    
    x = (xpts[0] / wpts[0]) + 0.5;
    y = (ypts[0] / wpts[0]) + 0.5;
-// printf ("MA%d,%d\n", y, x);
-   moveto (x, y);
+// printf("MA%d,%d\n", y, x);
+   moveto(x, y);
    
-// printf ("DA");
+// printf("DA");
    for (i = 1; i <= n; i++) {
       x = (xpts[i] / wpts[i]) + 0.5;
       y = (ypts[i] / wpts[i]) + 0.5;
-//    printf ("%05d,%05d", x, y);
+//    printf("%05d,%05d", x, y);
 //    if (i < n)
-//       printf (",");
-      lineto (x, y);
+//       printf(",");
+      lineto(x, y);
    }
-// printf ("\n");
+// printf("\n");
 }
+
