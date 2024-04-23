@@ -103,6 +103,9 @@ packaging such as cake boxes, decorations such as snowflakes.
 * Plot the Utah Teapot in wire-frame.
 * Write some Truchet Tile plots. Maybe a generalised tile-drawing
 program which could be driven by a text file.
+* Draw some girih tiles: https://en.wikipedia.org/wiki/Girih_tiles
+* Draw some spirangles: https://en.wikipedia.org/wiki/Spirangle
+* Draw some Celtic mazes: https://en.wikipedia.org/wiki/Celtic_maze
 * Draw some Bezier curves.
 * Draw some Voronoi diagrams.
 * Draw some Travelling Salesman Problem plots.
