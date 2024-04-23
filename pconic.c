@@ -80,7 +80,10 @@ int main (int argc, char * const argv[])
    }
 
    /* Select first pen and draw border */
-   plotbegin (1);
+   if (plotbegin(1) < 0) {
+      fputs("Failed to initialise HPGL library\n", stderr);
+      exit(EXIT_FAILURE);
+   }
 // printf ("IP1;PS3;\n");
 
    getplotsize (&maxx, &maxy);
@@ -185,17 +188,16 @@ int n;
    x = (xpts[0] / wpts[0]) + 0.5;
    y = (ypts[0] / wpts[0]) + 0.5;
 // printf ("MA%d,%d\n", y, x);
-   printf ("PU;PA%d,%d;\n", x, y);
+   moveto (x, y);
    
 // printf ("DA");
-   printf ("PD;PA");
    for (i = 1; i <= n; i++) {
       x = (xpts[i] / wpts[i]) + 0.5;
       y = (ypts[i] / wpts[i]) + 0.5;
-      printf ("%05d,%05d", x, y);
-      if (i < n)
-         printf (",");
+//    printf ("%05d,%05d", x, y);
+//    if (i < n)
+//       printf (",");
+      lineto (x, y);
    }
 // printf ("\n");
-   printf (";\n");
 }
