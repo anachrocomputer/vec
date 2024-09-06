@@ -105,6 +105,7 @@ program which could be driven by a text file.
 * Draw some girih tiles: https://en.wikipedia.org/wiki/Girih_tiles
 * Draw some spirangles: https://en.wikipedia.org/wiki/Spirangle
 * Draw some Celtic mazes: https://en.wikipedia.org/wiki/Celtic_maze
+* Draw some polyellipses (n-ellipse, multifocal ellipse): https://en.wikipedia.org/wiki/N-ellipse
 * Draw some Bezier curves.
 * Draw some Voronoi diagrams.
 * Draw some Travelling Salesman Problem plots.
@@ -112,6 +113,7 @@ program which could be driven by a text file.
 * Geometrical plots: deltoid curve.
 * Draw some Soddy Circles: https://mathworld.wolfram.com/SoddyCircles.html
 * Draw some hitomezashi sashiko patterns.
+* Draw some paper engineering cut-out-and-fold mechanisms.
 * Plot a cassette inlay, and/or a CD inlay or a floppy disk label or
 some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
 label. Plot directly onto a CD-R or DVD-RW.
