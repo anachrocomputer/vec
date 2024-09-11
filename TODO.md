@@ -108,6 +108,8 @@ program which could be driven by a text file.
 * Draw some polyellipses (n-ellipse, multifocal ellipse): https://en.wikipedia.org/wiki/N-ellipse
 * Draw some Bezier curves.
 * Draw some Voronoi diagrams.
+* Draw some national emblems: Japan, Ethiopia, Slovakia, Slovenia, Switzerland, Turkey, Taiwan
+* Draw some national flags: Antarctica, Greenland, UK, USA, Canada, Nordic crosses
 * Draw some Travelling Salesman Problem plots.
 * Generate and draw Hamiltonian paths.
 * Geometrical plots: deltoid curve.
