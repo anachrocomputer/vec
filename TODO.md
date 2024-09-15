@@ -114,8 +114,10 @@ program which could be driven by a text file.
 * Generate and draw Hamiltonian paths.
 * Geometrical plots: deltoid curve.
 * Draw some Soddy Circles: https://mathworld.wolfram.com/SoddyCircles.html
+* Draw some randomised circle packing plots: https://en.wikipedia.org/wiki/Circle_packing
 * Draw some hitomezashi sashiko patterns.
 * Draw some paper engineering cut-out-and-fold mechanisms.
+* Draw some Fold-and-Cut shapes: https://en.wikipedia.org/wiki/Fold-and-cut_theorem
 * Plot a cassette inlay, and/or a CD inlay or a floppy disk label or
 some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
 label. Plot directly onto a CD-R or DVD-RW.
