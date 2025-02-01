@@ -116,8 +116,10 @@ program which could be driven by a text file.
 * Draw some Soddy Circles: https://mathworld.wolfram.com/SoddyCircles.html
 * Draw some randomised circle packing plots: https://en.wikipedia.org/wiki/Circle_packing
 * Draw some hitomezashi sashiko patterns.
+* Draw some seigaiha patterns (blue sea and waves).
 * Draw some paper engineering cut-out-and-fold mechanisms.
 * Draw some Fold-and-Cut shapes: https://en.wikipedia.org/wiki/Fold-and-cut_theorem
+* Draw a Triangulator, US patent 2166372, https://www.ebay.com/itm/135361028392 https://www.si.edu/object/sliding-chart-trigonometry-triangulator%3Anmah_1134187 https://www.sliderulemuseum.com/Manuals/M138_Dieterich-Post_Catalog_1968.pdf
 * Plot a cassette inlay, and/or a CD inlay or a floppy disk label or
 some other obscure and obsolete media label. Maybe a DVD or Blu-Ray
 label. Plot directly onto a CD-R or DVD-RW.
