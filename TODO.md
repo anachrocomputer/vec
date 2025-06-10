@@ -56,6 +56,7 @@ be able to get previews with bold or fine pens.
 * Should we set pen speeds separately for each pen?
 * Eliminate 'hpglout()' if at all possible. It breaks the abstraction
 that the library tries to maintain.
+* Add support for Roland RP-11 SketchMate plotter. A4 flat-bed.
 * Support non-HPGL output.
 Maybe PostScript, G-code or SVG.
 Support BMC B-1000, Tandy/Radio Shack CGP-115 and/or Commodore 1520.
